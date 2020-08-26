@@ -39,13 +39,16 @@ public class GameGUI {
             public void main() {
 
                 slot = new Slot(Slot.SlotSkin.DEFAULT,new Container(128));
-                slot.setSize(100,100);
-                slot.setPosition(1000,900);
+                slot.setSize(100);
+                slot.setPosition(1000,500);
                 slot2 = new Slot(Slot.SlotSkin.DEFAULT,new Container(128));
-                slot2.setSize(100,100);
-                slot2.setPosition(1100,900);
+                slot2.setSize(100);;
+                slot2.setPosition(1000+100*APIXEL,500);
 
-                Item.addItem("test", new Item(0, 64) {
+                class Item1 extends Item{
+                    public Item1(){
+                        super(0, 64);
+                    }
                     {
                         icon = new Texture(Gdx.files.internal("textures/grass.jpg"));
                     }
@@ -58,19 +61,15 @@ public class GameGUI {
                     public void readBytes(byte[] bytes) {
 
                     }
-                });
-
-                Item.addItem("test2", new Item(1, 64) {
-                    @Override
-                    public byte[] getBytes() {
-                        return new byte[0];
-                    }
 
                     @Override
-                    public void readBytes(byte[] bytes) {
-
+                    public Item1 create() {
+                       return new Item1();
                     }
-                });
+                }
+                Item.addItem("test", new Item1());
+
+                Item.addItem("test2", new Item1());
                 label = new Label(" ", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
                 label.setFontScale(2.5f);
                 adapter = new GravityAdapter(label);
@@ -86,9 +85,8 @@ public class GameGUI {
                 Graphic.STAGE.addActor(joystick);
 
                 items.add(Item.getItems()[ID.get("item:test")]);
-                slot2.getContainer().moveItems(items);
-                player.getCarriedItem().moveItems(items);
-
+                slot.addItems(Item.newItems("test",50));
+                slot2.addItems(Item.newItems("test",60));
                 Graphic.STAGE.addActor(slot);
                 Graphic.STAGE.addActor(slot2);
                 TakenItemsRender.setRendering(true);
