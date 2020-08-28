@@ -51,7 +51,7 @@ public class Slot extends Actor {
             font.getData().setScale((18/(18/(getHeight()*0.2f)))/10);
             font.setColor(slotSkin.getCountTextColor());
             String value = String.valueOf(container.getCountItems());
-            font.draw(Graphic.BATCH,value,getX()+getWidth()*0.8f-(font.getXHeight()*value.length()-font.getXHeight()),getY()+font.getLineHeight()*0.9f);
+            font.draw(Graphic.BATCH, value, getX() + getWidth() * 0.8f - (font.getXHeight() * value.length() - font.getXHeight()), getY() + font.getLineHeight() * 0.9f);
         }
     }
 

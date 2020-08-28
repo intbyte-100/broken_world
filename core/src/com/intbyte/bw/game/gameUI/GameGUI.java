@@ -16,17 +16,17 @@ import com.intbyte.bw.gameAPI.graphic.GravityAdapter;
 import com.intbyte.bw.gameAPI.graphic.GravityAttribute;
 import com.intbyte.bw.gameAPI.graphic.ui.Joystick;
 import com.intbyte.bw.gameAPI.graphic.ui.container.Container;
-import com.intbyte.bw.gameAPI.graphic.ui.container.TakenItemsRender;
 import com.intbyte.bw.gameAPI.graphic.ui.container.Slot;
+import com.intbyte.bw.gameAPI.graphic.ui.container.TakenItemsRender;
 import com.intbyte.bw.gameAPI.utils.ID;
 
 import static com.intbyte.bw.gameAPI.graphic.TypedValue.APIXEL;
 
 public class GameGUI {
+    private final Player player = Player.getPlayer();
     private Label label;
     private int timer;
     private GravityAdapter adapter;
-    private final Player player = Player.getPlayer();
     private Joystick joystick;
     private Array<Item> items = new Array<>();
     private Slot slot, slot2;
@@ -38,60 +38,47 @@ public class GameGUI {
             @Override
             public void main() {
 
-                slot = new Slot(Slot.SlotSkin.DEFAULT,new Container(128));
-                slot.setSize(100);
-                slot.setPosition(1000,500);
-                slot2 = new Slot(Slot.SlotSkin.DEFAULT,new Container(128));
-                slot2.setSize(100);;
-                slot2.setPosition(1000+100*APIXEL,500);
 
-                class Item1 extends Item{
-                    public Item1(){
-                        super(0, 64);
-                    }
-                    {
-                        icon = new Texture(Gdx.files.internal("textures/grass.jpg"));
-                    }
-                    @Override
-                    public byte[] getBytes() {
-                        return new byte[0];
-                    }
-
-                    @Override
-                    public void readBytes(byte[] bytes) {
-
-                    }
-
-                    @Override
-                    public Item1 create() {
-                       return new Item1();
-                    }
-                }
-                Item.addItem("test", new Item1());
-
-                Item.addItem("test2", new Item1());
                 label = new Label(" ", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
                 label.setFontScale(2.5f);
-                adapter = new GravityAdapter(label);
+                adapter = new GravityAdapter();
+                adapter.addActor(label);
                 adapter.setGravity(GravityAttribute.TOP, GravityAttribute.LEFT);
-                adapter.setHeight(1, label.getPrefHeight());
-                adapter.setWidth(1, label.getPrefWidth());
-                Graphic.STAGE.addActor(adapter.apply());
 
+                Graphic.STAGE.addActor(label);
+
+                slot = new Slot(Slot.SlotSkin.DEFAULT, new Container(128));
+                slot.setSize(60 * APIXEL);
+                adapter.addActor(slot);
+                adapter.setGravity(GravityAttribute.TOP, GravityAttribute.RIGHT);
+
+                Graphic.STAGE.addActor(slot);
+
+                slot2 = new Slot(Slot.SlotSkin.DEFAULT, new Container(128));
+                slot2.setSize(60 * APIXEL);
+                adapter.addActor(slot2);
+                adapter.setGravity(GravityAttribute.TOP, GravityAttribute.RIGHT);
+                adapter.tiedTo(GravityAttribute.RIGHT, slot);
+
+                Graphic.STAGE.addActor(slot2);
 
                 joystick = new Joystick(new Texture(Gdx.files.internal("gui/Joystick_0.png")), new Texture(Gdx.files.internal("gui/Joystick_1.png")), 80 * APIXEL);
                 joystick.moveBy(APIXEL, 40, 40);
 
                 Graphic.STAGE.addActor(joystick);
 
+
+                Item.addItem("test", new Item1());
+                Item.addItem("test2", new Item1());
+
+
                 items.add(Item.getItems()[ID.get("item:test")]);
-                slot.addItems(Item.newItems("test",50));
-                slot2.addItems(Item.newItems("test",60));
-                Graphic.STAGE.addActor(slot);
-                Graphic.STAGE.addActor(slot2);
+
+                slot.addItems(Item.newItems("test", 50));
+                slot2.addItems(Item.newItems("test", 50));
                 TakenItemsRender.setRendering(true);
 
-
+                adapter.apply();
             }
         });
 
@@ -112,5 +99,30 @@ public class GameGUI {
                 }
             }
         });
+    }
+}
+
+class Item1 extends Item {
+    {
+        icon = new Texture(Gdx.files.internal("textures/grass.jpg"));
+    }
+
+    public Item1() {
+        super(0, 64);
+    }
+
+    @Override
+    public byte[] getBytes() {
+        return new byte[0];
+    }
+
+    @Override
+    public void readBytes(byte[] bytes) {
+
+    }
+
+    @Override
+    public Item1 create() {
+        return this;
     }
 }

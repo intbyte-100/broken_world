@@ -27,20 +27,31 @@ public class Container {
 
     public void moveItems(Array<Item> items) {
         if (items.isEmpty()) return;
-        if (this.items.isEmpty() || items.get(0).getId() == this.items.get(0).getId() && items.get(0).STACK_SIZE >= items.size) {
-            if (maxCountItems >= items.size + this.items.size && items.get(0).STACK_SIZE >= items.size + this.items.size) {
-                this.items.addAll(items);
-                items.clear();
-                return;
-            } else if (maxCountItems < items.size) {
-                while (this.items.size < maxCountItems)
+        if(this.items.isEmpty() || items.get(0).getId() == this.items.get(0).getId()) {
+            if (items.get(0).STACK_SIZE >= items.size) {
+                if (maxCountItems >= items.size + this.items.size && items.get(0).STACK_SIZE >= items.size + this.items.size) {
+                    this.items.addAll(items);
+                    items.clear();
+                    return;
+                } else if (maxCountItems < items.size) {
+                    while (this.items.size < maxCountItems)
+                        this.items.add(items.pop());
+                    return;
+                }
+            }
+
+            if(this.items.size < maxCountItems && this.items.get(0).STACK_SIZE > this.items.size) {
+                while (this.items.size < maxCountItems && this.items.get(0).STACK_SIZE > this.items.size)
                     this.items.add(items.pop());
                 return;
             }
         }
 
-        while (this.items.size < maxCountItems && this.items.get(0).STACK_SIZE > this.items.size)
-            this.items.add(items.pop());
+        Array<Item> itemArray = new Array<>();
+        itemArray.addAll(items);
+        items.clear();
+        items.addAll(this.items);
+        this.items = itemArray;
     }
 
     public void addItems(Item... items) {

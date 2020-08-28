@@ -34,10 +34,10 @@ public abstract class Item {
     }
 
     public static Item newItem(String id) {
-        return newItem(ID.get("item:"+id));
+        return newItem(ID.get("item:" + id));
     }
 
-    public static Item[] newItems(int id, int count){
+    public static Item[] newItems(int id, int count) {
         Array<Item> itemsArray = new Array<>();
         for (int i = 0; i < count; i++)
             itemsArray.add(items[id].create());
@@ -45,8 +45,8 @@ public abstract class Item {
 
     }
 
-    public static Item[] newItems(String id, int count){
-       return newItems(ID.get("item:"+id), count);
+    public static Item[] newItems(String id, int count) {
+        return newItems(ID.get("item:" + id), count);
 
     }
 
