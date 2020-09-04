@@ -52,7 +52,7 @@ public class GameGUI {
                 adapter.addActor(slot);
                 adapter.setGravity(GravityAttribute.TOP, GravityAttribute.RIGHT);
 
-                Graphic.STAGE.addActor(slot);
+                //Graphic.STAGE.addActor(slot);
 
                 slot2 = new Slot(Slot.SlotSkin.DEFAULT, new Container(128));
                 slot2.setSize(60 * APIXEL);
@@ -60,7 +60,7 @@ public class GameGUI {
                 adapter.setGravity(GravityAttribute.TOP, GravityAttribute.RIGHT);
                 adapter.tiedTo(GravityAttribute.RIGHT, slot);
 
-                Graphic.STAGE.addActor(slot2);
+                //Graphic.STAGE.addActor(slot2);
 
                 joystick = new Joystick(new Texture(Gdx.files.internal("gui/Joystick_0.png")), new Texture(Gdx.files.internal("gui/Joystick_1.png")), 80 * APIXEL);
                 joystick.moveBy(APIXEL, 40, 40);

@@ -17,11 +17,11 @@ public final class Graphic{
 	static public final Environment ENVIRONMENT;
 	static public final ModelLoader MODEL_LOADER;
 	public static final Batch BATCH;
-	public static final float 
-	
-	SCREEN_WIDTH,
-	SCREEN_HEIGHT,
-	BLOCK_SIZE;
+	public static final int
+
+	SCREEN_WIDTH;
+	public static final int SCREEN_HEIGHT;
+	public static final float BLOCK_SIZE;
 	static{
 		STAGE = new Stage();
 		STAGE.cancelTouchFocus();
@@ -34,6 +34,18 @@ public final class Graphic{
         ENVIRONMENT = new Environment();
         ENVIRONMENT.set(new ColorAttribute(ColorAttribute.AmbientLight, 0.4f, 0.4f, 0.4f, 1f));
         ENVIRONMENT.add(new DirectionalLight().set(Color.WHITE, -0.5f, -0.8f, -0.2f));
+	}
+
+	public static int greatestCommonFactor(int width, int height) {
+		return (height == 0) ? width : greatestCommonFactor(height, width % height);
+	}
+
+	public static int getHeightRatio(){
+		return SCREEN_HEIGHT / greatestCommonFactor(SCREEN_WIDTH,SCREEN_HEIGHT);
+	}
+
+	public static int getWidthRatio(){
+		return SCREEN_WIDTH / greatestCommonFactor(SCREEN_WIDTH,SCREEN_HEIGHT);
 	}
 }
 
