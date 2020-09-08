@@ -33,22 +33,14 @@ public class GameThread implements Screen {
         camera3d = new PerspectiveCamera(67, SCREEN_WIDTH, SCREEN_HEIGHT);
         gameRenderAdapter = new GameRenderAdapter();
 
-
         camera3d.position.set(0, 40.6f, -18);
         camera3d.lookAt(-0.008f, 10, -0.6f * 10);
 
         camera3d.far = 150;
         camera3d.near = 1f;
-
-
         player = Player.getPlayer();
-
         World.createVoidWorld(312, 312);
 
-        Block.defineLandBlock("grass", "grass.jpg");
-        ID.registredId("block:void", 0);
-        Block.defineBlock("grass", "grass.jpg");
-        Block.defineBlock("grass2", "android.jpg");
 
         Gdx.input.setInputProcessor(new InputMultiplexer(TakenItemsRender.listener, STAGE, new GameInputProcessor(camera3d)));
 
@@ -87,14 +79,12 @@ public class GameThread implements Screen {
 
     public void draw(int x, int y, int z) {
         int id = World.getBlock(x + ((int) player.getXOnBlock()), z + ((int) player.getZOnBlock()));
-
         if (id > 0)
             blocks[id].render(x * 10 - xDraw, 10 * y - 5 + 10, z * 10 - 5 - zDraw);
         else {
             id = World.getLandBlock(x + ((int) player.getXOnBlock()), z + ((int) player.getZOnBlock()));
             landBlocks[id].render(x * 10f - xDraw, 2 * -5.000f + 10, z * 10f - 5 - zDraw);
         }
-
     }
 
     public void draw(int x, int xTo, int z, int zTo, int edgeZ, int edgeZTo) {

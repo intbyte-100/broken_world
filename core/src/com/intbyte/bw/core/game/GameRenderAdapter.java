@@ -6,7 +6,7 @@ import com.intbyte.bw.gameAPI.graphic.Graphic;
 import java.util.HashMap;
 
 public class GameRenderAdapter {
-    private HashMap<String, Render> renders;
+    private final HashMap<String, Render> renders;
     private Render render;
 
     public GameRenderAdapter() {

@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.attributes.TextureAttribute;
 import com.intbyte.bw.gameAPI.utils.ExtraData;
 import com.intbyte.bw.gameAPI.utils.ID;
+import com.intbyte.bw.gameAPI.utils.Resource;
+
 import java.util.HashMap;
 
 import static com.intbyte.bw.gameAPI.graphic.Graphic.ENVIRONMENT;
@@ -40,19 +42,21 @@ public class Block{
 		return landBlocks;
 	}
 
-
-	public static void defineLandBlock(String id, String texture){
-		int integerId = ID.registredId("land_block:" + id);
-		CustomBlock block = new CustomBlock();
-
-		Model model = MODEL_LOADER.loadModel(Gdx.files.internal("objects/block/landblock.obj"));
-		TextureAttribute textureAttribute1 = new TextureAttribute(TextureAttribute.Diffuse, new Texture(Gdx.files.internal("textures/" + texture)));
+	private static ModelInstance getModelInstance(String pathToModel,String pathToTexture){
+		Model model = Resource.getObjModel(pathToModel);
+		TextureAttribute textureAttribute1 = new TextureAttribute(TextureAttribute.Diffuse, Resource.getTexture(pathToTexture));
 		Material material = model.materials.get(0);
 		material.set(textureAttribute1);
 		ModelInstance instance = new ModelInstance(model);
 		instance.transform.setToTranslation(0, 0, 0);
+		return instance;
+	}
+	public static void defineLandBlock(String id, String texture){
+		int integerId = ID.registredId("land_block:" + id);
+		CustomBlock block = new CustomBlock();
 
-		block.modelInstance = instance;
+
+		block.modelInstance = getModelInstance("block/landblock.obj",texture);
 
 		landBlocks[integerId] = block;
 	}
@@ -61,14 +65,7 @@ public class Block{
 		int integerId = ID.registredId("block:" + id);
 		CustomBlock block = new CustomBlock();
 
-		Model model = MODEL_LOADER.loadModel(Gdx.files.internal("objects/block/block.obj"));
-		TextureAttribute textureAttribute1 = new TextureAttribute(TextureAttribute.Diffuse, new Texture(Gdx.files.internal("textures/" + texture)));
-		Material material = model.materials.get(0);
-		material.set(textureAttribute1);
-		ModelInstance instance = new ModelInstance(model);
-		instance.transform.setToTranslation(0, 0, 0);
-
-		block.modelInstance = instance;
+		block.modelInstance = getModelInstance("block/block.obj",texture);
 
 		blocks[integerId] = block;
 	}
@@ -77,14 +74,7 @@ public class Block{
 		ID.registredId("block:" + id, integerId);
 		CustomBlock block = new CustomBlock();
 
-		Model model = MODEL_LOADER.loadModel(Gdx.files.internal("objects/block/block.obj"));
-		TextureAttribute textureAttribute1 = new TextureAttribute(TextureAttribute.Diffuse, new Texture(Gdx.files.internal("textures/" + texture)));
-		Material material = model.materials.get(0);
-		material.set(textureAttribute1);
-		ModelInstance instance = new ModelInstance(model);
-		instance.transform.setToTranslation(0, 0, 0);
-
-		block.modelInstance = instance;
+		block.modelInstance = getModelInstance("block/block.obj",texture);
 
 		blocks[integerId] = block;
 	}
