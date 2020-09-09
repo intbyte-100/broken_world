@@ -1,4 +1,6 @@
 package com.intbyte.bw.gameAPI.utils;
+import com.badlogic.gdx.Gdx;
+
 import java.util.HashMap;
 
 public class ID
@@ -13,28 +15,31 @@ public class ID
 	}
 
 
-	public static void registredIdGroup(String key, int maxVal){
+	public static void registeredIdGroup(String key, int maxVal){
 		id idMap = new id();
 		idMap.maxVal = maxVal;
 		idMap.idMap = new HashMap<String,Integer>();
 		map.put(key, idMap);
+		Gdx.app.log("ID MANAGER","registered id group "+key);
 	}
 
-	public static int registredId(String key, int id){
+	public static int registeredId(String key, int id){
 		String[] keys = key.split(":");
 		if(map.get(keys[0]).maxVal > id)
 			map.get(keys[0]).idMap.put(keys[1], id);
+		Gdx.app.log("ID MANAGER","registered string id "+key+", with integer id "+id);
 		return id;
 
 	}
 
-	public static int registredId(String key){
+	public static int registeredId(String key){
 		iterator = 0;
 		String[] keys = key.split(":");
 		id idMap = map.get(keys[0]);
 		while(iterator < idMap.maxVal){
 			if(!idMap.idMap.containsValue(iterator)){
 				idMap.idMap.put(keys[1], iterator);
+				Gdx.app.log("ID MANAGER","registered string id "+key+", with integer id "+iterator);
 				return iterator;
 			}
 			else iterator++;
@@ -54,11 +59,11 @@ public class ID
 	}
 
 	static {
-		ID.registredIdGroup("land_block", 12000);
-		ID.registredIdGroup("item",12000);
-		ID.registredIdGroup("block", 12000);
-		ID.registredIdGroup("biome", 12000);
-		ID.registredIdGroup("entity", 12000);
-		ID.registredIdGroup("dimension", 12000);
+		ID.registeredIdGroup("land_block", 12000);
+		ID.registeredIdGroup("item",12000);
+		ID.registeredIdGroup("block", 12000);
+		ID.registeredIdGroup("biome", 12000);
+		ID.registeredIdGroup("entity", 12000);
+		ID.registeredIdGroup("dimension", 12000);
 	}
 }

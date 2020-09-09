@@ -12,7 +12,6 @@ import com.intbyte.bw.gameAPI.utils.Resource;
 import java.util.HashMap;
 
 import static com.intbyte.bw.gameAPI.graphic.Graphic.ENVIRONMENT;
-import static com.intbyte.bw.gameAPI.graphic.Graphic.MODEL_LOADER;
 import static com.intbyte.bw.gameAPI.graphic.Graphic.MODEL_BATCH;
 
 public class Block{
@@ -52,35 +51,38 @@ public class Block{
 		return instance;
 	}
 	public static void defineLandBlock(String id, String texture){
-		int integerId = ID.registredId("land_block:" + id);
+		int integerId = ID.registeredId("land_block:" + id);
 		CustomBlock block = new CustomBlock();
 
 
 		block.modelInstance = getModelInstance("block/landblock.obj",texture);
 
 		landBlocks[integerId] = block;
+		Gdx.app.log("BLOCK","defined block "+id);
 	}
 
 	public static void defineBlock(String id, String texture){
-		int integerId = ID.registredId("block:" + id);
+		int integerId = ID.registeredId("block:" + id);
 		CustomBlock block = new CustomBlock();
 
 		block.modelInstance = getModelInstance("block/block.obj",texture);
 
 		blocks[integerId] = block;
+		Gdx.app.log("BLOCK","defined block "+id);
 	}
 
 	public static void defineBlock(String id, int integerId, String texture){
-		ID.registredId("block:" + id, integerId);
+		ID.registeredId("block:" + id, integerId);
 		CustomBlock block = new CustomBlock();
 
 		block.modelInstance = getModelInstance("block/block.obj",texture);
 
 		blocks[integerId] = block;
+		Gdx.app.log("BLOCK","defined block "+id);
 	}
 
 	public static void defineBlock(String id, Model model, String texture){
-		int integerId = ID.registredId("block:" + id);
+		int integerId = ID.registeredId("block:" + id);
 		CustomBlock block = new CustomBlock();
 		TextureAttribute textureAttribute1 = new TextureAttribute(TextureAttribute.Diffuse, new Texture(Gdx.files.internal("textures/" + texture)));
 		Material material = model.materials.get(0);
@@ -90,6 +92,7 @@ public class Block{
 
 		block.modelInstance = instance;
 		blocks[integerId] = block;
+		Gdx.app.log("BLOCK","defined block "+id);
 	}
 
 

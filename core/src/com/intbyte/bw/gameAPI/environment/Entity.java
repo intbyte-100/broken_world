@@ -1,5 +1,6 @@
 package com.intbyte.bw.gameAPI.environment;
 
+import com.badlogic.gdx.Gdx;
 import com.intbyte.bw.gameAPI.graphic.ui.container.Container;
 
 import static com.intbyte.bw.gameAPI.graphic.Graphic.BLOCK_SIZE;
@@ -22,6 +23,11 @@ public abstract class Entity{
 			else  
 				health = maxHealth;
 		else health = 0;
+	}
+
+	@Override
+	public String toString() {
+		return getClass().toString()+" "+hashCode();
 	}
 
 	public float getHealth(){

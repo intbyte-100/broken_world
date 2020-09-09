@@ -1,27 +1,23 @@
 package com.intbyte.bw.core;
 
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.utils.Array;
+import com.intbyte.bw.GameBoot;
 import com.intbyte.bw.core.game.GameThread;
 import com.intbyte.bw.core.game.Player;
 import com.intbyte.bw.game.Game;
 import com.intbyte.bw.gameAPI.callbacks.CallBack;
 
-import java.util.Iterator;
-
-import com.intbyte.bw.GameBoot;
-
-import static com.intbyte.bw.gameAPI.graphic.Graphic.*;
+import static com.intbyte.bw.gameAPI.graphic.Graphic.BATCH;
 
 public class Initialization implements Screen {
 
+    private static boolean isReadyCallBack;
     private GameBoot boot;
     private Texture texture;
     private boolean isRendered;
-    private static boolean isReadyCallBack;
 
     public Initialization(final GameBoot boot) {
         this.boot = boot;
@@ -40,16 +36,16 @@ public class Initialization implements Screen {
         BATCH.draw(texture, Gdx.graphics.getWidth() / 4 + (Gdx.graphics.getHeight() / 4), Gdx.graphics.getWidth() / 4 - (Gdx.graphics.getHeight() / 4), Gdx.graphics.getHeight() / 2, Gdx.graphics.getHeight() / 2);
         BATCH.end();
 
+        Gdx.app.log("INITIALIZATION", "starting initialization");
+        Player.getPlayer();
+        isReadyCallBack = true;
+        new Game().main();
+        boot.setScreen(new GameThread(boot));
+        CallBack.executeInitializationCallBacks();
+        isReadyCallBack = false;
+        texture.dispose();
+        Gdx.app.log("INITIALIZATION", "initialization finished");
 
-        if (isRendered) {
-            Player.getPlayer();
-            isReadyCallBack = true;
-            new Game().main();
-            boot.setScreen(new GameThread(boot));
-            CallBack.executeInitializationCallBacks();
-            isReadyCallBack = false;
-            texture.dispose();
-        }
         isRendered = true;
 
     }

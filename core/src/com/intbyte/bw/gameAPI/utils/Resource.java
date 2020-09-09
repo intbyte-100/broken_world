@@ -21,6 +21,7 @@ public class Resource {
         if (fileHandle == null) {
             fileHandle = Gdx.files.internal(path);
             files.put(path, fileHandle);
+            Gdx.app.log("RESOURCE LOADER","file "+fileHandle+" is loaded");
         }
         return fileHandle;
     }
@@ -28,8 +29,9 @@ public class Resource {
     public static Texture getTexture(String path) {
         Texture texture = textures.get(path);
         if (texture == null) {
-            texture = new Texture(Gdx.files.internal("textures/" + path));
+            texture = new Texture(getFile("textures/" + path));
             textures.put(path, texture);
+            Gdx.app.log("RESOURCE LOADER","texture "+texture+" is loaded");
         }
         return texture;
     }
@@ -37,8 +39,9 @@ public class Resource {
     public static Model getObjModel(String path) {
         Model model = models.get(path);
         if (model == null) {
-            model = loader.loadModel(Gdx.files.internal("objects/" + path));
+            model = loader.loadModel(getFile("objects/" + path));
             models.put(path, model);
+            Gdx.app.log("RESOURCE LOADER","model "+path+" is loaded");
         }
         return model;
     }
@@ -49,16 +52,13 @@ public class Resource {
 
     public static void dispose() {
         for (Model model : models.values()) {
+            Gdx.app.log("DISPOSE",model+" is disposed");
             model.dispose();
         }
         for (Texture texture :
                 textures.values()) {
+            Gdx.app.log("DISPOSE","texture "+texture+" is disposed");
             texture.dispose();
-        }
-
-        for (FileHandle fileHandle :
-                files.values()) {
-            fileHandle.delete();
         }
     }
 }

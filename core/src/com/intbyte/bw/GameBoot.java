@@ -1,10 +1,9 @@
 package com.intbyte.bw;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.intbyte.bw.core.Initialization;
-
-
-
+import com.intbyte.bw.gameAPI.utils.Resource;
 
 
 public class GameBoot extends Game{
@@ -21,5 +20,7 @@ public class GameBoot extends Game{
 	@Override
 	public void dispose(){
 		super.dispose();
+		Resource.dispose();
+		System.exit(0);
 	}
 }

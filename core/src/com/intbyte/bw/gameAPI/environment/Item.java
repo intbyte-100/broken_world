@@ -4,25 +4,51 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
+import com.intbyte.bw.core.game.Player;
+import com.intbyte.bw.gameAPI.callbacks.CallBack;
+import com.intbyte.bw.gameAPI.callbacks.TouchOnBlock;
 import com.intbyte.bw.gameAPI.utils.ID;
+
+import java.util.HashMap;
 
 import static com.intbyte.bw.gameAPI.graphic.Graphic.*;
 
 public abstract class Item {
     private static Item[] items = new Item[12000];
+    private static HashMap<Integer, Integer> settableItemsHashMap = new HashMap<>();
     public final int STACK_SIZE;
     protected final int id;
     protected Texture icon;
     protected ModelInstance modelInstance;
 
+
     public Item(int id, int stackSize) {
         STACK_SIZE = stackSize;
         this.id = id;
+        CallBack.addCallBack(new TouchOnBlock() {
+            @Override
+            public void main(int x, int z) {
+                if (World.getBlock(x, z) > 0) return;
+                Integer id = settableItemsHashMap.get(Player.getPlayer().getCarriedItem().getId());
+                if (id != null)
+                    World.setBlock(x, z, id);
+
+            }
+        });
     }
 
+
     public static void addItem(String id, Item item) {
-        ID.registredId("item:" + id, item.getId());
+        ID.registeredId("item:" + id, item.getId());
         items[item.getId()] = item;
+    }
+
+    public static void setSettableItem(int itemID, int blockID) {
+        settableItemsHashMap.put(itemID, blockID);
+    }
+
+    public static void setSettableItem(String itemID, String blockID) {
+        setSettableItem(ID.get("item:" + itemID), ID.get("block:" + blockID));
     }
 
     public static Item[] getItems() {

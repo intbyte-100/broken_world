@@ -12,7 +12,7 @@ public class Player extends Entity{
 	private Player(){
 		super();
 		carriedItem = new Container(64);
-		id = ID.registredId("entity:player", 0);
+		id = ID.registeredId("entity:player", 0);
 	}
 	public static Player getPlayer(){
 		if(player == null)
