@@ -6,6 +6,7 @@ import com.intbyte.bw.gameAPI.callbacks.CallBack;
 import com.intbyte.bw.gameAPI.callbacks.Initialization;
 import com.intbyte.bw.gameAPI.environment.Block;
 import com.intbyte.bw.gameAPI.environment.Item;
+import com.intbyte.bw.gameAPI.environment.ItemType;
 import com.intbyte.bw.gameAPI.graphic.ui.GUI;
 import com.intbyte.bw.gameAPI.utils.ID;
 import com.intbyte.bw.gameAPI.utils.Resource;
@@ -28,7 +29,7 @@ public class Game {
 
                 Item.addItem("test", new Item1());
                 player = Player.getPlayer();
-                player.getCarriedItem().addItems(Item.newItem("test"));
+                player.getCarriedItem().addItems(Item.newItems("test",10));
                 player.setTranslateToBlock(100, 25);
 
                 GUI.putLayer("main", MainLayerUI.getInstance());
@@ -45,7 +46,12 @@ class Item1 extends Item {
     }
 
     public Item1() {
-        super(0, 64);
+        super(1, 64);
+    }
+
+    @Override
+    public int getType() {
+        return ItemType.BLOCK;
     }
 
     @Override

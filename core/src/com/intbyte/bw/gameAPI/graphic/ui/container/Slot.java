@@ -34,7 +34,6 @@ public class Slot extends Actor {
                 }
                 else if (takenItems.isTaken){
                     container.moveItems(takenItems.items);
-                    System.out.println(takenItems.items.size);
                     if(takenItems.items.isEmpty())
                         takenItems.isTaken = false;
                 }

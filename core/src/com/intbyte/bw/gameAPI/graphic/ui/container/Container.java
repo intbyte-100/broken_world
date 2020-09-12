@@ -1,5 +1,6 @@
 package com.intbyte.bw.gameAPI.graphic.ui.container;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
 import com.intbyte.bw.gameAPI.environment.Item;
 
@@ -73,7 +74,11 @@ public class Container {
     }
 
     public void delete() {
-        items.peek();
+        if(items.isEmpty()){
+            Gdx.app.log("CONTAINER", "cannot delete element, because container is empty");
+            return;
+        }
+        items.pop();
     }
 
     public void clear() {

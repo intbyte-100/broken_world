@@ -16,6 +16,7 @@ public class GameInputProcessor implements InputProcessor {
 
     public GameInputProcessor(PerspectiveCamera camera) {
         this.camera = camera;
+        position = new Vector3();
     }
 
     public static boolean isReadyCallBack() {
@@ -43,7 +44,6 @@ public class GameInputProcessor implements InputProcessor {
         Ray ray = camera.getPickRay(screenX, screenY);
         final float distance = -ray.origin.y / ray.direction.y;
 
-        position = new Vector3();
         position.set(ray.direction).scl(distance).add(ray.origin).add((float) Player.player.getX(), 0, (float) Player.player.getZ()).scl(0.1f).add(0, 0, 1);
 
 
@@ -58,7 +58,6 @@ public class GameInputProcessor implements InputProcessor {
     public boolean touchDragged(int screenX, int screenY, int pointer) {
         Ray ray = camera.getPickRay(screenX, screenY);
         final float distance = -ray.origin.y / ray.direction.y;
-        position = new Vector3();
         position.set(ray.direction).scl(distance).add(ray.origin).add((float) Player.player.getX(), -10, (float) Player.player.getZ()).scl(0.1f).add(0, 0, 1);
 
 

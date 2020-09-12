@@ -1,5 +1,6 @@
 package com.intbyte.bw.gameAPI.environment;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.math.Vector3;
@@ -14,29 +15,35 @@ import java.util.HashMap;
 import static com.intbyte.bw.gameAPI.graphic.Graphic.*;
 
 public abstract class Item {
-    private static Item[] items = new Item[12000];
-    private static HashMap<Integer, Integer> settableItemsHashMap = new HashMap<>();
-    public final int STACK_SIZE;
-    protected final int id;
-    protected Texture icon;
-    protected ModelInstance modelInstance;
+    private static final Item[] items = new Item[12000];
+    private static final HashMap<Integer, Integer> settableItemsHashMap = new HashMap<>();
 
-
-    public Item(int id, int stackSize) {
-        STACK_SIZE = stackSize;
-        this.id = id;
+    static {
         CallBack.addCallBack(new TouchOnBlock() {
             @Override
             public void main(int x, int z) {
                 if (World.getBlock(x, z) > 0) return;
                 Integer id = settableItemsHashMap.get(Player.getPlayer().getCarriedItem().getId());
-                if (id != null)
+                if (id != null && id > 0) {
                     World.setBlock(x, z, id);
+                    Gdx.app.log("PLAYER", "player set block with id " + id + ", used item with id " + Player.getPlayer().getCarriedItem().getId() + ". x = " + x + "; z = " + z);
+                    Player.getPlayer().getCarriedItem().delete();
+                }
 
             }
         });
     }
 
+    public final int STACK_SIZE;
+    protected final int id;
+    protected boolean takenable;
+    protected Texture icon;
+    protected ModelInstance modelInstance;
+
+    public Item(int id, int stackSize) {
+        STACK_SIZE = stackSize;
+        this.id = id;
+    }
 
     public static void addItem(String id, Item item) {
         ID.registeredId("item:" + id, item.getId());
@@ -74,6 +81,20 @@ public abstract class Item {
     public static Item[] newItems(String id, int count) {
         return newItems(ID.get("item:" + id), count);
 
+    }
+
+    public abstract int getType();
+
+    public int getLevel() {
+        return 0;
+    }
+
+    public int getMaxStrength() {
+        return 0;
+    }
+
+    public boolean isTakenable() {
+        return takenable;
     }
 
     public int getId() {

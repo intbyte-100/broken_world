@@ -33,8 +33,8 @@ public class GameThread implements Screen {
         camera3d = new PerspectiveCamera(67, SCREEN_WIDTH, SCREEN_HEIGHT);
         gameRenderAdapter = new GameRenderAdapter();
 
-        camera3d.position.set(0, 40.6f, -18);
-        camera3d.lookAt(-0.008f, 10, -0.6f * 10);
+        camera3d.position.set(0, 44.6f, -18);
+        camera3d.lookAt(-0.008f, 10, -0.6f * 10.3f);
 
         camera3d.far = 150;
         camera3d.near = 1f;
@@ -105,6 +105,7 @@ public class GameThread implements Screen {
                 draw(-6, 7, 5, -3, 5, -1);
                 draw(8, 0, 5);
                 draw(8, 0, 4);
+                draw(8,0,3);
             }
         });
 

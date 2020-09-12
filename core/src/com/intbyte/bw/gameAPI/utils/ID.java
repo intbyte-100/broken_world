@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 public class ID
 {
-	private static HashMap<String,id> map = new HashMap<String,id>();
+	private static final HashMap<String,id> map = new HashMap<>();
 
 	private static int iterator = 0;
 
@@ -18,7 +18,7 @@ public class ID
 	public static void registeredIdGroup(String key, int maxVal){
 		id idMap = new id();
 		idMap.maxVal = maxVal;
-		idMap.idMap = new HashMap<String,Integer>();
+		idMap.idMap = new HashMap<>();
 		map.put(key, idMap);
 		Gdx.app.log("ID MANAGER","registered id group "+key);
 	}
@@ -61,6 +61,7 @@ public class ID
 	static {
 		ID.registeredIdGroup("land_block", 12000);
 		ID.registeredIdGroup("item",12000);
+		ID.registeredId("item:void");
 		ID.registeredIdGroup("block", 12000);
 		ID.registeredIdGroup("biome", 12000);
 		ID.registeredIdGroup("entity", 12000);
