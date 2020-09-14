@@ -7,7 +7,6 @@ import com.intbyte.bw.GameBoot;
 public class DesktopLauncher {
     public static void main(String[] arg) {
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-        //config.fullscreen = true;
         config.width = 1280;
         config.height = 720;
         config.resizable = false;

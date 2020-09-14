@@ -9,9 +9,9 @@ import com.intbyte.bw.GameBoot;
 import com.intbyte.bw.gameAPI.callbacks.CallBack;
 import com.intbyte.bw.gameAPI.callbacks.Render;
 import com.intbyte.bw.gameAPI.environment.Block;
+import com.intbyte.bw.gameAPI.environment.Entity;
 import com.intbyte.bw.gameAPI.environment.World;
 import com.intbyte.bw.gameAPI.graphic.ui.container.TakenItemsRender;
-import com.intbyte.bw.gameAPI.utils.ID;
 
 import static com.intbyte.bw.gameAPI.graphic.Graphic.*;
 
@@ -27,6 +27,7 @@ public class GameThread implements Screen {
     private final Block.CustomBlock[] blocks = Block.getBlocks();
     private final Block.CustomBlock[] landBlocks = Block.getLandBlocks();
     public float xDraw, zDraw;
+    private EntityManager entityManager;
 
     public GameThread(GameBoot boot) {
         this.boot = boot;
@@ -46,6 +47,9 @@ public class GameThread implements Screen {
 
         renderInit();
         gameRenderAdapter.initRender();
+
+        entityManager = new EntityManager();
+
     }
 
 
@@ -55,6 +59,7 @@ public class GameThread implements Screen {
 
     @Override
     public void render(float p1) {
+        entityManager.entityThread.start();
         isReadyCallBack = true;
 
         xDraw = (float) (player.getX() / 10 - Math.floor(player.getX() / 10)) * 10;
@@ -68,6 +73,9 @@ public class GameThread implements Screen {
 
         MODEL_BATCH.begin(camera3d);
         gameRenderAdapter.draw();
+        for (Entity i : entityManager.getActive()) {
+            i.render();
+        }
         MODEL_BATCH.end();
         STAGE.act();
         STAGE.draw();
@@ -105,7 +113,7 @@ public class GameThread implements Screen {
                 draw(-6, 7, 5, -3, 5, -1);
                 draw(8, 0, 5);
                 draw(8, 0, 4);
-                draw(8,0,3);
+                draw(8, 0, 3);
             }
         });
 
@@ -127,8 +135,8 @@ public class GameThread implements Screen {
             @Override
             public void main() {
                 draw(-6, 7, 5, -3, 5, 3);
-                draw(7,0,3);
-                draw(7,0,2);
+                draw(7, 0, 3);
+                draw(7, 0, 2);
             }
         });
 

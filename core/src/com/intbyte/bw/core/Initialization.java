@@ -38,9 +38,9 @@ public class Initialization implements Screen {
 
         Gdx.app.log("INITIALIZATION", "starting initialization");
         Player.getPlayer();
+        boot.setScreen(new GameThread(boot));
         isReadyCallBack = true;
         new Game().main();
-        boot.setScreen(new GameThread(boot));
         CallBack.executeInitializationCallBacks();
         isReadyCallBack = false;
         texture.dispose();
