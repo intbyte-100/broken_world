@@ -24,8 +24,12 @@ public final class World {
     }
 
     public static void setBlock(int x, int z, int id) {
-        if (x > -1 && z > -1 && x < block.length && z < block.length)
+        if (x > -1 && z > -1 && x < block.length && z < block.length) {
+            Block.CustomBlock customBlock = Block.getBlocks()[getBlock(x, z)];
+            if(customBlock != null&&customBlock.blockData.containsKey(x*1000+z))
+                customBlock.blockData.remove(x*1000+z);
             block[x][z] = (short) id;
+        }
     }
 
     public static void setLandBlock(int x, int z, int id) {
@@ -33,4 +37,15 @@ public final class World {
             landBlock[x][z] = (short) id;
     }
 
+    public static BlockExtraData getBlockData(int x, int z){
+        Block.CustomBlock customBlock = Block.getBlocks()[getBlock(x, z)];
+        if(customBlock == null) return BlockExtraData.NOT_DATA;
+        return customBlock.blockData.get(x*1000+z);
+    }
+
+    public static void setBlockData(int x, int z, BlockExtraData data){
+        Block.CustomBlock customBlock = Block.getBlocks()[getBlock(x, z)];
+        if(customBlock == null) return;
+        customBlock.blockData.put(x*1000+z,data);
+    }
 } 

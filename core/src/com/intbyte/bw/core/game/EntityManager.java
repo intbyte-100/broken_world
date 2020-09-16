@@ -6,7 +6,6 @@ import com.badlogic.gdx.utils.Array;
 import com.intbyte.bw.gameAPI.environment.Entity;
 
 class EntityManager {
-    protected final Thread entityThread;
     private final Array<Entity> active, nonActive;
     private final Player player;
     private final StringBuilder builder;
@@ -29,20 +28,14 @@ class EntityManager {
         nonActiveRect.width = 80 * 2;
 
 
+        active.add(player);
         new EntityGarbageCollector().start();
-        entityThread = new Thread() {
-            @Override
-            public void run() {
-                for (Entity entity : active) {
-                    entity.tick();
-                }
-            }
-        };
     }
 
     public Array<Entity> getActive() {
         return active;
     }
+
 
     class EntityGarbageCollector extends Thread {
         @Override

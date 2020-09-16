@@ -20,6 +20,10 @@ public class CallBack {
         Touch.callBacks.add(callback);
     }
 
+    public static void addCallBack(BlockHit callback) {
+        BlockHit.callBacks.add(callback);
+    }
+
     public static void addCallBack(TouchOnBlock callback) {
         TouchOnBlock.callBacks.add(callback);
     }
@@ -50,5 +54,11 @@ public class CallBack {
             for (TouchOnBlock i : TouchOnBlock.callBacks)
                 i.main(x, z);
 
+    }
+
+    public static void executeBlockHitCallBack(int x, int z, int itemID) {
+        if (GameInputProcessor.isReadyCallBack())
+            for (BlockHit i : BlockHit.callBacks)
+                i.main(x, z, itemID);
     }
 }

@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.Array;
 import com.intbyte.bw.core.game.Player;
 import com.intbyte.bw.gameAPI.callbacks.CallBack;
 import com.intbyte.bw.gameAPI.callbacks.TouchOnBlock;
+import com.intbyte.bw.gameAPI.graphic.ui.container.Container;
 import com.intbyte.bw.gameAPI.utils.ID;
 
 import java.util.HashMap;
@@ -15,6 +16,7 @@ import java.util.HashMap;
 import static com.intbyte.bw.gameAPI.graphic.Graphic.*;
 
 public abstract class Item {
+    public static final int PICKAXE = 0, AXE = 1, SWARD = 2, RESOURCE = 3, BLOCK = 4;
     private static final Item[] items = new Item[12000];
     private static final HashMap<Integer, Integer> settableItemsHashMap = new HashMap<>();
 
@@ -22,13 +24,37 @@ public abstract class Item {
         CallBack.addCallBack(new TouchOnBlock() {
             @Override
             public void main(int x, int z) {
-                if (World.getBlock(x, z) > 0) return;
-                Integer id = settableItemsHashMap.get(Player.getPlayer().getCarriedItem().getId());
-                if (id != null && id > 0) {
-                    World.setBlock(x, z, id);
-                    Gdx.app.log("PLAYER", "player set block with id " + id + ", used item with id " + Player.getPlayer().getCarriedItem().getId() + ". x = " + x + "; z = " + z);
-                    Player.getPlayer().getCarriedItem().delete();
+                Container container = Player.getPlayer().getCarriedItem();
+                Integer id = settableItemsHashMap.get(container.getId());
+                if (id == null) return;
+                if (World.getBlock(x, z) > 0) {
+                    container.getItems().get(container.getCountItems() - 1).decrementStrength();
+                    if (container.getItems().get(container.getItems().size - 1).getStrength() <= 0) container.delete();
+                    Block.CustomBlock customBlock = Block.getBlocks()[World.getBlock(x, z)];
+                    BlockExtraData data = World.getBlockData(x, z);
+                    if (data == BlockExtraData.NOT_DATA) {
+                        World.setBlockData(x, z, customBlock.newData());
+                        data = World.getBlockData(x, z);
+                    }
+
+                    if (getItems()[id].getType() == customBlock.TYPE) {
+                        data.setHealth(data.getHealth() - getItems()[id].getDamage());
+                    } else {
+                        data.setHealth(data.getHealth() - getItems()[id].getDamage() / 10);
+                    }
+                    Gdx.app.log("PLAYER", "player hit to block with id " + id + ", used item with id " + Player.getPlayer().getCarriedItem().getId() + "item strength = " + container.getItems().get(container.getCountItems() - 1).getStrength() + "; x = " + x + "; z = " + z);
+
+                    if (data.getHealth() <= 0) {
+                        Gdx.app.log("PLAYER", "player destroyed block; x = " + x + "; z = " + z);
+                        World.setBlock(x, z, 0);
+                    }
+                    return;
                 }
+
+                World.setBlock(x, z, id);
+                Gdx.app.log("PLAYER", "player set block with id " + id + ", used item with id " + Player.getPlayer().getCarriedItem().getId() + "; x = " + x + "; z = " + z);
+                container.delete();
+
 
             }
         });
@@ -39,6 +65,7 @@ public abstract class Item {
     protected boolean takenable;
     protected Texture icon;
     protected ModelInstance modelInstance;
+    protected int strength;
 
     public Item(int id, int stackSize) {
         STACK_SIZE = stackSize;
@@ -93,8 +120,25 @@ public abstract class Item {
         return 0;
     }
 
+    public int getStrength() {
+        return strength;
+    }
+
+    public void setStrength(int strength) {
+        if (strength > -1 && strength < +getMaxStrength())
+            this.strength = strength;
+    }
+
+    public void decrementStrength() {
+        if (strength > 0) strength--;
+    }
+
     public boolean isTakenable() {
         return takenable;
+    }
+
+    public int getDamage() {
+        return 1;
     }
 
     public int getId() {

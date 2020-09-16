@@ -1,10 +1,9 @@
 package com.intbyte.bw.gameAPI.callbacks;
-import com.badlogic.gdx.utils.Array;
-import java.util.Iterator;
-import java.util.ArrayList;
 
-public abstract class Render
-{
-	static ArrayList<Render> callBacks = new ArrayList<>();
-	abstract public void main();
+import com.badlogic.gdx.utils.Array;
+
+public interface Render {
+    Array<Render> callBacks = new Array<>();
+
+    void main();
 }

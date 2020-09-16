@@ -6,7 +6,6 @@ import com.intbyte.bw.gameAPI.callbacks.CallBack;
 import com.intbyte.bw.gameAPI.callbacks.Initialization;
 import com.intbyte.bw.gameAPI.environment.Block;
 import com.intbyte.bw.gameAPI.environment.Item;
-import com.intbyte.bw.gameAPI.environment.ItemType;
 import com.intbyte.bw.gameAPI.graphic.ui.GUI;
 import com.intbyte.bw.gameAPI.utils.ID;
 import com.intbyte.bw.gameAPI.utils.Resource;
@@ -24,34 +23,35 @@ public class Game {
 
                 Block.defineLandBlock("grass", "grass.jpg");
                 ID.registeredId("block:void", 0);
-                Block.defineBlock("grass", "grass.jpg");
-                Block.defineBlock("grass2", "android.jpg");
+                Block.defineBlock("grass", "grass.jpg", Block.STONE, 10);
+                Block.defineBlock("grass2", "android.jpg", Block.STONE, 10);
 
                 Item.addItem("test", new Item1());
                 player = Player.getPlayer();
-                player.getCarriedItem().addItems(Item.newItems("test",10));
+                player.getCarriedItem().addItems(Item.newItems("test", 10));
                 player.setTranslateToBlock(100, 25);
 
                 GUI.putLayer("main", MainLayerUI.getInstance());
                 GUI.openLayer("main", null);
-                Item.setSettableItem("test","grass");
+                Item.setSettableItem("test", "grass");
             }
         });
     }
 }
 
 class Item1 extends Item {
-    {
-        icon = Resource.getTexture("grass.jpg");
-    }
+
 
     public Item1() {
         super(1, 64);
+        icon = Resource.getTexture("grass.jpg");
+        strength = 5;
     }
+
 
     @Override
     public int getType() {
-        return ItemType.BLOCK;
+        return Item.PICKAXE;
     }
 
     @Override
@@ -66,6 +66,6 @@ class Item1 extends Item {
 
     @Override
     public Item1 create() {
-        return this;
+        return new Item1();
     }
 }

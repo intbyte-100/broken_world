@@ -1,10 +1,10 @@
 package com.intbyte.bw.gameAPI.callbacks;
 
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Array;
 
-import java.util.ArrayList;
+public interface Touch {
+    Array<Touch> callBacks = new Array<>();
 
-public abstract class Touch {
-    static ArrayList<Touch> callBacks = new ArrayList<>();
-    abstract public void main(Vector3 position);
+    void main(Vector3 position);
 }

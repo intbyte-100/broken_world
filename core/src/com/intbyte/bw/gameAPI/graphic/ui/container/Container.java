@@ -84,4 +84,8 @@ public class Container {
     public void clear() {
         items.clear();
     }
+
+    public Array<Item> getItems() {
+        return items;
+    }
 }

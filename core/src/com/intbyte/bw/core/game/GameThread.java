@@ -59,7 +59,14 @@ public class GameThread implements Screen {
 
     @Override
     public void render(float p1) {
-        entityManager.entityThread.start();
+        new Thread() {
+            @Override
+            public void run() {
+                for (int i = 0; i < entityManager.getActive().size; i++) {
+                    entityManager.getActive().get(i).tick();
+                }
+            }
+        };
         isReadyCallBack = true;
 
         xDraw = (float) (player.getX() / 10 - Math.floor(player.getX() / 10)) * 10;

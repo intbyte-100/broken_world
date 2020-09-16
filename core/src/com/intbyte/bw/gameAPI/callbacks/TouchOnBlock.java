@@ -1,8 +1,9 @@
 package com.intbyte.bw.gameAPI.callbacks;
 
-import java.util.ArrayList;
+import com.badlogic.gdx.utils.Array;
 
-public abstract class TouchOnBlock {
-    static ArrayList<TouchOnBlock> callBacks = new ArrayList<>();
-    abstract public void main(int x, int z);
+public interface TouchOnBlock {
+    Array<TouchOnBlock> callBacks = new Array<>();
+
+    void main(int x, int z);
 }
