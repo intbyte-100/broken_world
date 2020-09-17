@@ -19,19 +19,28 @@ public abstract class Item {
     public static final int PICKAXE = 0, AXE = 1, SWARD = 2, RESOURCE = 3, BLOCK = 4;
     private static final Item[] items = new Item[12000];
     private static final HashMap<Integer, Integer> settableItemsHashMap = new HashMap<>();
+    private static final StringBuilder builder = new StringBuilder();
 
     static {
         CallBack.addCallBack(new TouchOnBlock() {
             @Override
             public void main(int x, int z) {
+                builder.setLength(0);
+
                 Container container = Player.getPlayer().getCarriedItem();
                 Integer id = settableItemsHashMap.get(container.getId());
+
                 if (id == null) return;
+                if (id == 0) return;
+
                 if (World.getBlock(x, z) > 0) {
+
                     container.getItems().get(container.getCountItems() - 1).decrementStrength();
                     if (container.getItems().get(container.getItems().size - 1).getStrength() <= 0) container.delete();
+
                     Block.CustomBlock customBlock = Block.getBlocks()[World.getBlock(x, z)];
                     BlockExtraData data = World.getBlockData(x, z);
+
                     if (data == BlockExtraData.NOT_DATA) {
                         World.setBlockData(x, z, customBlock.newData());
                         data = World.getBlockData(x, z);
@@ -42,16 +51,46 @@ public abstract class Item {
                     } else {
                         data.setHealth(data.getHealth() - getItems()[id].getDamage() / 10);
                     }
-                    Gdx.app.log("PLAYER", "player hit to block with id " + id + ", used item with id " + Player.getPlayer().getCarriedItem().getId() + "item strength = " + container.getItems().get(container.getCountItems() - 1).getStrength() + "; x = " + x + "; z = " + z);
 
                     if (data.getHealth() <= 0) {
-                        Gdx.app.log("PLAYER", "player destroyed block; x = " + x + "; z = " + z);
+                        builder.append("player destroyed block; x = ").
+                                append(x).
+                                append("; z = ").
+                                append(z);
+                        Gdx.app.log("PLAYER", builder.toString());
                         World.setBlock(x, z, 0);
                     }
+
+                    builder.append("player hit to block with id ").
+                            append(id).
+                            append(", used item with id ").
+                            append(Player.getPlayer().getCarriedItem().getId()).
+                            append("item strength = ");
+
+                    if(container.getItems().size == 0)
+                        return;
+                    else
+                        builder.append(container.getItems().get(container.getCountItems() - 1).getStrength());
+
+                    builder.append("; x = ").
+                            append(x).
+                            append("; z = ").
+                            append(z);
+                    Gdx.app.log("PLAYER", builder.toString());
+
+
                     return;
                 }
 
                 World.setBlock(x, z, id);
+                builder.append("player set block with id ").
+                        append(id).
+                        append(", used item with id ").
+                        append(Player.getPlayer().getCarriedItem().getId()).
+                        append("; x = ").
+                        append(x).
+                        append("; z = ").
+                        append(z);
                 Gdx.app.log("PLAYER", "player set block with id " + id + ", used item with id " + Player.getPlayer().getCarriedItem().getId() + "; x = " + x + "; z = " + z);
                 container.delete();
 
