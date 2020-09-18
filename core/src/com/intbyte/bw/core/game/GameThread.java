@@ -26,16 +26,13 @@ public class GameThread implements Screen {
     private final GameRenderAdapter gameRenderAdapter;
     private final Block.CustomBlock[] blocks = Block.getBlocks();
     private final Block.CustomBlock[] landBlocks = Block.getLandBlocks();
-    public float xDraw, zDraw;
+    public float xDraw, zDraw, cx = 0,cz = 18;
     private EntityManager entityManager;
 
     public GameThread(GameBoot boot) {
         this.boot = boot;
         camera3d = new PerspectiveCamera(67, SCREEN_WIDTH, SCREEN_HEIGHT);
         gameRenderAdapter = new GameRenderAdapter();
-
-        camera3d.position.set(0, 44.6f, -18);
-        camera3d.lookAt(-0.008f, 10, -0.6f * 10.3f);
 
         camera3d.far = 150;
         camera3d.near = 1f;
@@ -59,6 +56,10 @@ public class GameThread implements Screen {
 
     @Override
     public void render(float p1) {
+        //camera3d.position.set(cx,44.6f,cz);
+
+
+
         new Thread() {
             @Override
             public void run() {
@@ -71,6 +72,8 @@ public class GameThread implements Screen {
 
         xDraw = (float) (player.getX() / 10 - Math.floor(player.getX() / 10)) * 10;
         zDraw = (float) (player.getZ() / 10 - Math.floor(player.getZ() / 10)) * 10;
+        camera3d.position.set(0+xDraw, 44.6f, -18+zDraw);
+        camera3d.lookAt(-0.008f+xDraw, 10, -0.6f * 10.3f+zDraw);
 
         camera3d.update();
 
@@ -95,10 +98,10 @@ public class GameThread implements Screen {
     public void draw(int x, int y, int z) {
         int id = World.getBlock(x + ((int) player.getXOnBlock()), z + ((int) player.getZOnBlock()));
         if (id > 0)
-            blocks[id].render(x * 10 - xDraw, 10 * y - 5 + 10, z * 10 - 5 - zDraw);
+            blocks[id].render(x * 10, 10 * y - 5 + 10, z * 10 - 5);
         else {
             id = World.getLandBlock(x + ((int) player.getXOnBlock()), z + ((int) player.getZOnBlock()));
-            landBlocks[id].render(x * 10f - xDraw, 2 * -5.000f + 10, z * 10f - 5 - zDraw);
+            landBlocks[id].render(x * 10f, 2 * -5.000f + 10, z * 10f - 5);
         }
     }
 
