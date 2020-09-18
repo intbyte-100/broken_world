@@ -48,12 +48,11 @@ public class GameInputProcessor implements InputProcessor {
         final float distance = -ray.origin.y / ray.direction.y;
 
         position.set(ray.direction).scl(distance).add(ray.origin).add((float) player.getX(), 0, (float) player.getZ()).scl(0.1f).add(0, 0, 1);
-        x = (float) (player.getX() / 10 - Math.floor(player.getX() / 10));
-        z = (float) (player.getZ() / 10 - Math.floor(player.getZ() / 10));
+
 
         isReadyCallBack = true;
         CallBack.executeTouchCallBacks(position);
-        CallBack.executeTouchOnBlockCallBack(Math.round(position.x-x), (int) (position.z-z));
+        CallBack.executeTouchOnBlockCallBack(Math.round(position.x-GameThread.xDraw), (int) (position.z-GameThread.xDraw));
         isReadyCallBack = false;
         return true;
     }

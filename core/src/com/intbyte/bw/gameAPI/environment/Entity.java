@@ -1,29 +1,40 @@
 package com.intbyte.bw.gameAPI.environment;
 
+import com.badlogic.gdx.graphics.g3d.ModelInstance;
+import com.badlogic.gdx.math.Vector3;
+import com.intbyte.bw.core.game.GameThread;
+import com.intbyte.bw.core.game.Player;
 import com.intbyte.bw.gameAPI.graphic.ui.container.Container;
 
 import static com.intbyte.bw.gameAPI.graphic.Graphic.BLOCK_SIZE;
 
 public abstract class Entity {
 
+    protected static  Vector3 modelPosition = new Vector3();
+    protected static final Player player = Player.getPlayer();
     protected double x, z;
     protected float health, width, height;
     protected int maxHealth = 100;
     protected int id;
     protected Container carriedItem;
 
+
+    public static void spawn(Entity entity){
+        GameThread.getEntityManager().add(entity);
+    }
     public Entity() {
         carriedItem = new Container(64);
     }
+
 
     @Override
     public String toString() {
         return getClass().toString() + " " + hashCode();
     }
 
-    public void tick(){
+    public void tick() {
 
-	}
+    }
 
     public float getHealth() {
         return health;

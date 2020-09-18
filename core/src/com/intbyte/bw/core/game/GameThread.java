@@ -26,8 +26,8 @@ public class GameThread implements Screen {
     private final GameRenderAdapter gameRenderAdapter;
     private final Block.CustomBlock[] blocks = Block.getBlocks();
     private final Block.CustomBlock[] landBlocks = Block.getLandBlocks();
-    public float xDraw, zDraw, cx = 0,cz = 18;
-    private EntityManager entityManager;
+    public static float xDraw, zDraw;
+    private static EntityManager entityManager;
 
     public GameThread(GameBoot boot) {
         this.boot = boot;
@@ -50,6 +50,10 @@ public class GameThread implements Screen {
     }
 
 
+    public static EntityManager getEntityManager() {
+        return entityManager;
+    }
+
     public static boolean isReadyCallBack() {
         return isReadyCallBack;
     }
@@ -67,7 +71,7 @@ public class GameThread implements Screen {
                     entityManager.getActive().get(i).tick();
                 }
             }
-        };
+        }.start();
         isReadyCallBack = true;
 
         xDraw = (float) (player.getX() / 10 - Math.floor(player.getX() / 10)) * 10;

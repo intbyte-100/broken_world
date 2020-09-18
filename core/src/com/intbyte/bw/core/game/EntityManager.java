@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.intbyte.bw.gameAPI.environment.Entity;
 
-class EntityManager {
+public class EntityManager {
     private final Array<Entity> active, nonActive;
     private final Player player;
     private final StringBuilder builder;
@@ -71,5 +71,9 @@ class EntityManager {
             }
             new EntityGarbageCollector().start();
         }
+    }
+
+    public void add(Entity entity){
+        active.add(entity);
     }
 }

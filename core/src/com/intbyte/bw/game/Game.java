@@ -5,6 +5,8 @@ import com.intbyte.bw.game.gameUI.MainLayerUI;
 import com.intbyte.bw.gameAPI.callbacks.CallBack;
 import com.intbyte.bw.gameAPI.callbacks.Initialization;
 import com.intbyte.bw.gameAPI.environment.Block;
+import com.intbyte.bw.gameAPI.environment.Drop;
+import com.intbyte.bw.gameAPI.environment.Entity;
 import com.intbyte.bw.gameAPI.environment.Item;
 import com.intbyte.bw.gameAPI.graphic.ui.GUI;
 import com.intbyte.bw.gameAPI.utils.ID;
@@ -30,6 +32,11 @@ public class Game {
                 player = Player.getPlayer();
                 player.getCarriedItem().addItems(Item.newItems("test", 10));
                 player.setTranslateToBlock(100, 25);
+
+                Drop drop = new Drop();
+                drop.setZOnBlock(25);
+                drop.setXOnBlock(100);
+                Entity.spawn(drop);
 
                 GUI.putLayer("main", MainLayerUI.getInstance());
                 GUI.openLayer("main", null);
