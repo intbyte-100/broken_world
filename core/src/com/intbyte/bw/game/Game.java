@@ -29,14 +29,15 @@ public class Game {
                 Block.defineBlock("grass2", "android.jpg", Block.STONE, 10);
 
                 Item.addItem("test", new Item1());
+                Item.addItem("pickaxe", new Pickaxe());
                 player = Player.getPlayer();
-                player.getCarriedItem().addItems(Item.newItems("test", 10));
+                player.getCarriedItem().addItems(Item.newItems("test", 1000));
                 player.setTranslateToBlock(100, 25);
 
-                Drop drop = new Drop();
-                drop.setZOnBlock(25);
-                drop.setXOnBlock(100);
-                Entity.spawn(drop);
+
+                Entity.addFactory(new TestDropFactory());
+
+                Block.setDropID("grass","test_drop");
 
                 GUI.putLayer("main", MainLayerUI.getInstance());
                 GUI.openLayer("main", null);
@@ -50,7 +51,7 @@ class Item1 extends Item {
 
 
     public Item1() {
-        super(1, 64);
+        super(1,64);
         icon = Resource.getTexture("grass.jpg");
         strength = 5;
     }
@@ -74,5 +75,39 @@ class Item1 extends Item {
     @Override
     public Item1 create() {
         return new Item1();
+    }
+}
+
+class Pickaxe extends Item{
+
+    public Pickaxe() {
+        super(2, 1);
+        icon = Resource.getTexture("pickaxe.png");
+        strength = 20;
+    }
+
+    @Override
+    public int getType() {
+        return Item.PICKAXE;
+    }
+
+    @Override
+    public byte[] getBytes() {
+        return new byte[0];
+    }
+
+    @Override
+    public void readBytes(byte[] bytes) {
+
+    }
+
+    @Override
+    public int getDamage() {
+        return 1;
+    }
+
+    @Override
+    public Item create() {
+        return new Pickaxe();
     }
 }

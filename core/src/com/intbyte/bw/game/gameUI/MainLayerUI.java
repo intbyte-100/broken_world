@@ -7,10 +7,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.intbyte.bw.core.game.Player;
 import com.intbyte.bw.gameAPI.callbacks.CallBack;
 import com.intbyte.bw.gameAPI.callbacks.Render;
+import com.intbyte.bw.gameAPI.environment.Item;
 import com.intbyte.bw.gameAPI.graphic.GravityAdapter;
 import com.intbyte.bw.gameAPI.graphic.GravityAttribute;
 import com.intbyte.bw.gameAPI.graphic.ui.Joystick;
 import com.intbyte.bw.gameAPI.graphic.ui.Layer;
+import com.intbyte.bw.gameAPI.graphic.ui.container.Container;
 import com.intbyte.bw.gameAPI.graphic.ui.container.Slot;
 import com.intbyte.bw.gameAPI.graphic.ui.container.TakenItemsRender;
 import com.intbyte.bw.gameAPI.utils.ExtraData;
@@ -25,7 +27,8 @@ public class MainLayerUI extends Layer {
     private Label label;
     private GravityAdapter adapter;
     private Joystick joystick;
-    private Slot slot;
+    private Slot slot,
+                 slot2;
 
 
     private MainLayerUI() {
@@ -45,6 +48,14 @@ public class MainLayerUI extends Layer {
         adapter.addActor(slot);
         adapter.setGravity(GravityAttribute.BOTTOM, GravityAttribute.RIGHT);
         addActor(slot);
+
+        slot2 = new Slot(Slot.SlotSkin.DEFAULT, new Container(1000));
+        slot2.setSize(160 * APIXEL);
+        slot2.addItems(Item.newItems("pickaxe",1));
+        adapter.addActor(slot2);
+        adapter.tiedTo(GravityAttribute.RIGHT,slot);
+        adapter.setGravity(GravityAttribute.BOTTOM, GravityAttribute.RIGHT);
+        addActor(slot2);
 
 
         label = new Label(" ", new Label.LabelStyle(new BitmapFont(), Color.WHITE));

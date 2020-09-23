@@ -41,7 +41,7 @@ public class Container {
                 }
             }
 
-            if(this.items.size < maxCountItems && this.items.get(0).STACK_SIZE > this.items.size) {
+            if(this.items.size < maxCountItems &&this.items.notEmpty() &&this.items.get(0).STACK_SIZE > this.items.size) {
                 while (this.items.size < maxCountItems && this.items.get(0).STACK_SIZE > this.items.size)
                     this.items.add(items.pop());
                 return;

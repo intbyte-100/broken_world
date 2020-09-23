@@ -10,7 +10,7 @@ import com.intbyte.bw.core.game.Player;
 
 public class Joystick extends Actor {
 
-    float x, y;
+    float x, y, k, translateX, translateY;
     private Texture circle;
     private Texture cursor;
     private float radius;
@@ -54,11 +54,10 @@ public class Joystick extends Actor {
             cursorX = dx;
             cursorY = dy;
         } else {
-            float k = radius / length;
+            k = radius / length;
             cursorX = dx * k;
             cursorY = dy * k;
         }
-        float translateX, translateY;
         translateX = cursorX / radius;
         translateY = cursorY / radius;
         player.translateBlock(-translateX * Gdx.graphics.getDeltaTime(), Gdx.graphics.getDeltaTime() * translateY);

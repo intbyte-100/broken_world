@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g3d.Material;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.attributes.TextureAttribute;
+import com.badlogic.gdx.math.Vector3;
 import com.intbyte.bw.gameAPI.utils.ID;
 import com.intbyte.bw.gameAPI.utils.Resource;
 
@@ -82,7 +83,15 @@ public class Block {
         Gdx.app.log("BLOCK", "defined block " + id);
     }
 
+    public static void setDropID(int blockID,int dropID){
+        blocks[blockID].setDropID(dropID);
+    }
+
+    public static void setDropID(String blockID,String dropID){
+        blocks[ID.get("block:"+blockID)].setDropID(ID.get("entity:"+dropID));
+    }
     public static class CustomBlock {
+        private int dropID;
         public final int MAX_HEATH, TYPE;
         HashMap<Integer, BlockExtraData> blockData;
         private ModelInstance modelInstance;
@@ -94,6 +103,7 @@ public class Block {
         }
 
         public BlockExtraData newData() {
+
             return new BlockExtraData() {
                 int health = MAX_HEATH;
 
@@ -122,6 +132,16 @@ public class Block {
 
                 }
             };
+        }
+
+
+        public int getDropID() {
+            return dropID;
+        }
+
+
+        protected void setDropID(int dropID) {
+            this.dropID = dropID;
         }
 
         public void render(float x, float y, float z) {

@@ -69,6 +69,7 @@ public class EntityManager {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+
             new EntityGarbageCollector().start();
         }
     }
