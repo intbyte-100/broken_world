@@ -11,7 +11,8 @@ import static com.intbyte.bw.gameAPI.environment.Item.settableItemsHashMap;
 
 class InteractionOfItems {
     private static final StringBuilder builder = new StringBuilder();
-    static void init(){
+
+    static void init() {
         CallBack.addCallBack(new TouchOnBlock() {
             @Override
             public void main(int x, int z) {
@@ -20,7 +21,7 @@ class InteractionOfItems {
                 Container container = Player.getPlayer().getCarriedItem();
                 Integer id = settableItemsHashMap.get(container.getId());
                 boolean set = true;
-                if (id == null){
+                if (id == null) {
                     id = container.getId();
                     set = false;
                 }
@@ -50,10 +51,10 @@ class InteractionOfItems {
                                 append(x).
                                 append("; z = ").
                                 append(z);
-                        if(customBlock.getDropID() != 0){
-                            Entity drop = Entity.spawn(customBlock.getDropID(),x,z);
-                            drop.translate(Math.random()*8-4,Math.random()*8-4);
-                            builder.append("; drop = "+customBlock.getDropID());
+                        if (customBlock.getDropID() != 0) {
+                            Entity drop = Entity.spawn(customBlock.getDropID(), x, z);
+                            drop.translate(Math.random() * 8 - 4, Math.random() * 8 - 4);
+                            builder.append("; drop = " + customBlock.getDropID());
                         }
                         World.setBlock(x, z, 0);
                         Gdx.app.log("PLAYER", builder.toString());
@@ -65,7 +66,7 @@ class InteractionOfItems {
                             append(Player.getPlayer().getCarriedItem().getId()).
                             append("item strength = ");
 
-                    if(container.getItems().size == 0)
+                    if (container.getItems().size == 0)
                         return;
                     else
                         builder.append(container.getItems().get(container.getCountItems() - 1).getStrength());
@@ -79,7 +80,7 @@ class InteractionOfItems {
 
                     return;
                 }
-
+                if(!set) return;
                 World.setBlock(x, z, id);
                 builder.append("player set block with id ").
                         append(id).

@@ -16,8 +16,8 @@ public abstract class Entity {
     private static final EntityFactory[] factories = new EntityFactory[12000];
     public int id;
     protected double x, z;
-    protected float health, width, height, rotate;
-    protected int maxHealth = 100;
+    protected float health, width, height, rotate, endurance;
+    protected int maxHealth = 100, maxEndurance = 100;
 
     protected Container carriedItem = carriedItem = new Container(64);
 
@@ -143,5 +143,19 @@ public abstract class Entity {
 
     void setId(int id) {
         this.id = id;
+    }
+
+    public float getEndurance() {
+        return endurance;
+    }
+
+    public void increaseEndurance(float endurance){
+        this.endurance+=endurance;
+        if (endurance > maxEndurance) endurance = maxEndurance;
+        else if (endurance < 0) endurance = 0;
+    }
+
+    public int getMaxEndurance() {
+        return maxEndurance;
     }
 }
