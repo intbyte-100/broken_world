@@ -1,27 +1,23 @@
 package com.intbyte.bw.gameAPI.environment;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
-import com.intbyte.bw.core.game.Player;
-import com.intbyte.bw.gameAPI.callbacks.CallBack;
-import com.intbyte.bw.gameAPI.callbacks.TouchOnBlock;
-import com.intbyte.bw.gameAPI.graphic.ui.container.Container;
 import com.intbyte.bw.gameAPI.utils.ID;
 
 import java.util.HashMap;
 
+import static com.intbyte.bw.core.game.InteractionOfItems.settableItemsHashMap;
 import static com.intbyte.bw.gameAPI.graphic.Graphic.*;
 
 public abstract class Item {
     public static final int PICKAXE = 0, AXE = 1, SWARD = 2, RESOURCE = 3, BLOCK = 4;
     private static final Item[] items = new Item[12000];
-    static final HashMap<Integer, Integer> settableItemsHashMap = new HashMap<>();
+
 
     static {
-        InteractionOfItems.init();
+        com.intbyte.bw.core.game.InteractionOfItems.init();
     }
 
     public final int STACK_SIZE;
@@ -30,6 +26,7 @@ public abstract class Item {
     protected Texture icon;
     protected ModelInstance modelInstance;
     protected int strength;
+    protected ItemData itemData;
 
     public Item(int id, int stackSize) {
         STACK_SIZE = stackSize;
@@ -124,4 +121,8 @@ public abstract class Item {
     public abstract void readBytes(byte[] bytes);
 
     public abstract Item create();
+
+    public ItemData getItemData() {
+        return itemData;
+    }
 }

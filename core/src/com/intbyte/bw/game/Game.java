@@ -4,10 +4,7 @@ import com.intbyte.bw.core.game.Player;
 import com.intbyte.bw.game.gameUI.MainLayerUI;
 import com.intbyte.bw.gameAPI.callbacks.CallBack;
 import com.intbyte.bw.gameAPI.callbacks.Initialization;
-import com.intbyte.bw.gameAPI.environment.Block;
-import com.intbyte.bw.gameAPI.environment.Drop;
-import com.intbyte.bw.gameAPI.environment.Entity;
-import com.intbyte.bw.gameAPI.environment.Item;
+import com.intbyte.bw.gameAPI.environment.*;
 import com.intbyte.bw.gameAPI.graphic.ui.GUI;
 import com.intbyte.bw.gameAPI.utils.ID;
 import com.intbyte.bw.gameAPI.utils.Resource;
@@ -59,7 +56,7 @@ class Item1 extends Item {
 
     @Override
     public int getType() {
-        return Item.PICKAXE;
+        return Item.BLOCK;
     }
 
     @Override
@@ -82,6 +79,7 @@ class Pickaxe extends Item{
 
     public Pickaxe() {
         super(2, 1);
+        itemData = new ItemData(100,2,1);
         icon = Resource.getTexture("pickaxe.png");
         strength = 20;
     }
