@@ -25,8 +25,8 @@ public class Game {
                 Block.defineBlock("grass", "grass.jpg", Block.STONE, 10);
                 Block.defineBlock("grass2", "android.jpg", Block.STONE, 10);
 
-                Item.addItem("test", new Item1());
-                Item.addItem("pickaxe", new Pickaxe());
+                Item.addItemFactory("test", new GrassBlockFactory());
+                Item.addItemFactory("pickaxe", new PickaxeFactory());
                 player = Player.getPlayer();
                 player.getCarriedItem().addItems(Item.newItems("test", 1000));
                 player.setTranslateToBlock(100, 25);
@@ -48,16 +48,10 @@ class Item1 extends Item {
 
 
     public Item1() {
-        super(1,64);
+        itemData = new ItemData(200,1,1);
         icon = Resource.getTexture("grass.jpg");
-        strength = 5;
     }
 
-
-    @Override
-    public int getType() {
-        return Item.BLOCK;
-    }
 
     @Override
     public byte[] getBytes() {
@@ -67,26 +61,14 @@ class Item1 extends Item {
     @Override
     public void readBytes(byte[] bytes) {
 
-    }
-
-    @Override
-    public Item1 create() {
-        return new Item1();
     }
 }
 
 class Pickaxe extends Item{
 
     public Pickaxe() {
-        super(2, 1);
         itemData = new ItemData(100,2,1);
         icon = Resource.getTexture("pickaxe.png");
-        strength = 20;
-    }
-
-    @Override
-    public int getType() {
-        return Item.PICKAXE;
     }
 
     @Override
@@ -98,14 +80,28 @@ class Pickaxe extends Item{
     public void readBytes(byte[] bytes) {
 
     }
+}
 
-    @Override
-    public int getDamage() {
-        return 1;
+class PickaxeFactory extends ItemFactory{
+
+    public PickaxeFactory() {
+        super("pickaxe",Item.PICKAXE);
     }
 
     @Override
-    public Item create() {
+    public Item createItem() {
         return new Pickaxe();
+    }
+}
+
+class GrassBlockFactory extends ItemFactory{
+
+    public GrassBlockFactory() {
+        super("test",Item.BLOCK);
+    }
+
+    @Override
+    public Item createItem() {
+        return new Item1();
     }
 }

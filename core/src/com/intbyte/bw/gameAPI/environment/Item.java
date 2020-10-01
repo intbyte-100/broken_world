@@ -6,34 +6,28 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.intbyte.bw.gameAPI.utils.ID;
 
-import java.util.HashMap;
-
 import static com.intbyte.bw.core.game.InteractionOfItems.settableItemsHashMap;
 import static com.intbyte.bw.gameAPI.graphic.Graphic.*;
 
 public abstract class Item {
     public static final int PICKAXE = 0, AXE = 1, SWARD = 2, RESOURCE = 3, BLOCK = 4;
-    private static final Item[] items = new Item[12000];
+    private static final ItemFactory[] items = new ItemFactory[12000];
 
 
     static {
         com.intbyte.bw.core.game.InteractionOfItems.init();
     }
 
-    public final int STACK_SIZE;
-    protected final int id;
+    public int STACK_SIZE;
     protected boolean takenable;
     protected Texture icon;
     protected ModelInstance modelInstance;
-    protected int strength;
     protected ItemData itemData;
+    private int id;
+    private int type;
 
-    public Item(int id, int stackSize) {
-        STACK_SIZE = stackSize;
-        this.id = id;
-    }
 
-    public static void addItem(String id, Item item) {
+    public static void addItemFactory(String id, ItemFactory item) {
         ID.registeredId("item:" + id, item.getId());
         items[item.getId()] = item;
     }
@@ -46,7 +40,7 @@ public abstract class Item {
         setSettableItem(ID.get("item:" + itemID), ID.get("block:" + blockID));
     }
 
-    public static Item[] getItems() {
+    public static ItemFactory[] getItemFactories() {
         return items;
     }
 
@@ -71,39 +65,28 @@ public abstract class Item {
 
     }
 
-    public abstract int getType();
-
-    public int getLevel() {
-        return 0;
+    public final int getType(){
+        return type;
     }
 
-    public int getMaxStrength() {
-        return 0;
+    void setType(int type) {
+        this.type = type;
     }
 
-    public int getStrength() {
-        return strength;
+    public int getSTACK_SIZE() {
+        return STACK_SIZE;
     }
 
-    public void setStrength(int strength) {
-        if (strength > -1 && strength < +getMaxStrength())
-            this.strength = strength;
-    }
-
-    public void decrementStrength() {
-        if (strength > 0) strength--;
-    }
-
-    public boolean isTakenable() {
-        return takenable;
-    }
-
-    public int getDamage() {
-        return 1;
+    void setSTACK_SIZE(int STACK_SIZE) {
+        this.STACK_SIZE = STACK_SIZE;
     }
 
     public int getId() {
         return id;
+    }
+
+    void setId(int id) {
+        this.id = id;
     }
 
     public void render(Vector3 vector, Vector3 axis, float radiant) {
@@ -119,8 +102,6 @@ public abstract class Item {
     public abstract byte[] getBytes();
 
     public abstract void readBytes(byte[] bytes);
-
-    public abstract Item create();
 
     public ItemData getItemData() {
         return itemData;

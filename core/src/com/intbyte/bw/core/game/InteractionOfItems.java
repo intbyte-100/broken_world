@@ -8,7 +8,7 @@ import com.intbyte.bw.gameAPI.graphic.ui.container.Container;
 
 import java.util.HashMap;
 
-import static com.intbyte.bw.gameAPI.environment.Item.getItems;
+import static com.intbyte.bw.gameAPI.environment.Item.getItemFactories;
 
 
 public class InteractionOfItems {
@@ -20,11 +20,17 @@ public class InteractionOfItems {
 
     public static void init() {
         CallBack.addCallBack(new TouchOnBlock() {
+            Item item;
+
 
             private void hit(int x, int z) {
+                if (container.getCountItems() != 0)
+                    item = container.getLastElement();
                 container.getItems().get(container.getCountItems() - 1).getItemData().decrementStrength();
-                if (container.getItems().get(container.getItems().size - 1).getItemData().getStrength() <= 0)
-                    container.delete();
+                if (container.getItems().get(container.getItems().size - 1).getItemData().getStrength() <= 0) {
+                    item = container.delete();
+                }
+
 
                 Block.CustomBlock customBlock = Block.getBlocks()[World.getBlock(x, z)];
                 BlockExtraData data = World.getBlockData(x, z);
@@ -34,10 +40,10 @@ public class InteractionOfItems {
                     data = World.getBlockData(x, z);
                 }
 
-                if (getItems()[id].getType() == customBlock.TYPE) {
-                    data.setHealth(data.getHealth() - getItems()[id].getItemData().getDamage());
+                if (getItemFactories()[id].getType() == customBlock.TYPE) {
+                    data.setHealth(data.getHealth() - item.getItemData().getDamage());
                 } else {
-                    data.setHealth(data.getHealth() - getItems()[id].getItemData().getDamage() / 10);
+                    data.setHealth(data.getHealth() - item.getItemData().getDamage() / 10);
                 }
 
                 if (data.getHealth() <= 0) {
@@ -52,6 +58,7 @@ public class InteractionOfItems {
                     }
                     World.setBlock(x, z, 0);
                     Gdx.app.log("PLAYER", builder.toString());
+                    return;
                 }
 
                 builder.append("player hit to block with id ").
@@ -71,6 +78,7 @@ public class InteractionOfItems {
                         append(z);
                 Gdx.app.log("PLAYER", builder.toString());
             }
+
 
             private void set(int x, int z) {
                 World.setBlock(x, z, id);
@@ -99,7 +107,7 @@ public class InteractionOfItems {
 
 
                 if (World.getBlock(x, z) > 0) {
-                    if (player.coolDown == 0 && Item.getItems()[id].getType() != Item.BLOCK) {
+                    if (player.coolDown == 0 && Item.getItemFactories()[id].getType() != Item.BLOCK) {
                         hit(x, z);
                     }
                 } else if (set)

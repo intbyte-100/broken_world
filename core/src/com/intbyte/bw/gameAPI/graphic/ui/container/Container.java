@@ -73,12 +73,12 @@ public class Container {
         return items.size;
     }
 
-    public void delete() {
+    public Item delete() {
         if(items.isEmpty()){
             Gdx.app.log("CONTAINER", "cannot delete element, because container is empty");
-            return;
+            return null;
         }
-        items.pop();
+        return items.pop();
     }
 
     public void clear() {
@@ -87,5 +87,9 @@ public class Container {
 
     public Array<Item> getItems() {
         return items;
+    }
+
+    public Item getLastElement(){
+        return items.get(getCountItems()-1);
     }
 }
