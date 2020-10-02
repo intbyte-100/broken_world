@@ -22,13 +22,13 @@ public class Game {
 
                 Block.defineLandBlock("grass", "grass.jpg");
                 ID.registeredId("block:void", 0);
-                Block.defineBlock("grass", "grass.jpg", Block.STONE, 10);
-                Block.defineBlock("grass2", "android.jpg", Block.STONE, 10);
+                Block.defineBlock("grass", "grass.jpg", Block.STONE,50, 10);
+                Block.defineBlock("grass2", "android.jpg", Block.STONE,1, 10);
 
                 Item.addItemFactory("test", new GrassBlockFactory());
-                Item.addItemFactory("pickaxe", new PickaxeFactory());
+                Item.addItemFactory("pickaxe", Tools.newPickaxe("pickaxe","pickaxe.png",100,2,10));
                 player = Player.getPlayer();
-                player.getCarriedItem().addItems(Item.newItems("test", 1000));
+                player.getCarriedItem().addItems(Item.newItems("test", 100));
                 player.setTranslateToBlock(100, 25);
 
 
@@ -64,35 +64,6 @@ class Item1 extends Item {
     }
 }
 
-class Pickaxe extends Item{
-
-    public Pickaxe() {
-        itemData = new ItemData(100,2,1);
-        icon = Resource.getTexture("pickaxe.png");
-    }
-
-    @Override
-    public byte[] getBytes() {
-        return new byte[0];
-    }
-
-    @Override
-    public void readBytes(byte[] bytes) {
-
-    }
-}
-
-class PickaxeFactory extends ItemFactory{
-
-    public PickaxeFactory() {
-        super("pickaxe",Item.PICKAXE);
-    }
-
-    @Override
-    public Item createItem() {
-        return new Pickaxe();
-    }
-}
 
 class GrassBlockFactory extends ItemFactory{
 

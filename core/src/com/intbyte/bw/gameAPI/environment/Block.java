@@ -49,27 +49,27 @@ public class Block {
         Gdx.app.log("BLOCK", "defined block " + id);
     }
 
-    public static void defineBlock(String id, String texture, int type, int maxHealth) {
+    public static void defineBlock(String id, String texture, int type, int level, int maxHealth) {
         int integerId = ID.registeredId("block:" + id);
         CustomBlock block = new CustomBlock(maxHealth, type);
 
         block.modelInstance = getModelInstance("block/block.obj", texture);
-
+        block.level = level;
         blocks[integerId] = block;
         Gdx.app.log("BLOCK", "defined block " + id);
     }
 
-    public static void defineBlock(String id, int integerId, String texture, int type, int maxHealth) {
+    public static void defineBlock(String id, int integerId, String texture, int type, int level, int maxHealth) {
         ID.registeredId("block:" + id, integerId);
         CustomBlock block = new CustomBlock(maxHealth, type);
-
+        block.level = level;
         block.modelInstance = getModelInstance("block/block.obj", texture);
-
+        block.level = level;
         blocks[integerId] = block;
         Gdx.app.log("BLOCK", "defined block " + id);
     }
 
-    public static void defineBlock(String id, Model model, String texture, int type, int maxHealth) {
+    public static void defineBlock(String id, Model model, String texture, int type, int level, int maxHealth) {
         int integerId = ID.registeredId("block:" + id);
         CustomBlock block = new CustomBlock(maxHealth, type);
         TextureAttribute textureAttribute1 = new TextureAttribute(TextureAttribute.Diffuse, new Texture(Gdx.files.internal("textures/" + texture)));
@@ -93,6 +93,7 @@ public class Block {
     public static class CustomBlock {
         private int dropID;
         public final int MAX_HEATH, TYPE;
+        protected int level;
         HashMap<Integer, BlockExtraData> blockData;
         private ModelInstance modelInstance;
 
@@ -114,11 +115,9 @@ public class Block {
 
                 @Override
                 public void setHealth(int health) {
-                    if(health > -1) {
+
                         this.health = health;
-                        return;
-                    }
-                    health = 0;
+                        if(health < 0) health = 0;
                 }
 
 
@@ -139,6 +138,10 @@ public class Block {
             return dropID;
         }
 
+
+        public int getLevel() {
+            return level;
+        }
 
         protected void setDropID(int dropID) {
             this.dropID = dropID;

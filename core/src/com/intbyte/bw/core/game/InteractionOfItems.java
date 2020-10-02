@@ -14,7 +14,7 @@ import static com.intbyte.bw.gameAPI.environment.Item.getItemFactories;
 public class InteractionOfItems {
     public static final HashMap<Integer, Integer> settableItemsHashMap = new HashMap<>();
     private static final StringBuilder builder = new StringBuilder();
-    private static Player player = Player.getPlayer();
+    private static final Player player = Player.getPlayer();
     private static Integer id;
     private static Container container;
 
@@ -39,14 +39,39 @@ public class InteractionOfItems {
                     World.setBlockData(x, z, customBlock.newData());
                     data = World.getBlockData(x, z);
                 }
-
+                int blockLevel = Block.getBlocks()[World.getBlock(x, z)].getLevel();
                 if (getItemFactories()[id].getType() == customBlock.TYPE) {
-                    data.setHealth(data.getHealth() - item.getItemData().getDamage());
+                    double damage = item.getItemData().getDamage();
+
+                    if (item.getItemData().getLevel() - blockLevel > 0)
+                        for (int i = 1; i < item.getItemData().getLevel() - blockLevel; i++) {
+                            damage += damage * 0.02;
+                        }
+                    System.out.println(damage);
+                    data.setHealth(data.getHealth() - (int) Math.round(damage));
                 } else {
                     data.setHealth(data.getHealth() - item.getItemData().getDamage() / 10);
                 }
 
+
+                builder.append("player hit to block with id ").
+                        append(id).
+                        append(", used item with id ").
+                        append(Player.getPlayer().getCarriedItem().getId()).
+                        append(" item strength = ");
+
+                if (container.getItems().size != 0)
+                    builder.append(container.getItems().get(container.getCountItems() - 1).getItemData().getStrength());
+
+                builder.append("; x = ").
+                        append(x).
+                        append("; z = ").
+                        append(z);
+                Gdx.app.log("PLAYER", builder.toString());
+
+                System.out.println(data.getHealth());
                 if (data.getHealth() <= 0) {
+                    builder.setLength(0);
                     builder.append("player destroyed block; x = ").
                             append(x).
                             append("; z = ").
@@ -58,25 +83,8 @@ public class InteractionOfItems {
                     }
                     World.setBlock(x, z, 0);
                     Gdx.app.log("PLAYER", builder.toString());
-                    return;
                 }
 
-                builder.append("player hit to block with id ").
-                        append(id).
-                        append(", used item with id ").
-                        append(Player.getPlayer().getCarriedItem().getId()).
-                        append(" item strength = ");
-
-                if (container.getItems().size == 0)
-                    return;
-                else
-                    builder.append(container.getItems().get(container.getCountItems() - 1).getItemData().getStrength());
-
-                builder.append("; x = ").
-                        append(x).
-                        append("; z = ").
-                        append(z);
-                Gdx.app.log("PLAYER", builder.toString());
             }
 
 
@@ -107,7 +115,7 @@ public class InteractionOfItems {
 
 
                 if (World.getBlock(x, z) > 0) {
-                    if (player.coolDown == 0 && Item.getItemFactories()[id].getType() != Item.BLOCK) {
+                    if (Item.getItemFactories()[id] != null && player.coolDown == 0 && Item.getItemFactories()[id].getType() != Item.BLOCK) {
                         hit(x, z);
                     }
                 } else if (set)

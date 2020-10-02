@@ -14,7 +14,7 @@ public class ItemData {
     }
 
     public int getLevel() {
-        return 0;
+        return level;
     }
 
     public int getMaxStrength() {
