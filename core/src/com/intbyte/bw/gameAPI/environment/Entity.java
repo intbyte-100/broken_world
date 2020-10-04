@@ -19,7 +19,7 @@ public abstract class Entity {
     protected float health, width, height, rotate, endurance;
     protected int maxHealth = 100, maxEndurance = 100;
 
-    protected Container carriedItem = carriedItem = new Container(64);
+    protected Container carriedItem = new Container(64);
 
 
     public static void addFactory(EntityFactory entityFactory){
@@ -35,7 +35,7 @@ public abstract class Entity {
     public static Entity spawn(int id,float x, float z){
         Entity entity = spawn(factories[id].create());
         entity.setTranslateToBlock(x,z-0.5);
-        Gdx.app.log("ENTITY","spawned entity with id "+id+"; x = "+entity.getX()+"; z = "+entity.getZ());
+        Gdx.app.log("ENTITY","spawned entity with id "+id+"; x = "+entity.getXOnBlock()+"; z = "+entity.getZOnBlock());
         return entity;
     }
 

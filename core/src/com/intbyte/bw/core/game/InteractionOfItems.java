@@ -40,24 +40,23 @@ public class InteractionOfItems {
                     data = World.getBlockData(x, z);
                 }
                 int blockLevel = Block.getBlocks()[World.getBlock(x, z)].getLevel();
-                if (getItemFactories()[id].getType() == customBlock.TYPE) {
-                    double damage = item.getItemData().getDamage();
-
-                    if (item.getItemData().getLevel() - blockLevel > 0)
-                        for (int i = 1; i < item.getItemData().getLevel() - blockLevel; i++) {
-                            damage += damage * 0.02;
-                        }
-                    System.out.println(damage);
-                    data.setHealth(data.getHealth() - (int) Math.round(damage));
-                } else {
-                    data.setHealth(data.getHealth() - item.getItemData().getDamage() / 10);
+                float damage = item.getItemData().getDamage();
+                if(blockLevel != 0)
+                    damage = damage * ((float) item.getItemData().getLevel()/blockLevel);
+                if (getItemFactories()[id].getType() != customBlock.TYPE) {
+                    damage/=10;
                 }
 
-
+                data.setHealth(data.getHealth() - Math.round(damage));
                 builder.append("player hit to block with id ").
                         append(id).
                         append(", used item with id ").
                         append(Player.getPlayer().getCarriedItem().getId()).
+                        append("; block health = ").
+                        append(data.getHealth()).
+                        append("; item damage = ").
+                        append(damage).
+                        append(";").
                         append(" item strength = ");
 
                 if (container.getItems().size != 0)
@@ -69,7 +68,6 @@ public class InteractionOfItems {
                         append(z);
                 Gdx.app.log("PLAYER", builder.toString());
 
-                System.out.println(data.getHealth());
                 if (data.getHealth() <= 0) {
                     builder.setLength(0);
                     builder.append("player destroyed block; x = ").

@@ -22,11 +22,12 @@ public class Game {
 
                 Block.defineLandBlock("grass", "grass.jpg");
                 ID.registeredId("block:void", 0);
-                Block.defineBlock("grass", "grass.jpg", Block.STONE,50, 10);
+                Block.defineBlock("grass", "grass.jpg", Block.STONE,100, 10);
                 Block.defineBlock("grass2", "android.jpg", Block.STONE,1, 10);
 
-                Item.addItemFactory("test", new GrassBlockFactory());
-                Item.addItemFactory("pickaxe", Tools.newPickaxe("pickaxe","pickaxe.png",100,2,10));
+
+                Tools.newBlock("test","grass.jpg","grass");
+                Tools.newPickaxe("pickaxe","pickaxe.png",10,10,10);
                 player = Player.getPlayer();
                 player.getCarriedItem().addItems(Item.newItems("test", 100));
                 player.setTranslateToBlock(100, 25);
@@ -38,41 +39,11 @@ public class Game {
 
                 GUI.putLayer("main", MainLayerUI.getInstance());
                 GUI.openLayer("main", null);
-                Item.setSettableItem("test", "grass");
+
             }
         });
     }
 }
 
-class Item1 extends Item {
 
 
-    public Item1() {
-        itemData = new ItemData(200,1,1);
-        icon = Resource.getTexture("grass.jpg");
-    }
-
-
-    @Override
-    public byte[] getBytes() {
-        return new byte[0];
-    }
-
-    @Override
-    public void readBytes(byte[] bytes) {
-
-    }
-}
-
-
-class GrassBlockFactory extends ItemFactory{
-
-    public GrassBlockFactory() {
-        super("test",Item.BLOCK);
-    }
-
-    @Override
-    public Item createItem() {
-        return new Item1();
-    }
-}

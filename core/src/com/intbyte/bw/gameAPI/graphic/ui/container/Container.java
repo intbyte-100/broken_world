@@ -14,34 +14,22 @@ public class Container {
         this.maxCountItems = maxCountItems;
     }
 
-    public void setItems(Array<Item> items) {
-        if (items.isEmpty()) return;
-        this.items.clear();
-        if (maxCountItems >= items.size && items.get(0).STACK_SIZE >= items.size)
-            this.items.addAll(items);
-        else
-            for (int i = 0; i < maxCountItems; i++) {
-                this.items.add(items.get(i));
-            }
-    }
-
-
     public void moveItems(Array<Item> items) {
         if (items.isEmpty()) return;
-        if(this.items.isEmpty() || items.get(0).getId() == this.items.get(0).getId()) {
-            if (items.get(0).STACK_SIZE >= items.size) {
-                if (maxCountItems >= items.size + this.items.size && items.get(0).STACK_SIZE >= items.size + this.items.size) {
-                    this.items.addAll(items);
-                    items.clear();
-                    return;
-                } else if (maxCountItems < items.size) {
-                    while (this.items.size < maxCountItems)
-                        this.items.add(items.pop());
-                    return;
-                }
+        if (this.items.isEmpty() || items.get(0).getId() == this.items.get(0).getId()) {
+
+            if (maxCountItems >= items.size + this.items.size && items.get(0).STACK_SIZE >= items.size + this.items.size) {
+                this.items.addAll(items);
+                items.clear();
+                return;
+            } else if (maxCountItems < items.size) {
+                while (this.items.size < maxCountItems)
+                    this.items.add(items.pop());
+                return;
             }
 
-            if(this.items.size < maxCountItems &&this.items.notEmpty() &&this.items.get(0).STACK_SIZE > this.items.size) {
+
+            if (this.items.size < maxCountItems && this.items.notEmpty() && this.items.get(0).STACK_SIZE > this.items.size) {
                 while (this.items.size < maxCountItems && this.items.get(0).STACK_SIZE > this.items.size)
                     this.items.add(items.pop());
                 return;
@@ -74,7 +62,7 @@ public class Container {
     }
 
     public Item delete() {
-        if(items.isEmpty()){
+        if (items.isEmpty()) {
             Gdx.app.log("CONTAINER", "cannot delete element, because container is empty");
             return null;
         }
@@ -89,7 +77,18 @@ public class Container {
         return items;
     }
 
-    public Item getLastElement(){
-        return items.get(getCountItems()-1);
+    public void setItems(Array<Item> items) {
+        if (items.isEmpty()) return;
+        this.items.clear();
+        if (maxCountItems >= items.size && items.get(0).STACK_SIZE >= items.size)
+            this.items.addAll(items);
+        else
+            for (int i = 0; i < maxCountItems; i++) {
+                this.items.add(items.get(i));
+            }
+    }
+
+    public Item getLastElement() {
+        return items.get(getCountItems() - 1);
     }
 }
