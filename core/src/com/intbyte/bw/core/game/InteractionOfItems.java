@@ -24,6 +24,8 @@ public class InteractionOfItems {
 
 
             private void hit(int x, int z) {
+                if (player.coolDown > 0||player.getEndurance() < 2) return;
+                System.out.println(player.getEndurance());
                 if (container.getCountItems() != 0)
                     item = container.getLastElement();
                 container.getItems().get(container.getCountItems() - 1).getItemData().decrementStrength();
@@ -34,7 +36,7 @@ public class InteractionOfItems {
 
                 Block.CustomBlock customBlock = Block.getBlocks()[World.getBlock(x, z)];
                 BlockExtraData data = World.getBlockData(x, z);
-
+                player.coolDown += item.getItemData().getCoolDown();
                 if (data == BlockExtraData.NOT_DATA) {
                     World.setBlockData(x, z, customBlock.newData());
                     data = World.getBlockData(x, z);
@@ -46,7 +48,11 @@ public class InteractionOfItems {
                 if (getItemFactories()[id].getType() != customBlock.TYPE) {
                     damage/=10;
                 }
-
+                if(player.getEndurance() - item.getItemData().getTakeEndurance()< 0){
+                    damage/=item.getItemData().getTakeEndurance()/ player.getEndurance();
+                }
+                player.increaseEndurance(-item.getItemData().getTakeEndurance());
+                System.out.println(player.getEndurance());
                 data.setHealth(data.getHealth() - Math.round(damage));
                 builder.append("player hit to block with id ").
                         append(id).
@@ -56,12 +62,16 @@ public class InteractionOfItems {
                         append(data.getHealth()).
                         append("; item damage = ").
                         append(damage).
-                        append(";").
+                        append(";").append("player endurance = ").
+                        append(player.getEndurance()).
+                        append("; player coolDown = ").
+                        append(player.coolDown).
                         append(" item strength = ");
 
                 if (container.getItems().size != 0)
                     builder.append(container.getItems().get(container.getCountItems() - 1).getItemData().getStrength());
-
+                else
+                    builder.append("0");
                 builder.append("; x = ").
                         append(x).
                         append("; z = ").

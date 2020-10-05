@@ -52,7 +52,8 @@ public abstract class Entity {
         return getClass().toString() + " " + hashCode();
     }
 
-    public void tick() {
+    public void renderTick() {
+        increaseEndurance((100/6*Gdx.graphics.getRawDeltaTime()));
 
     }
 
@@ -151,7 +152,7 @@ public abstract class Entity {
 
     public void increaseEndurance(float endurance){
         this.endurance+=endurance;
-        if (endurance > maxEndurance) endurance = maxEndurance;
+        if (this.endurance > maxEndurance) this.endurance = maxEndurance;
         else if (endurance < 0) endurance = 0;
     }
 

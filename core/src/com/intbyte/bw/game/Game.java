@@ -27,7 +27,7 @@ public class Game {
 
 
                 Tools.newBlock("test","grass.jpg","grass");
-                Tools.newPickaxe("pickaxe","pickaxe.png",10,10,10);
+                Tools.newPickaxe("pickaxe","pickaxe.png",10,10,10,100f/2,(float) 100/3);
                 player = Player.getPlayer();
                 player.getCarriedItem().addItems(Item.newItems("test", 100));
                 player.setTranslateToBlock(100, 25);

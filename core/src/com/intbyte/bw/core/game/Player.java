@@ -20,9 +20,10 @@ public class Player extends Entity {
     }
 
     @Override
-    public void tick() {
+    public void renderTick() {
+        super.renderTick();
         if(0 < coolDown){
-            coolDown-=10*Gdx.graphics.getRawDeltaTime();
+            coolDown-=(float) 100/6*Gdx.graphics.getRawDeltaTime();
         }else
             coolDown = 0;
     }

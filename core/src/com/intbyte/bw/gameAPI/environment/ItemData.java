@@ -6,11 +6,14 @@ public class ItemData {
     protected int level;
     protected int maxStrength;
     protected int damage;
-    public ItemData(int maxStrength, int damage, int level) {
+    protected float coolDown, takeEndurance;
+    public ItemData(int maxStrength, int damage, int level, float coolDown, float takeEndurance) {
         this.damage = damage;
         this.maxStrength = maxStrength;
         strength = maxStrength;
         this.level = level;
+        this.takeEndurance = takeEndurance;
+        this.coolDown = coolDown;
     }
 
     public int getLevel() {
@@ -36,5 +39,13 @@ public class ItemData {
 
     public int getDamage() {
         return damage;
+    }
+
+    public float getCoolDown() {
+        return coolDown;
+    }
+
+    public float getTakeEndurance() {
+        return takeEndurance;
     }
 }

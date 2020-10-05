@@ -60,7 +60,7 @@ public class GameThread implements Screen {
 
     @Override
     public void render(float p1) {
-        //camera3d.position.set(cx,44.6f,cz);
+
 
 
 
@@ -68,7 +68,7 @@ public class GameThread implements Screen {
             @Override
             public void run() {
                 for (int i = 0; i < entityManager.getActive().size; i++) {
-                    entityManager.getActive().get(i).tick();
+                    entityManager.getActive().get(i).renderTick();
                 }
             }
         }.start();
