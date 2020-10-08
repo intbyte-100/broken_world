@@ -159,4 +159,12 @@ public abstract class Entity {
     public int getMaxEndurance() {
         return maxEndurance;
     }
+
+    public void setRotate(float rotate) {
+        this.rotate = rotate;
+    }
+
+    public float getRotate() {
+        return rotate;
+    }
 }

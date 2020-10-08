@@ -1,22 +1,35 @@
 package com.intbyte.bw.core.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g3d.ModelInstance;
+import com.badlogic.gdx.graphics.g3d.particles.influencers.ModelInfluencer;
+import com.badlogic.gdx.math.Vector3;
 import com.intbyte.bw.gameAPI.environment.Entity;
 import com.intbyte.bw.gameAPI.environment.EntityFactory;
+import com.intbyte.bw.gameAPI.graphic.Graphic;
 import com.intbyte.bw.gameAPI.graphic.ui.container.Container;
 import com.intbyte.bw.gameAPI.utils.ID;
+import com.intbyte.bw.gameAPI.utils.Resource;
 
 
 public class Player extends Entity {
     static Player player;
     private Container[] inventory;
     float coolDown;
+    private ModelInstance modelInstance;
     protected Player() {
         inventory = new Container[36];
         for (int i = 0; i < 36; i++) {
             inventory[i] = new Container(64);
         }
         Gdx.app.log("PLAYER","player is initialized");
+        modelInstance = Resource.createModalInstance("block/block.obj");
+    }
+
+
+    @Override
+    public ModelInstance getEntityModel() {
+        return modelInstance;
     }
 
     @Override
@@ -34,9 +47,12 @@ public class Player extends Entity {
         return player;
     }
 
+
     @Override
     public void render() {
-
+        modelInstance.transform.setToTranslation(0+GameThread.xDraw,0,0+ GameThread.zDraw);
+        modelInstance.transform.rotateRad(Vector3.Y,rotate);
+        Graphic.MODEL_BATCH.render(modelInstance, Graphic.ENVIRONMENT);
     }
 
     private static class PlayerFactory extends EntityFactory{

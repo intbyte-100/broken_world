@@ -7,17 +7,19 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.intbyte.bw.core.game.Player;
+import com.intbyte.bw.gameAPI.utils.MathUtil;
 
 public class Joystick extends Actor {
 
     float x, y, k, translateX, translateY;
-    private Texture circle;
-    private Texture cursor;
-    private float radius;
+    private final Texture circle;
+    private final Texture cursor;
+    private final float radius;
     private boolean isTouched;
-    private float cursorRadius;
+    private final float cursorRadius;
     private float cursorX, cursorY;
     private Player player;
+
 
     public Joystick(Texture circle, Texture cursor, float radius) {
         this.circle = circle;
@@ -58,6 +60,10 @@ public class Joystick extends Actor {
             cursorX = dx * k;
             cursorY = dy * k;
         }
+        if (isTouched)
+            player.setRotate((float) MathUtil.getAngle(cursorX,cursorY,80,0,0,0));
+
+
         translateX = cursorX / radius;
         translateY = cursorY / radius;
         player.translateBlock(-translateX * Gdx.graphics.getDeltaTime(), Gdx.graphics.getDeltaTime() * translateY);
