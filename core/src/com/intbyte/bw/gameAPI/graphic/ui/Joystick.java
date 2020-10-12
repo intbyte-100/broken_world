@@ -60,7 +60,7 @@ public class Joystick extends Actor {
             cursorX = dx * k;
             cursorY = dy * k;
         }
-        if (isTouched)
+        if (isTouched&&length>radius*0.1f)
             player.setRotate((float) MathUtil.getAngle(cursorX,cursorY,80,0,0,0));
 
 
