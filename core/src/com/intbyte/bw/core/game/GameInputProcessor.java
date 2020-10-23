@@ -5,17 +5,15 @@ import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.Ray;
 import com.intbyte.bw.gameAPI.callbacks.CallBack;
-import com.intbyte.bw.gameAPI.environment.World;
 
 import static com.intbyte.bw.core.game.Player.player;
 
 
 public class GameInputProcessor implements InputProcessor {
+    private static boolean isReadyCallBack;
     private final PerspectiveCamera camera;
     private Vector3 position;
     private float x, z;
-
-    private static boolean isReadyCallBack;
 
     public GameInputProcessor(PerspectiveCamera camera) {
         this.camera = camera;
@@ -24,6 +22,14 @@ public class GameInputProcessor implements InputProcessor {
 
     public static boolean isReadyCallBack() {
         return isReadyCallBack;
+    }
+
+    public static Vector3 getFastBlock(PerspectiveCamera camera, Vector3 position, int screenX, int screenY) {
+        Ray ray = camera.getPickRay(screenX, screenY);
+        return position.set(ray.direction).
+                scl(-ray.origin.y / ray.direction.y).
+                add(ray.origin).
+                add(0, 0, 0.1f);
     }
 
     @Override
@@ -53,7 +59,7 @@ public class GameInputProcessor implements InputProcessor {
 
         isReadyCallBack = true;
         CallBack.executeTouchCallBacks(position);
-        CallBack.executeTouchOnBlockCallBack(Math.round(position.x-x), (int) (position.z-z));
+        CallBack.executeTouchOnBlockCallBack(Math.round(position.x - x), (int) (position.z - z));
         isReadyCallBack = false;
         return true;
     }

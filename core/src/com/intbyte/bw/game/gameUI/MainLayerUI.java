@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.intbyte.bw.core.game.GameThread;
 import com.intbyte.bw.core.game.Player;
 import com.intbyte.bw.gameAPI.callbacks.CallBack;
 import com.intbyte.bw.gameAPI.callbacks.Render;
@@ -36,7 +37,7 @@ public class MainLayerUI extends Layer {
         CallBack.addCallBack(new Render() {
             @Override
             public void main() {
-                label.setText("fps: " + Gdx.graphics.getFramesPerSecond() + "; player position: x = " + (int) player.getXOnBlock() + ", z = " + (int) player.getZOnBlock());
+                label.setText("fps: " + Gdx.graphics.getFramesPerSecond() + "; player position: x = " + (int) player.getXOnBlock() + ", z = " + (int) player.getZOnBlock()+"; visible models = "+ GameThread.visible);
             }
         });
 
@@ -64,7 +65,7 @@ public class MainLayerUI extends Layer {
         adapter.setGravity(GravityAttribute.TOP, GravityAttribute.LEFT);
         addActor(label);
 
-        joystick = new Joystick(Resource.getTexture("gui/Joystick_0.png"), Resource.getTexture("gui/Joystick_1.png"), 80 * APIXEL);
+        joystick = new Joystick(Resource.getSprite("gui/Joystick_0.png"), Resource.getSprite("gui/Joystick_1.png"), 80 * APIXEL);
         joystick.moveBy(APIXEL, 40, 40);
         addActor(joystick);
 

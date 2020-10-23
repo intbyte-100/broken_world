@@ -11,7 +11,7 @@ public class Tools {
                 return new Item() {
 
                     {
-                        icon = Resource.getTexture(texture);
+                        icon = Resource.getSprite(texture);
                         itemData = new ItemData(strength,damage,level, coolDown, takeEndurance);
                     }
                     @Override
@@ -43,7 +43,7 @@ public class Tools {
                 return new Item() {
 
                     {
-                        icon = Resource.getTexture(texture);
+                        icon = Resource.getSprite(texture);
                     }
                     @Override
                     public byte[] getBytes() {

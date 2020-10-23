@@ -30,11 +30,11 @@ public class Game {
                 Block.defineBlock("grass2", "android.jpg", Block.STONE,1, 10);
 
                 Model model = Resource.getObjModel("block/block.obj");
-                TextureAttribute textureAttribute1 = new TextureAttribute(TextureAttribute.Diffuse, Resource.getTexture("grass.jpg"));
+                TextureAttribute textureAttribute1 = new TextureAttribute(TextureAttribute.Diffuse, Resource.getSprite("grass.jpg"));
                 Material material = model.materials.get(0);
                 material.set(textureAttribute1);
 
-                Resource.addTexture(Resource.getIconFromModel(new ModelInstance(model)),"icongrass");
+                Resource.addSprite(Resource.getIconFromModel(new ModelInstance(model)),"icongrass");
                 Tools.newBlock("test","icongrass","grass");
                 Tools.newPickaxe("pickaxe","pickaxe.png",10,10,10,100f/2,(float) 100/3);
                 player = Player.getPlayer();

@@ -11,9 +11,6 @@ import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.loader.ObjLoader;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
-import com.badlogic.gdx.math.Vector3;
-import com.intbyte.bw.gameAPI.callbacks.CallBack;
-import com.intbyte.bw.gameAPI.callbacks.Render;
 
 import java.util.HashMap;
 
@@ -21,7 +18,7 @@ import static com.intbyte.bw.gameAPI.graphic.Graphic.*;
 
 public class Resource {
     private static final HashMap<String, FileHandle> files = new HashMap<>();
-    private static final HashMap<String, Texture> textures = new HashMap<>();
+    private static final HashMap<String,Sprite> sprites = new HashMap<>();
     private static final HashMap<String, Model> models = new HashMap<>();
     private static final ObjLoader loader = new ObjLoader();
     private static final PerspectiveCamera camera = new PerspectiveCamera(67,128,128);
@@ -37,14 +34,14 @@ public class Resource {
         return fileHandle;
     }
 
-    public static Texture getTexture(String path) {
-        Texture texture = textures.get(path);
-        if (texture == null) {
-            texture = new Texture(getFile("textures/" + path));
-            textures.put(path, texture);
-            Gdx.app.log("RESOURCE LOADER","texture "+texture+" is loaded");
+    public static Sprite getSprite(String path) {
+        Sprite sprite = sprites.get(path);
+        if (sprite == null) {
+            sprite = new Sprite(new Texture(getFile("textures/" + path)));
+            sprites.put(path, sprite);
+            Gdx.app.log("RESOURCE LOADER","sprite "+sprite.getTexture()+" is loaded");
         }
-        return texture;
+        return sprite;
     }
 
     public static Model getObjModel(String path) {
@@ -66,14 +63,14 @@ public class Resource {
             Gdx.app.log("DISPOSE",model+" is disposed");
             model.dispose();
         }
-        for (Texture texture :
-                textures.values()) {
-            Gdx.app.log("DISPOSE","texture "+texture+" is disposed");
-            texture.dispose();
+        for (Sprite sprite :
+                sprites.values()) {
+            Gdx.app.log("DISPOSE","sprite "+sprite.getTexture()+" is disposed");
+            sprite.getTexture().dispose();
         }
     }
 
-    public static Texture getIconFromModel(ModelInstance modelInstance){
+    public static Sprite getIconFromModel(ModelInstance modelInstance){
         frameBuffer.begin(); //Capture rendering to frame buffer.
         camera.position.set(10,10,10);
         modelInstance.transform.setToTranslation(0,0,0);
@@ -85,11 +82,12 @@ public class Resource {
         MODEL_BATCH.render(modelInstance,ENVIRONMENT);
         MODEL_BATCH.end();
         frameBuffer.end();
-
-        return new Sprite(frameBuffer.getColorBufferTexture()).getTexture();
+        Sprite sprite = new Sprite(frameBuffer.getColorBufferTexture());
+        sprite.flip(false,true);
+        return sprite;
     }
 
-    public static void addTexture(Texture texture, String path){
-        textures.put(path,texture);
+    public static void addSprite(Sprite sprite, String path){
+        sprites.put(path,sprite);
     }
 }

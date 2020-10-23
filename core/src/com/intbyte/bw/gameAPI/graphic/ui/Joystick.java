@@ -3,6 +3,7 @@ package com.intbyte.bw.gameAPI.graphic.ui;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -12,8 +13,8 @@ import com.intbyte.bw.gameAPI.utils.MathUtil;
 public class Joystick extends Actor {
 
     float x, y, k, translateX, translateY;
-    private final Texture circle;
-    private final Texture cursor;
+    private final Sprite circle;
+    private final Sprite cursor;
     private final float radius;
     private boolean isTouched;
     private final float cursorRadius;
@@ -21,7 +22,7 @@ public class Joystick extends Actor {
     private Player player;
 
 
-    public Joystick(Texture circle, Texture cursor, float radius) {
+    public Joystick(Sprite circle, Sprite cursor, float radius) {
         this.circle = circle;
         this.cursor = cursor;
         this.radius = radius;

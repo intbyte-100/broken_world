@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g3d.Material;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.attributes.TextureAttribute;
-import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.math.collision.BoundingBox;
 import com.intbyte.bw.gameAPI.utils.ID;
 import com.intbyte.bw.gameAPI.utils.Resource;
 
@@ -31,7 +31,7 @@ public class Block {
 
     private static ModelInstance getModelInstance(String pathToModel, String pathToTexture) {
         Model model = Resource.getObjModel(pathToModel);
-        TextureAttribute textureAttribute1 = new TextureAttribute(TextureAttribute.Diffuse, Resource.getTexture(pathToTexture));
+        TextureAttribute textureAttribute1 = new TextureAttribute(TextureAttribute.Diffuse, Resource.getSprite(pathToTexture));
         Material material = model.materials.get(0);
         material.set(textureAttribute1);
         ModelInstance instance = new ModelInstance(model);
@@ -44,7 +44,7 @@ public class Block {
 
 
         block.modelInstance = getModelInstance("block/landblock.obj", texture);
-
+        block.boundingBox = block.modelInstance.calculateBoundingBox(new BoundingBox());
         landBlocks[integerId] = block;
         Gdx.app.log("BLOCK", "defined block " + id);
     }
@@ -83,24 +83,35 @@ public class Block {
         Gdx.app.log("BLOCK", "defined block " + id);
     }
 
-    public static void setDropID(int blockID,int dropID){
+    public static void setDropID(int blockID, int dropID) {
         blocks[blockID].setDropID(dropID);
     }
 
-    public static void setDropID(String blockID,String dropID){
-        blocks[ID.get("block:"+blockID)].setDropID(ID.get("entity:"+dropID));
+    public static void setDropID(String blockID, String dropID) {
+        blocks[ID.get("block:" + blockID)].setDropID(ID.get("entity:" + dropID));
     }
+
     public static class CustomBlock {
-        private int dropID;
         public final int MAX_HEATH, TYPE;
         protected int level;
+        protected BoundingBox boundingBox;
         HashMap<Integer, BlockExtraData> blockData;
+        private int dropID;
         private ModelInstance modelInstance;
+
+        public ModelInstance getModelInstance() {
+            return modelInstance;
+        }
 
         public CustomBlock(int maxHealth, int type) {
             MAX_HEATH = maxHealth;
             TYPE = type;
             blockData = new HashMap<>();
+        }
+
+        public BoundingBox getBoundingBox(float x, float y, float z) {
+            modelInstance.transform.setToTranslation(x, y, z);
+            return modelInstance.calculateBoundingBox(boundingBox);
         }
 
         public BlockExtraData newData() {
@@ -116,8 +127,8 @@ public class Block {
                 @Override
                 public void setHealth(int health) {
 
-                        this.health = health;
-                        if(health < 0) health = 0;
+                    this.health = health;
+                    if (health < 0) health = 0;
                 }
 
 
@@ -138,13 +149,12 @@ public class Block {
             return dropID;
         }
 
+        protected void setDropID(int dropID) {
+            this.dropID = dropID;
+        }
 
         public int getLevel() {
             return level;
-        }
-
-        protected void setDropID(int dropID) {
-            this.dropID = dropID;
         }
 
         public void render(float x, float y, float z) {

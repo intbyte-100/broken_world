@@ -6,8 +6,8 @@ import com.badlogic.gdx.utils.Array;
 import java.util.Arrays;
 import java.util.HashSet;
 
-import static com.intbyte.bw.gameAPI.graphic.Graphic.SCREEN_HEIGHT;
-import static com.intbyte.bw.gameAPI.graphic.Graphic.SCREEN_WIDTH;
+import static com.intbyte.bw.gameAPI.graphic.Graphic.screenHeight;
+import static com.intbyte.bw.gameAPI.graphic.Graphic.screenWidth;
 import static com.intbyte.bw.gameAPI.graphic.GravityAttribute.*;
 
 
@@ -56,17 +56,17 @@ public class GravityAdapter {
 
     private void setGravity(ActorAdapter adapter) {
         if (adapter.gravity.contains(CENTER)) {
-            adapter.actor.setX(SCREEN_WIDTH / 2 - adapter.actor.getWidth() / 2);
-            adapter.actor.setY(SCREEN_HEIGHT / 2 - adapter.actor.getHeight() / 2);
+            adapter.actor.setX(screenWidth / 2 - adapter.actor.getWidth() / 2);
+            adapter.actor.setY(screenHeight / 2 - adapter.actor.getHeight() / 2);
         }
         if (adapter.gravity.contains(BOTTOM))
             adapter.actor.setY(0);
         if (adapter.gravity.contains(TOP))
-            adapter.actor.setY(SCREEN_HEIGHT - adapter.actor.getHeight());
+            adapter.actor.setY(screenHeight - adapter.actor.getHeight());
         if (adapter.gravity.contains(LEFT))
             adapter.actor.setX(0);
         if (adapter.gravity.contains(RIGHT))
-            adapter.actor.setX(SCREEN_WIDTH - adapter.actor.getWidth());
+            adapter.actor.setX(screenWidth - adapter.actor.getWidth());
     }
 
     private void tiedToActor(ActorAdapter adapter) {

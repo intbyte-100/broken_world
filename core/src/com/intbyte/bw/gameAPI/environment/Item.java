@@ -1,6 +1,7 @@
 package com.intbyte.bw.gameAPI.environment;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
@@ -20,7 +21,7 @@ public abstract class Item {
 
     public int STACK_SIZE;
     protected boolean takenable;
-    protected Texture icon;
+    protected Sprite icon;
     protected ModelInstance modelInstance;
     protected ItemData itemData;
     private int id;

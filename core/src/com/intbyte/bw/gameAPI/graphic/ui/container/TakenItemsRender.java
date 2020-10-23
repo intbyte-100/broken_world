@@ -24,7 +24,7 @@ public class TakenItemsRender extends Actor {
         public boolean touchDown(int screenX, int screenY, int pointer, int button) {
             //if you add a check for true isTaken, then a rendering bug occurs
             if (isRendering) {
-                float setY = screenY - Graphic.SCREEN_HEIGHT;
+                float setY = screenY - Graphic.getScreenHeight();
                 instance.setX(screenX - instance.getWidth() / 2);
                 instance.setY(setY * -1 - instance.getHeight() / 2);
             }
@@ -34,7 +34,7 @@ public class TakenItemsRender extends Actor {
         @Override
         public boolean touchDragged(int screenX, int screenY, int pointer) {
             if (takenItems.isTaken && isRendering) {
-                float setY = screenY - Graphic.SCREEN_HEIGHT;
+                float setY = screenY - Graphic.getScreenHeight();
                 instance.setX(screenX - instance.getWidth() / 2);
                 instance.setY(setY * -1 - instance.getHeight() / 2);
             }
@@ -44,7 +44,7 @@ public class TakenItemsRender extends Actor {
         @Override
         public boolean mouseMoved(int screenX, int screenY) {
             if (takenItems.isTaken && isRendering) {
-                float setY = screenY - Graphic.SCREEN_HEIGHT;
+                float setY = screenY - Graphic.getScreenHeight();
                 instance.setX(screenX - instance.getWidth() / 2);
                 instance.setY(setY * -1 - instance.getHeight() / 2);
             }
