@@ -70,8 +70,6 @@ public class GameThread implements Screen {
         BATCH.end();
         isReadyCallBack = false;
         visible = 0;
-        render.resize();
-
     }
 
 

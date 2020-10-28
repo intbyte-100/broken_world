@@ -16,15 +16,15 @@ public class Slot extends Actor {
     private final SlotSkin slotSkin;
     private final Container container;
     private float itemSize;
-    TakenItems takenItems = TakenItems.getInstance();
+    private final TakenItems takenItems = TakenItems.getInstance();
     private boolean isSelect;
-
+    private boolean drag;
     public Slot(SlotSkin skin, final Container container) {
         slotSkin = skin;
         this.container = container;
         addListener(new InputListener() {
 
-            boolean take(TakenItems takenItems) {
+            boolean take() {
                 if (container.items.isEmpty()) {
                     takenItems.isTaken = false;
                     takenItems.isSelect = false;
@@ -35,7 +35,7 @@ public class Slot extends Actor {
                 return true;
             }
 
-            void put(TakenItems takenItems) {
+            void put() {
                 container.moveItems(takenItems.items);
                 if (takenItems.items.isEmpty()) {
                     takenItems.isTaken = false;
@@ -44,44 +44,40 @@ public class Slot extends Actor {
                 }
             }
 
-            @Override
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                if (hit(x, y, true) == null) return;
-                boolean drag = true;
-
+            void swap() {
                 if (takenItems.isSelect && takenItems.selectItems != null && !isSelect) {
                     container.moveItems(takenItems.selectItems.items);
-                    takenItems.isSelect = false;
                     takenItems.selectItems = null;
-                    takenItems.isTaken = false;
-                    isSelect = true;
                     takenItems.clear = true;
                     drag = false;
                 }
+            }
 
-                if (isSelect = !isSelect) {
-                    takenItems.isSelect = isSelect;
-                }
-                if (takenItems.isTaken || !takenItems.isSelect) {
-                    takenItems.isSelect = false;
-                    isSelect = false;
-                }
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                if (hit(x, y, true) == null) return;
+                drag = true;
 
-                if (isSelect) {
-                    takenItems.selectItems = container;
-                }
+                swap();
 
-                if (drag) {
-                    if ((!isSelect || !takenItems.isSelect)) {
-                        if (takenItems.items.isEmpty()) {
-                            if (take(takenItems)) {
-                                takenItems.isTaken = true;
-                            }
-                        } else if (takenItems.isTaken) {
-                            put(takenItems);
-                        }
+                if(!container.items.isEmpty()) {
+                    if (isSelect = !isSelect) {
+                        takenItems.isSelect = isSelect;
+                        takenItems.selectItems = container;
+                    }
+                    if (takenItems.isTaken || !takenItems.isSelect) {
+                        takenItems.isSelect = false;
+                        isSelect = false;
                     }
                 }
+
+                if (drag && (!isSelect))
+                    if (takenItems.items.isEmpty()) {
+                        if (take()) {
+                            takenItems.isTaken = true;
+                        }
+                    } else
+                        put();
             }
 
             @Override
