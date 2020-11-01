@@ -8,8 +8,7 @@ import com.intbyte.bw.gameAPI.graphic.Graphic;
 
 import static com.intbyte.bw.core.game.GameThread.xDraw;
 import static com.intbyte.bw.core.game.GameThread.zDraw;
-import static com.intbyte.bw.gameAPI.graphic.Graphic.getScreenHeight;
-import static com.intbyte.bw.gameAPI.graphic.Graphic.getScreenWidth;
+import static com.intbyte.bw.gameAPI.graphic.Graphic.*;
 
 public class FrustumCullingRender {
     protected final Block.CustomBlock[] blocks = Block.getBlocks();
@@ -64,6 +63,9 @@ public class FrustumCullingRender {
         zEdge = (int) GameInputProcessor.getFastBlock(camera3d, position, 0, getScreenHeight()).z/10;
         xEdge2 = Math.round(GameInputProcessor.getFastBlock(camera3d, position, 0, 0).x)/10+1;
         zEdge2 = (int) GameInputProcessor.getFastBlock(camera3d, position, 0, 0).z/10+1;
+        STAGE.getCamera().viewportHeight = getScreenHeight();
+        STAGE.getCamera().viewportWidth = getScreenWidth();
+        STAGE.getViewport().setScreenSize(getScreenWidth(),getScreenHeight());
     }
 
     public PerspectiveCamera getCamera() {

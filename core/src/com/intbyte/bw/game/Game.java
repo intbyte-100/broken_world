@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.attributes.TextureAttribute;
 import com.intbyte.bw.core.game.Player;
+import com.intbyte.bw.game.gameUI.InventoryLayerUI;
 import com.intbyte.bw.game.gameUI.MainLayerUI;
 import com.intbyte.bw.gameAPI.callbacks.CallBack;
 import com.intbyte.bw.gameAPI.callbacks.Initialization;
@@ -46,8 +47,11 @@ public class Game {
 
                 Block.setDropID("grass","test_drop");
 
-                GUI.putLayer("main", MainLayerUI.getInstance());
-                GUI.openLayer("main", null);
+                GUI.putLayer("main", new MainLayerUI());
+                GUI.setLayer("main", null);
+
+                GUI.putLayer("inventory",new InventoryLayerUI());
+
 
             }
         });
