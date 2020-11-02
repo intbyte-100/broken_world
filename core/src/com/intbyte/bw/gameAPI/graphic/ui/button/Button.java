@@ -1,6 +1,7 @@
 package com.intbyte.bw.gameAPI.graphic.ui.button;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -8,15 +9,33 @@ import com.intbyte.bw.gameAPI.utils.Resource;
 
 public class Button extends Actor {
 
-    ButtonShape shape;
-
-    public Button(ButtonShape shape) {
+    public static interface ButtonSkin{
+        Sprite getBaseSprite();
+        Sprite getTouchedSprite();
+    }
+    protected ButtonShape shape;
+    protected ButtonSkin skin;
+    protected boolean isTouched;
+    public Button(ButtonShape shape, ButtonSkin skin) {
         this.shape = shape;
+        this.skin = skin;
+        addListener(new InputListener(){
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                isTouched = true;
+                return true;
+            }
+
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                isTouched = false;
+            }
+        });
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        batch.draw(Resource.getSprite("gui/Joystick_0.png"),getX(),getY(),getWidth(),getHeight());
+        batch.draw(!isTouched ? skin.getBaseSprite():skin.getTouchedSprite(),getX(),getY(),getWidth(),getHeight());
     }
 
     @Override

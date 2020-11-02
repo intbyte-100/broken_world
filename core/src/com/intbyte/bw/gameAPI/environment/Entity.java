@@ -153,7 +153,7 @@ public abstract class Entity {
     public void increaseEndurance(float endurance){
         this.endurance+=endurance;
         if (this.endurance > maxEndurance) this.endurance = maxEndurance;
-        else if (endurance < 0) endurance = 0;
+        else if (this.endurance < 0) this.endurance = 0;
     }
 
     public int getMaxEndurance() {

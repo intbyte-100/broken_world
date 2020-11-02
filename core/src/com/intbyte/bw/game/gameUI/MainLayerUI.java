@@ -3,8 +3,6 @@ package com.intbyte.bw.game.gameUI;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.intbyte.bw.core.game.GameThread;
@@ -14,11 +12,9 @@ import com.intbyte.bw.gameAPI.callbacks.Render;
 import com.intbyte.bw.gameAPI.environment.Item;
 import com.intbyte.bw.gameAPI.graphic.GravityAdapter;
 import com.intbyte.bw.gameAPI.graphic.GravityAttribute;
-import com.intbyte.bw.gameAPI.graphic.ui.GUI;
 import com.intbyte.bw.gameAPI.graphic.ui.Joystick;
 import com.intbyte.bw.gameAPI.graphic.ui.Layer;
-import com.intbyte.bw.gameAPI.graphic.ui.button.Button;
-import com.intbyte.bw.gameAPI.graphic.ui.button.RoundButton;
+import com.intbyte.bw.gameAPI.graphic.ui.ProgressBar;
 import com.intbyte.bw.gameAPI.graphic.ui.container.Container;
 import com.intbyte.bw.gameAPI.graphic.ui.container.Slot;
 import com.intbyte.bw.gameAPI.graphic.ui.container.TakenItemsRender;
@@ -73,25 +69,19 @@ public class MainLayerUI extends Layer {
         joystick.moveBy(APIXEL, 40, 40);
         addActor(joystick);
 
-        Button button = new Button(new RoundButton());
-        button.setSize(APIXEL * 100, APIXEL * 100);
 
-        button.addListener(new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                return true;
-            }
+        final ProgressBar bar = new ProgressBar(new TestProgressBarSkin());
+        bar.setSize(100*APIXEL,20*APIXEL);
+        adapter.addActor(bar);
+        adapter.setGravity(GravityAttribute.TOP,GravityAttribute.RIGHT);
+        addActor(bar);
 
+        CallBack.addCallBack(new Render() {
             @Override
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                GUI.setLayer("inventory", null);
+            public void main() {
+                bar.setState(player.getEndurance());
             }
         });
-
-        adapter.addActor(button);
-        adapter.setGravity(GravityAttribute.TOP, GravityAttribute.RIGHT);
-        addActor(button);
-
         TakenItemsRender.initInstance();
         TakenItemsRender.setRendering(true);
         adapter.apply();
