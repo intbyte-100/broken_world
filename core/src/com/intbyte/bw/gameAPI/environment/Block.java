@@ -109,10 +109,6 @@ public class Block {
             blockData = new HashMap<>();
         }
 
-        public BoundingBox getBoundingBox(float x, float y, float z) {
-            modelInstance.transform.setToTranslation(x, y, z);
-            return modelInstance.calculateBoundingBox(boundingBox);
-        }
 
         public BlockExtraData newData() {
 

@@ -62,12 +62,12 @@ public class GameThread implements Screen {
         for (Entity i : entityManager.getActive()) {
             i.render();
         }
-        MODEL_BATCH.end();
-        STAGE.act();
-        STAGE.draw();
         BATCH.begin();
         CallBack.executeRenderCallBacks();
         BATCH.end();
+        MODEL_BATCH.end();
+        STAGE.act();
+        STAGE.draw();
         isReadyCallBack = false;
         visible = 0;
     }

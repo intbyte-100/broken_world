@@ -16,8 +16,8 @@ public class CallBack {
         Render.callBacks.add(callback);
     }
 
-    public static void addCallBack(Touch callback) {
-        Touch.callBacks.add(callback);
+    public static void addCallBack(Drag callback) {
+        Drag.callBacks.add(callback);
     }
 
     public static void addCallBack(BlockHit callback) {
@@ -43,9 +43,9 @@ public class CallBack {
                 i.main();
     }
 
-    public static void executeTouchCallBacks(Vector3 position) {
+    public static void executeDraggedCallBacks(Vector3 position) {
         if (GameInputProcessor.isReadyCallBack())
-            for (Touch i : Touch.callBacks)
+            for (Drag i : Drag.callBacks)
                 i.main(position);
     }
 

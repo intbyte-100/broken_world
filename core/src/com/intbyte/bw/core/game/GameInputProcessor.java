@@ -58,7 +58,7 @@ public class GameInputProcessor implements InputProcessor {
         z = (float) (player.getZ() / 10 - Math.floor(player.getZ() / 10));
 
         isReadyCallBack = true;
-        CallBack.executeTouchCallBacks(position);
+        CallBack.executeDraggedCallBacks(position);
         CallBack.executeTouchOnBlockCallBack(Math.round(position.x - x), (int) (position.z - z));
         isReadyCallBack = false;
         return true;
@@ -68,11 +68,11 @@ public class GameInputProcessor implements InputProcessor {
     public boolean touchDragged(int screenX, int screenY, int pointer) {
         Ray ray = camera.getPickRay(screenX, screenY);
         final float distance = -ray.origin.y / ray.direction.y;
-        position.set(ray.direction).scl(distance).add(ray.origin).add((float) player.getX(), -10, (float) player.getZ()).scl(0.1f).add(0, 0, 1);
+        position.set(ray.direction).scl(distance).add(ray.origin).add((float) player.getX()- GameThread.xDraw, 5, (float) player.getZ() - GameThread.zDraw);
 
 
         isReadyCallBack = true;
-        CallBack.executeTouchCallBacks(position);
+        CallBack.executeDraggedCallBacks(position);
         isReadyCallBack = false;
         return true;
     }

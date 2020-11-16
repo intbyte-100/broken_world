@@ -1,23 +1,19 @@
 package com.intbyte.bw.gameAPI.environment;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
+import com.intbyte.bw.core.game.InteractionOfItems;
 import com.intbyte.bw.gameAPI.utils.ID;
 
-import static com.intbyte.bw.core.game.InteractionOfItems.settableItemsHashMap;
 import static com.intbyte.bw.gameAPI.graphic.Graphic.*;
 
 public abstract class Item {
     public static final int PICKAXE = 0, AXE = 1, SWARD = 2, RESOURCE = 3, BLOCK = 4;
     private static final ItemFactory[] items = new ItemFactory[12000];
+    private static final InteractionOfItems interaction = InteractionOfItems.getInstance();
 
-
-    static {
-        com.intbyte.bw.core.game.InteractionOfItems.init();
-    }
 
     public int STACK_SIZE;
     protected boolean takenable;
@@ -34,7 +30,7 @@ public abstract class Item {
     }
 
     public static void setSettableItem(int itemID, int blockID) {
-        settableItemsHashMap.put(itemID, blockID);
+        interaction.addSettableItem(itemID, blockID);
     }
 
     public static void setSettableItem(String itemID, String blockID) {
@@ -66,7 +62,7 @@ public abstract class Item {
 
     }
 
-    public final int getType(){
+    public final int getType() {
         return type;
     }
 

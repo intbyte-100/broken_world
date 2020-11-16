@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.intbyte.bw.GameBoot;
 import com.intbyte.bw.core.game.GameThread;
+import com.intbyte.bw.core.game.InteractionOfItems;
 import com.intbyte.bw.core.game.Player;
 import com.intbyte.bw.game.Game;
 import com.intbyte.bw.gameAPI.callbacks.CallBack;
@@ -40,6 +41,7 @@ public class Initialization implements Screen {
         Player.getPlayer();
         boot.setScreen(new GameThread());
         isReadyCallBack = true;
+        InteractionOfItems.init();
         new Game().main();
         CallBack.executeInitializationCallBacks();
         isReadyCallBack = false;
