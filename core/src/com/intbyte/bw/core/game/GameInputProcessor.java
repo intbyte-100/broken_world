@@ -58,7 +58,7 @@ public class GameInputProcessor implements InputProcessor {
         z = (float) (player.getZ() / 10 - Math.floor(player.getZ() / 10));
 
         isReadyCallBack = true;
-        CallBack.executeDraggedCallBacks(position);
+        CallBack.executeTouchedCallBacks(position);
         CallBack.executeTouchOnBlockCallBack(Math.round(position.x - x), (int) (position.z - z));
         isReadyCallBack = false;
         return true;

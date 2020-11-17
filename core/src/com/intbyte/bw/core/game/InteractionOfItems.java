@@ -1,13 +1,21 @@
 package com.intbyte.bw.core.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g3d.Material;
+import com.badlogic.gdx.graphics.g3d.attributes.BlendingAttribute;
+import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
+import com.badlogic.gdx.graphics.g3d.attributes.TextureAttribute;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
-import com.intbyte.bw.gameAPI.callbacks.CallBack;
-import com.intbyte.bw.gameAPI.callbacks.Drag;
-import com.intbyte.bw.gameAPI.callbacks.Render;
-import com.intbyte.bw.gameAPI.callbacks.TouchOnBlock;
-import com.intbyte.bw.gameAPI.environment.*;
+import com.intbyte.bw.gameAPI.callbacks.*;
+import com.intbyte.bw.gameAPI.environment.Block;
+import com.intbyte.bw.gameAPI.environment.BlockExtraData;
+import com.intbyte.bw.gameAPI.environment.Item;
+import com.intbyte.bw.gameAPI.environment.World;
 import com.intbyte.bw.gameAPI.graphic.ui.container.Container;
+import com.intbyte.bw.gameAPI.environment.Entity;
 
 import java.util.HashMap;
 
@@ -17,6 +25,8 @@ import static com.intbyte.bw.gameAPI.environment.Item.getItemFactories;
 public class InteractionOfItems {
     private static InteractionOfItems instance;
     private static boolean isDragged;
+    static private Material material;
+    static private TextureAttribute textureAttribute;
     private final HashMap<Integer, Integer> settableItemsHashMap = new HashMap<>();
     private final StringBuilder builder = new StringBuilder();
     private final Player player = Player.getPlayer();
@@ -31,26 +41,55 @@ public class InteractionOfItems {
 
     public static void init() {
         final Vector3 vector3 = new Vector3();
+        final Rectangle rectangle = new Rectangle(0,0,10,10);
         final InteractionOfItems interaction = getInstance();
+
+        CallBack.addCallBack(new Touch() {
+            @Override
+            public void main(Vector3 position) {
+                float x = position.x*10, z = position.z*10;
+                isDragged = !rectangle.contains(x, z-10);
+                rectangle.setCenter(position.x*10,position.z*10-10);
+                vector3.set(position.x*10-GameThread.xDraw,5,position.z*10-10-GameThread.zDraw);
+
+            }
+        });
+
         CallBack.addCallBack(new Drag() {
             @Override
             public void main(Vector3 position) {
                 vector3.set(position);
-                System.out.println(position);
+                rectangle.setCenter(position.x,position.z);
             }
         });
 
         CallBack.addCallBack(new Render() {
+            final Runnable runnable = new Runnable() {
+                @Override
+                public void run() {
+                    material.clear();
+                    material.set(textureAttribute);
+                }
+            };
+
             @Override
             public void main() {
                 if (isDragged) {
                     Integer id = interaction.settableItemsHashMap.get(interaction.container.getId());
                     if (id == null) {
                         isDragged = false;
+                        rectangle.setCenter(-1000,-1000);
                         return;
                     }
                     Block.CustomBlock block = Block.getBlocks()[id];
-                    block.render((float) (vector3.x - interaction.player.getX())+GameThread.xDraw, vector3.y, (float) (vector3.z - instance.player.getZ()+ GameThread.zDraw));
+                    material = block.getModelInstance().materials.peek();
+                    textureAttribute = (TextureAttribute) material.get(TextureAttribute.Diffuse);
+                    material.clear();
+                    Color.GREEN.a = 0.5f;
+                    material.set(ColorAttribute.createDiffuse(Color.GREEN), new BlendingAttribute(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA));
+                    block.render((float) (vector3.x - interaction.player.getX()) + GameThread.xDraw, vector3.y, (float) (vector3.z - instance.player.getZ() + GameThread.zDraw));
+                    material.set(textureAttribute);
+                    Gdx.app.postRunnable(runnable);
                 }
             }
         });
@@ -67,7 +106,6 @@ public class InteractionOfItems {
                     interaction.id = interaction.container.getId();
                     set = false;
                 }
-                isDragged = !isDragged;
 
                 if (World.getBlock(x, z) > 0 && Item.getItemFactories()[interaction.id] != null && interaction.player.coolDown == 0 && Item.getItemFactories()[interaction.id].getType() != Item.BLOCK) {
                     interaction.hit(x, z);
@@ -77,8 +115,11 @@ public class InteractionOfItems {
                 if (isDragged) {
                     return;
                 }
-                if (!(World.getBlock(x, z) > 0) && set)
+                if (!(World.getBlock(x, z) > 0) && set) {
+                    isDragged = false;
                     interaction.set(x, z);
+                }
+                rectangle.setCenter(-1000,-1000);
             }
         });
     }

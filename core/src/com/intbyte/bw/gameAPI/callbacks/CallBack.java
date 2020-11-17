@@ -28,6 +28,10 @@ public class CallBack {
         TouchOnBlock.callBacks.add(callback);
     }
 
+    public static void addCallBack(Touch callback){
+        Touch.callBacks.add(callback);
+    }
+
     public static void executeInitializationCallBacks() {
         Initialization.iterator = Initialization.callBacks.iterator();
         if (com.intbyte.bw.core.Initialization.isReadyCallBack())
@@ -46,6 +50,12 @@ public class CallBack {
     public static void executeDraggedCallBacks(Vector3 position) {
         if (GameInputProcessor.isReadyCallBack())
             for (Drag i : Drag.callBacks)
+                i.main(position);
+    }
+
+    public static void executeTouchedCallBacks(Vector3 position) {
+        if (GameInputProcessor.isReadyCallBack())
+            for (Touch i : Touch.callBacks)
                 i.main(position);
     }
 

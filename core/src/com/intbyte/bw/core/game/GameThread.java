@@ -5,6 +5,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.intbyte.bw.gameAPI.callbacks.CallBack;
+import com.intbyte.bw.gameAPI.callbacks.Render;
 import com.intbyte.bw.gameAPI.environment.Entity;
 import com.intbyte.bw.gameAPI.environment.World;
 import com.intbyte.bw.gameAPI.graphic.ui.container.TakenItemsRender;
@@ -68,6 +69,9 @@ public class GameThread implements Screen {
         MODEL_BATCH.end();
         STAGE.act();
         STAGE.draw();
+        BATCH.begin();
+        Render.callBacks.get(0).main();
+        BATCH.end();
         isReadyCallBack = false;
         visible = 0;
     }
