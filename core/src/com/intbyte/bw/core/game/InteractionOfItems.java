@@ -48,8 +48,8 @@ public class InteractionOfItems {
             @Override
             public void main(Vector3 position) {
                 float x = position.x*10, z = position.z*10;
-                isDragged = !rectangle.contains(x, z-10);
-                rectangle.setCenter(position.x*10,position.z*10-10);
+                isDragged = !rectangle.contains(x- GameThread.xDraw, z-10- GameThread.zDraw);
+                rectangle.setCenter(x- GameThread.xDraw,z-10- GameThread.zDraw);
                 vector3.set(position.x*10-GameThread.xDraw,5,position.z*10-10-GameThread.zDraw);
 
             }
@@ -58,8 +58,9 @@ public class InteractionOfItems {
         CallBack.addCallBack(new Drag() {
             @Override
             public void main(Vector3 position) {
-                vector3.set(position);
-                rectangle.setCenter(position.x,position.z);
+                float x = position.x*10, z = position.z*10;
+                rectangle.setCenter(x- GameThread.xDraw,z-10- GameThread.zDraw);
+                vector3.set(position.x*10-GameThread.xDraw,5,position.z*10-10-GameThread.zDraw);
             }
         });
 

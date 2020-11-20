@@ -68,7 +68,7 @@ public class GameInputProcessor implements InputProcessor {
     public boolean touchDragged(int screenX, int screenY, int pointer) {
         Ray ray = camera.getPickRay(screenX, screenY);
         final float distance = -ray.origin.y / ray.direction.y;
-        position.set(ray.direction).scl(distance).add(ray.origin).add((float) player.getX()- GameThread.xDraw, 5, (float) player.getZ() - GameThread.zDraw);
+        position.set(ray.direction).scl(distance).add(ray.origin).add((float) player.getX(), 0, (float) player.getZ()).scl(0.1f).add(0, 0, 1);
 
 
         isReadyCallBack = true;
