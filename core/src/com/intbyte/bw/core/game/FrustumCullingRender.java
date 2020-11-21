@@ -31,10 +31,10 @@ public class FrustumCullingRender {
         if (id > 0) {
             blocks[id].render(x * 10, 5, z * 10 - 5);
             GameThread.visible++;
-        } else {
+        } //else {
             id = World.getLandBlock(x + ((int) player.getXOnBlock()), z + ((int) player.getZOnBlock()));
             landBlocks[id].render(x * 10f, 0, z * 10f - 5);
-        }
+       // }
     }
 
     protected void draw(int x, int xTo, int z, int zTo) {

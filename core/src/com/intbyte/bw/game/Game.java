@@ -37,7 +37,7 @@ public class Game {
 
                 Resource.addSprite(Resource.getIconFromModel(new ModelInstance(model)),"icongrass");
                 Tools.newBlock("test","icongrass","grass");
-                Tools.newPickaxe("pickaxe","pickaxe.png",10,10,10,100f/6*1,(float) 100/3);
+                Tools.newPickaxe("pickaxe","pickaxe.png",10,100,100,100f/6*1,(float) 100/3);
                 player = Player.getPlayer();
                 player.getCarriedItem().addItems(Item.newItems("test", 100));
                 player.setTranslateToBlock(100, 25);

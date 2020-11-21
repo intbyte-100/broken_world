@@ -7,8 +7,6 @@ public class ID
 {
 	private static final HashMap<String,id> map = new HashMap<>();
 
-	private static int iterator = 0;
-
 	private static class id{
 		int maxVal = 0;
 		HashMap<String,Integer> idMap = null;
@@ -33,18 +31,17 @@ public class ID
 	}
 
 	public static int registeredId(String key){
-		iterator = 0;
+		int iterator = 0;
 		String[] keys = key.split(":");
 		id idMap = map.get(keys[0]);
 		while(iterator < idMap.maxVal){
 			if(!idMap.idMap.containsValue(iterator)){
 				idMap.idMap.put(keys[1], iterator);
-				Gdx.app.log("ID MANAGER","registered string id "+key+", with integer id "+iterator);
+				Gdx.app.log("ID MANAGER","registered string id "+key+", with integer id "+ iterator);
 				return iterator;
 			}
 			else iterator++;
 		}
-		iterator = 0;
 		return 0;
 	}
 

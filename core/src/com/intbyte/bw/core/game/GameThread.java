@@ -45,6 +45,8 @@ public class GameThread implements Screen {
     @Override
     public void render(float p1) {
 
+        World.update();
+
         new Thread() {
             @Override
             public void run() {
