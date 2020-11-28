@@ -29,7 +29,7 @@ public class InteractionOfItems {
     static private TextureAttribute textureAttribute;
     private final HashMap<Integer, Integer> settableItemsHashMap = new HashMap<>();
     private final StringBuilder builder = new StringBuilder();
-    private final Player player = Player.getPlayer();
+    private static final Player player = Player.getPlayer();
     private Integer id;
     private Container container;
     private Item item;
@@ -41,6 +41,9 @@ public class InteractionOfItems {
 
     public static void init() {
         final Vector3 vector3 = new Vector3();
+        final Vector3 destination = new Vector3();
+        final Vector3 velocity = new Vector3();
+        final Vector3 origin = new Vector3();
         final Rectangle rectangle = new Rectangle(0,0,10,10);
         final InteractionOfItems interaction = getInstance();
 
@@ -48,9 +51,12 @@ public class InteractionOfItems {
             @Override
             public void main(Vector3 position) {
                 float x = position.x*10, z = position.z*10;
-                isDragged = !rectangle.contains(x- GameThread.xDraw, z-10- GameThread.zDraw);
-                rectangle.setCenter(x- GameThread.xDraw,z-10- GameThread.zDraw);
-                vector3.set(position.x*10-GameThread.xDraw,5,position.z*10-10-GameThread.zDraw);
+                isDragged = !rectangle.contains(x, z-10);
+                rectangle.setCenter(x,z-10);
+                destination.set(position.x*10,0,position.z*10-10);
+                velocity.x = (destination.x-vector3.x)*Gdx.graphics.getDeltaTime()*6;
+                velocity.z = (destination.z-vector3.z)*Gdx.graphics.getDeltaTime()*6;
+                origin.set(vector3);
 
             }
         });
@@ -59,8 +65,11 @@ public class InteractionOfItems {
             @Override
             public void main(Vector3 position) {
                 float x = position.x*10, z = position.z*10;
-                rectangle.setCenter(x- GameThread.xDraw,z-10- GameThread.zDraw);
-                vector3.set(position.x*10-GameThread.xDraw,5,position.z*10-10-GameThread.zDraw);
+                rectangle.setCenter(x,z-10);
+                destination.set(position.x*10,0,position.z*10-10);
+                velocity.x = (destination.x-vector3.x)*Gdx.graphics.getDeltaTime()*6;
+                velocity.z = (destination.z-vector3.z)*Gdx.graphics.getDeltaTime()*6;
+                origin.set(vector3);
             }
         });
 
@@ -82,16 +91,21 @@ public class InteractionOfItems {
                         rectangle.setCenter(-1000,-1000);
                         return;
                     }
+                    if(!(Math.abs(vector3.x-destination.x)<Math.abs(velocity.x)&&Math.abs(vector3.z-destination.z)<Math.abs(velocity.z)))
+                        vector3.add(velocity);
+                    else
+                        vector3.set(destination);
                     Block.CustomBlock block = Block.getBlocks()[id];
                     material = block.getModelInstance().materials.peek();
                     textureAttribute = (TextureAttribute) material.get(TextureAttribute.Diffuse);
                     material.clear();
                     Color.GREEN.a = 0.5f;
                     material.set(ColorAttribute.createDiffuse(Color.GREEN), new BlendingAttribute(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA));
-                    block.render((float) (vector3.x - interaction.player.getX()) + GameThread.xDraw, vector3.y, (float) (vector3.z - instance.player.getZ() + GameThread.zDraw));
+                    block.render((float) (vector3.x - interaction.player.getX()), vector3.y, (float) (vector3.z - instance.player.getZ()));
                     material.set(textureAttribute);
                     Gdx.app.postRunnable(runnable);
-                }
+                } else
+                    vector3.set((float) player.getX(),0,(float) player.getZ());
             }
         });
         CallBack.addCallBack(new TouchOnBlock() {
