@@ -3,8 +3,8 @@ package com.intbyte.bw.gameAPI.environment;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.utils.Array;
 
-class Chunck {
-    int x, z;
+public class Chunck {
+    public int x, z;
     private Array<Tile> tileArray = new Array<>();
 
     public void setTile(Tile tile) {

@@ -25,7 +25,6 @@ public abstract class Item {
 
 
     public static void addItemFactory(String id, ItemFactory item) {
-        ID.registeredId("item:" + id, item.getId());
         items[item.getId()] = item;
     }
 

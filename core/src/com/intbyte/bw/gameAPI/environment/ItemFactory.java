@@ -7,10 +7,7 @@ public abstract class ItemFactory {
     protected int type, stackSize;
     private int id;
 
-    public ItemFactory(String strId, int id, int type) {
-        this.id = ID.registeredId("item:" + strId, id);
-        this.type = type;
-    }
+
 
     public ItemFactory(String strId, int type) {
         this.id = ID.registeredId("item:" + strId);

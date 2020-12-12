@@ -8,12 +8,19 @@ public final class World {
     static short[][] landBlock;
     static short[][] block;
     static short[][] biome;
-    static Chunck[][] world = new Chunck[32][32];
+    static Chunck[][] world = new Chunck[16][16];
     static int playerX, playerZ, playerChunkX, playerChunkZ;
     static Player player = Player.getPlayer();
     static boolean isChangePosition;
     static boolean movedUp, movedRight;
-
+    static {
+        for (Chunck[] chuncks: world){
+            for (int i = 0; i < chuncks.length; i++) {
+                chuncks[i] = new Chunck();
+                chuncks[i].x = i;
+            }
+        }
+    }
 
     public static void createVoidWorld(int width, int height) {
         block = new short[width * 32][height * 32];
@@ -72,7 +79,8 @@ public final class World {
     }
 
     public static int fixedIndex(int index) {
-        return index >= 0 && index < 32 ? index : index >= 32 ? index - 32 : index+32;
+        index = index >= 0 && index < 16 ? index : index >= 16 ? index - 16 : index+16;
+        return index >= 0 && index < 16 ? index : fixedIndex(index);
     }
 
 
@@ -84,7 +92,10 @@ public final class World {
 
     public static void setBlockToChunk(float x, float z, Tile tile) {
         Chunck chunck = getChunck(x,z);
+        System.err.println(chunck.x);
         tile.setPosition((float) (x-(Math.floor(x/2f)*2f)),0,(float) (z-(Math.floor(z/2f)*2f)));
+        System.err.println("set block"+tile.position+" "+x+" "+z);
         chunck.setTile(tile);
+        System.err.println(chunck.getTiles());
     }
 } 

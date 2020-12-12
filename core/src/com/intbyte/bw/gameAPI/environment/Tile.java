@@ -23,7 +23,7 @@ public class Tile {
         this.data = data;
     }
 
-    public void render(){
-        blocks[blockID].render(position.x, position.y,position.z);
+    public void render(float x, float y, float z){
+        blocks[blockID].render(position.x+x, position.y+y,position.z+z);
     }
 }

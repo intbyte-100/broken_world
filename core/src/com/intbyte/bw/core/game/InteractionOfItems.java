@@ -10,12 +10,8 @@ import com.badlogic.gdx.graphics.g3d.attributes.TextureAttribute;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.intbyte.bw.gameAPI.callbacks.*;
-import com.intbyte.bw.gameAPI.environment.Block;
-import com.intbyte.bw.gameAPI.environment.BlockExtraData;
-import com.intbyte.bw.gameAPI.environment.Item;
-import com.intbyte.bw.gameAPI.environment.World;
+import com.intbyte.bw.gameAPI.environment.*;
 import com.intbyte.bw.gameAPI.graphic.ui.container.Container;
-import com.intbyte.bw.gameAPI.environment.Entity;
 
 import java.util.HashMap;
 
@@ -54,8 +50,8 @@ public class InteractionOfItems {
                 isDragged = !rectangle.contains(x, z-10);
                 rectangle.setCenter(x,z-10);
                 destination.set(position.x*10,0,position.z*10-10);
-                velocity.x = (destination.x-vector3.x)*0.2f;
-                velocity.z = (destination.z-vector3.z)*0.2f;
+                velocity.x = (destination.x-vector3.x);
+                velocity.z = (destination.z-vector3.z);
                 origin.set(vector3);
 
             }
@@ -218,7 +214,11 @@ public class InteractionOfItems {
     }
 
     private void set(int x, int z) {
+        isDragged = false;
         World.setBlock(x, z, id);
+        Tile tile = new Tile();
+        tile.setBlockID(id);
+        World.setBlockToChunk(x,z,tile);
         builder.append("player set block with id ").
                 append(id).
                 append(", used item with id ").
