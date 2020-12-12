@@ -1,5 +1,6 @@
 package com.intbyte.bw.gameAPI.environment;
 
+import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.utils.Array;
 
 class Chunck {
@@ -18,4 +19,9 @@ class Chunck {
         this.x = x;
         this.z = z;
     }
+
+    public boolean isVisible(PerspectiveCamera camera) {
+        return true;
+    }
+
 }

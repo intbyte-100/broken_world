@@ -54,8 +54,8 @@ public class InteractionOfItems {
                 isDragged = !rectangle.contains(x, z-10);
                 rectangle.setCenter(x,z-10);
                 destination.set(position.x*10,0,position.z*10-10);
-                velocity.x = (destination.x-vector3.x)*Gdx.graphics.getDeltaTime()*6;
-                velocity.z = (destination.z-vector3.z)*Gdx.graphics.getDeltaTime()*6;
+                velocity.x = (destination.x-vector3.x)*0.2f;
+                velocity.z = (destination.z-vector3.z)*0.2f;
                 origin.set(vector3);
 
             }
@@ -67,8 +67,8 @@ public class InteractionOfItems {
                 float x = position.x*10, z = position.z*10;
                 rectangle.setCenter(x,z-10);
                 destination.set(position.x*10,0,position.z*10-10);
-                velocity.x = (destination.x-vector3.x)*Gdx.graphics.getDeltaTime()*6;
-                velocity.z = (destination.z-vector3.z)*Gdx.graphics.getDeltaTime()*6;
+                velocity.x = (destination.x-vector3.x)*0.2f;
+                velocity.z = (destination.z-vector3.z)*0.2f;
                 origin.set(vector3);
             }
         });
@@ -91,7 +91,7 @@ public class InteractionOfItems {
                         rectangle.setCenter(-1000,-1000);
                         return;
                     }
-                    if(!(Math.abs(vector3.x-destination.x)<Math.abs(velocity.x)&&Math.abs(vector3.z-destination.z)<Math.abs(velocity.z)))
+                    if(!(Math.abs(vector3.x-destination.x)<=Math.abs(velocity.x)&&Math.abs(vector3.z-destination.z)<=Math.abs(velocity.z)))
                         vector3.add(velocity);
                     else
                         vector3.set(destination);
@@ -122,14 +122,16 @@ public class InteractionOfItems {
                     set = false;
                 }
 
+                if (isDragged) {
+                    return;
+                }
+
                 if (World.getBlock(x, z) > 0 && Item.getItemFactories()[interaction.id] != null && interaction.player.coolDown == 0 && Item.getItemFactories()[interaction.id].getType() != Item.BLOCK) {
                     interaction.hit(x, z);
                 }
 
 
-                if (isDragged) {
-                    return;
-                }
+
                 if (!(World.getBlock(x, z) > 0) && set) {
                     isDragged = false;
                     interaction.set(x, z);

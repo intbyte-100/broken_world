@@ -1,15 +1,29 @@
 package com.intbyte.bw.gameAPI.environment;
 
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 
 public class Tile {
-    Vector2 position = new Vector2();
-
-    public void setPosition(Vector2 position) {
+    static Block.CustomBlock[] blocks = Block.getBlocks();
+    Vector3 position = new Vector3();
+    int blockID;
+    BlockExtraData data;
+    public void setPosition(Vector3 position) {
         this.position.set(position);
     }
 
-    public void setPosition(float x, float z) {
-        this.position.set(x, z);
+    public void setPosition(float x, float y, float z) {
+        this.position.set(x,y, z);
+    }
+
+    public void setBlockID(int blockID) {
+        this.blockID = blockID;
+    }
+
+    public void setData(BlockExtraData data) {
+        this.data = data;
+    }
+
+    public void render(){
+        blocks[blockID].render(position.x, position.y,position.z);
     }
 }
