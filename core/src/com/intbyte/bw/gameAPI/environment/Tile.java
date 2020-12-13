@@ -24,6 +24,10 @@ public class Tile {
     }
 
     public void render(float x, float y, float z){
-        blocks[blockID].render(position.x+x, position.y+y,position.z+z);
+        blocks[blockID].render(x, y,z);
+    }
+
+    public Vector3 getPosition() {
+        return position;
     }
 }

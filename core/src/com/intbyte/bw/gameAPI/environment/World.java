@@ -8,18 +8,23 @@ public final class World {
     static short[][] landBlock;
     static short[][] block;
     static short[][] biome;
-    static Chunck[][] world = new Chunck[16][16];
-    static int playerX, playerZ, playerChunkX, playerChunkZ;
+    public static Chunck[][] world = new Chunck[16][16];
+    public static int playerX, playerZ, playerChunkX, playerChunkZ;
     static Player player = Player.getPlayer();
     static boolean isChangePosition;
     static boolean movedUp, movedRight;
     static {
+
+        int j = 0;
         for (Chunck[] chuncks: world){
+            j++;
             for (int i = 0; i < chuncks.length; i++) {
                 chuncks[i] = new Chunck();
                 chuncks[i].x = i;
+                chuncks[i].z = j;
             }
         }
+        main(null);
     }
 
     public static void createVoidWorld(int width, int height) {
@@ -78,6 +83,18 @@ public final class World {
         playerZ = chunckZ;
     }
 
+    public static void main(String[] args) {
+        player.setXOnBlock(100);
+        player.setZOnBlock(32);
+        update();
+        Chunck chunck = World.getChunck((float) (player.getXOnBlock()),(float) (player.getZOnBlock()));
+        System.err.println(chunck.x+" "+chunck.z);
+        player.setXOnBlock(100);
+        player.setZOnBlock(31);
+        update();
+        chunck = World.getChunck((float) (player.getXOnBlock()),(float) (player.getZOnBlock()));
+        System.err.println(chunck.x+" "+chunck.z);
+    }
     public static int fixedIndex(int index) {
         index = index >= 0 && index < 16 ? index : index >= 16 ? index - 16 : index+16;
         return index >= 0 && index < 16 ? index : fixedIndex(index);
@@ -93,7 +110,7 @@ public final class World {
     public static void setBlockToChunk(float x, float z, Tile tile) {
         Chunck chunck = getChunck(x,z);
         System.err.println(chunck.x);
-        tile.setPosition((float) (x-(Math.floor(x/2f)*2f)),0,(float) (z-(Math.floor(z/2f)*2f)));
+        tile.setPosition(x*10,0,z*10);
         System.err.println("set block"+tile.position+" "+x+" "+z);
         chunck.setTile(tile);
         System.err.println(chunck.getTiles());

@@ -7,8 +7,9 @@ import com.intbyte.bw.GameBoot;
 public class DesktopLauncher {
     public static void main(String[] arg) {
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-        config.width = 1280;
-        config.height = 720;
+        config.fullscreen = true;
+        config.width = 1920;
+        config.height = 1080;
         config.samples = 16;
         new LwjglApplication(new GameBoot(), config);
     }

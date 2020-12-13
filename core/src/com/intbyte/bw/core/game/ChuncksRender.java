@@ -8,13 +8,29 @@ public class ChuncksRender extends FrustumCullingRender{
     @Override
     protected void draw(int x, int z) {
         if (!camera3d.frustum.boundsInFrustum(x * 10f, 0, z * 10f - 5, 5, 0, 5)) return;
-        Chunck chunck = World.getChunck((float) (x+Player.player.getXOnBlock()),(float) (z+ player.getZOnBlock()));
         int id = World.getLandBlock(x + ((int) player.getXOnBlock()), z + ((int) player.getZOnBlock()));
         landBlocks[id].render(x * 10f, 0, z * 10f - 5);
         GameThread.visible++;
+    }
+
+    protected void draw2(int x, int z) {
+        if (!camera3d.frustum.boundsInFrustum(x * 10f, 0, z * 10f - 5, 5, 0, 5)) return;
+        Chunck chunck = World.world[World.fixedIndex(World.playerX+x/2)][World.fixedIndex(World.playerZ+z/2)];
         for (Tile tile : chunck.getTiles()) {
-            tile.render(x*10,0,z*10);
+            tile.render((float) (tile.getPosition().x-player.getX()+GameThread.xDraw),0, (float) (tile.getPosition().z- player.getZ()+ GameThread.zDraw));
             GameThread.visible++;
         }
+    }
+    protected void draw2(int x, int xTo, int z, int zTo){
+        for (; x < xTo; x+=2)
+            for (int zz = z; zz > zTo; zz-=2)
+                draw2(x, zz);
+    }
+    @Override
+    protected void draw(int x, int xTo, int z, int zTo) {
+        draw2(x, xTo, z, zTo);
+        for (; x < xTo; x++)
+            for (int zz = z; zz > zTo; zz--)
+                draw(x, zz);
     }
 }

@@ -27,7 +27,7 @@ public class GameThread implements Screen {
         World.createVoidWorld(312, 312);
 
 
-        render = new FrustumCullingRender();
+        render = new ChuncksRender();
         Gdx.input.setInputProcessor(new InputMultiplexer(TakenItemsRender.listener, STAGE, new GameInputProcessor(render.camera3d)));
 
 
