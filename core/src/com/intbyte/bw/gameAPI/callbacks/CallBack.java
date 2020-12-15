@@ -59,7 +59,7 @@ public class CallBack {
                 i.main(position);
     }
 
-    public static void executeTouchOnBlockCallBack(int x, int z) {
+    public static void executeTouchOnBlockCallBack(float x, float z) {
         if (GameInputProcessor.isReadyCallBack())
             for (TouchOnBlock i : TouchOnBlock.callBacks)
                 i.main(x, z);

@@ -44,16 +44,15 @@ public class Block {
 
 
         block.modelInstance = getModelInstance("block/landblock.obj", texture);
-        block.boundingBox = block.modelInstance.calculateBoundingBox(new BoundingBox());
         landBlocks[integerId] = block;
         Gdx.app.log("BLOCK", "defined block " + id);
     }
 
-    public static void defineBlock(String id, String texture, int type, int level, int maxHealth) {
+    public static void defineBlock(String id, String model, String texture, int type, int level, int maxHealth, BlockPhysicEntity physicEntity) {
         int integerId = ID.registeredId("block:" + id);
         CustomBlock block = new CustomBlock(maxHealth, type);
-
-        block.modelInstance = getModelInstance("block/block.obj", texture);
+        block.setPhysicEntity(physicEntity);
+        block.modelInstance = getModelInstance("block/"+model, texture);
         block.level = level;
         blocks[integerId] = block;
         Gdx.app.log("BLOCK", "defined block " + id);
@@ -94,10 +93,10 @@ public class Block {
     public static class CustomBlock {
         public final int MAX_HEATH, TYPE;
         protected int level;
-        protected BoundingBox boundingBox;
         HashMap<Integer, BlockExtraData> blockData;
         private int dropID;
         private ModelInstance modelInstance;
+        private BlockPhysicEntity physicEntity;
 
         public ModelInstance getModelInstance() {
             return modelInstance;
@@ -140,6 +139,13 @@ public class Block {
             };
         }
 
+        void setPhysicEntity(BlockPhysicEntity physicEntity) {
+            this.physicEntity = physicEntity;
+        }
+
+        public BlockPhysicEntity getPhysicEntity() {
+            return physicEntity;
+        }
 
         public int getDropID() {
             return dropID;

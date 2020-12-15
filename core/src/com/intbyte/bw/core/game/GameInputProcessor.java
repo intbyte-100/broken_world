@@ -59,7 +59,7 @@ public class GameInputProcessor implements InputProcessor {
 
         isReadyCallBack = true;
         CallBack.executeTouchedCallBacks(position);
-        CallBack.executeTouchOnBlockCallBack(Math.round(position.x - x), (int) (position.z - z));
+        CallBack.executeTouchOnBlockCallBack(position.x - x, position.z - z);
         isReadyCallBack = false;
         return true;
     }

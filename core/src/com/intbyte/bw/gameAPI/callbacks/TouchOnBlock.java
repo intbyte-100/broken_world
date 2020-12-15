@@ -5,5 +5,5 @@ import com.badlogic.gdx.utils.Array;
 public interface TouchOnBlock {
     Array<TouchOnBlock> callBacks = new Array<>();
 
-    void main(int x, int z);
+    void main(float x, float z);
 }

@@ -4,19 +4,20 @@ import com.intbyte.bw.core.game.Player;
 
 public final class World {
 
+    public static Chunck[][] world = new Chunck[16][16];
+    public static int playerX, playerZ, playerChunkX, playerChunkZ;
     static int idDimension;
     static short[][] landBlock;
     static short[][] block;
     static short[][] biome;
-    public static Chunck[][] world = new Chunck[16][16];
-    public static int playerX, playerZ, playerChunkX, playerChunkZ;
     static Player player = Player.getPlayer();
     static boolean isChangePosition;
     static boolean movedUp, movedRight;
+
     static {
 
         int j = 0;
-        for (Chunck[] chuncks: world){
+        for (Chunck[] chuncks : world) {
             j++;
             for (int i = 0; i < chuncks.length; i++) {
                 chuncks[i] = new Chunck();
@@ -24,7 +25,6 @@ public final class World {
                 chuncks[i].z = j;
             }
         }
-        main(null);
     }
 
     public static void createVoidWorld(int width, int height) {
@@ -83,36 +83,38 @@ public final class World {
         playerZ = chunckZ;
     }
 
-    public static void main(String[] args) {
-        player.setXOnBlock(100);
-        player.setZOnBlock(32);
-        update();
-        Chunck chunck = World.getChunck((float) (player.getXOnBlock()),(float) (player.getZOnBlock()));
-        System.err.println(chunck.x+" "+chunck.z);
-        player.setXOnBlock(100);
-        player.setZOnBlock(31);
-        update();
-        chunck = World.getChunck((float) (player.getXOnBlock()),(float) (player.getZOnBlock()));
-        System.err.println(chunck.x+" "+chunck.z);
-    }
+
     public static int fixedIndex(int index) {
-        index = index >= 0 && index < 16 ? index : index >= 16 ? index - 16 : index+16;
-        return index >= 0 && index < 16 ? index : fixedIndex(index);
+        return index >= 0 && index < 16 ? index : index >= 16 ? index - (index / 16) * 16 : index + (-index / 16 + 1) * 16;
     }
 
 
-    public static Chunck getChunck(float x, float z){
-        x = (x/2 - (int) (player.getXOnBlock()/2));
-        z = (z/2- (int) (player.getZOnBlock()/2));
-        return world[fixedIndex((int) (x+playerX))][fixedIndex((int) (z+playerZ))];
+    public static Chunck getChunck(float x, float z) {
+        x = (x / 2 - (int) (player.getXOnBlock() / 2));
+        z = (z / 2 - (int) (player.getZOnBlock() / 2));
+        return world[fixedIndex((int) (x + playerX))][fixedIndex((int) (z + playerZ))];
+    }
+
+    public static boolean isCollision(float x, float z) {
+
+        for (int x1 = -2; x1 < 5; x1++)
+            for (int z1 = -2; z1 < 5; z1++) {
+                Chunck chunck = getChunck(x+x1, z+z1);
+                for (Tile tile :
+                        chunck.getTiles()) {
+                    BlockPhysicEntity physicEntity = Block.getBlocks()[tile.blockID].getPhysicEntity();
+                    physicEntity.setPosition(tile.position);
+                    System.err.println(physicEntity);
+                    if (physicEntity.containsXZ(x * 10 - tile.position.x + 10, z * 10 - tile.position.z + 10))
+                        return true;
+                }
+            }
+        return false;
     }
 
     public static void setBlockToChunk(float x, float z, Tile tile) {
-        Chunck chunck = getChunck(x,z);
-        System.err.println(chunck.x);
-        tile.setPosition(x*10,0,z*10);
-        System.err.println("set block"+tile.position+" "+x+" "+z);
+        Chunck chunck = getChunck(x, z);
+        tile.setPosition(x * 10, 0, z * 10);
         chunck.setTile(tile);
-        System.err.println(chunck.getTiles());
     }
 } 

@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g3d.Material;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.attributes.TextureAttribute;
+import com.badlogic.gdx.math.Rectangle;
 import com.intbyte.bw.core.game.Player;
 import com.intbyte.bw.game.gameUI.InventoryLayerUI;
 import com.intbyte.bw.game.gameUI.MainLayerUI;
@@ -13,6 +14,8 @@ import com.intbyte.bw.gameAPI.environment.*;
 import com.intbyte.bw.gameAPI.graphic.ui.GUI;
 import com.intbyte.bw.gameAPI.utils.ID;
 import com.intbyte.bw.gameAPI.utils.Resource;
+
+import java.awt.*;
 
 
 public class Game {
@@ -25,10 +28,15 @@ public class Game {
             @Override
             public void main() {
 
+                Rectangle rectangle = new Rectangle();
+                rectangle.setSize(20);
+                BlockPhysicEntity blockPhysicEntity = new BlockPhysicEntity();
+                blockPhysicEntity.setShape(rectangle);
+
                 Block.defineLandBlock("grass", "grass.jpg");
                 ID.registeredId("block:void", 0);
-                Block.defineBlock("grass", "grass.jpg", Block.STONE,100, 10);
-                Block.defineBlock("grass2", "android.jpg", Block.STONE,1, 10);
+                Block.defineBlock("grass","2block.obj", "grass.jpg", Block.STONE,100, 10,blockPhysicEntity);
+                Block.defineBlock("grass2","block.obj", "android.jpg", Block.STONE,1, 10,blockPhysicEntity);
 
                 Model model = Resource.getObjModel("block/block.obj");
                 TextureAttribute textureAttribute1 = new TextureAttribute(TextureAttribute.Diffuse, Resource.getSprite("grass.jpg"));

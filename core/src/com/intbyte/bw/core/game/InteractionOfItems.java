@@ -19,13 +19,13 @@ import static com.intbyte.bw.gameAPI.environment.Item.getItemFactories;
 
 
 public class InteractionOfItems {
+    private static final Player player = Player.getPlayer();
     private static InteractionOfItems instance;
     private static boolean isDragged;
     static private Material material;
     static private TextureAttribute textureAttribute;
     private final HashMap<Integer, Integer> settableItemsHashMap = new HashMap<>();
     private final StringBuilder builder = new StringBuilder();
-    private static final Player player = Player.getPlayer();
     private Integer id;
     private Container container;
     private Item item;
@@ -40,18 +40,19 @@ public class InteractionOfItems {
         final Vector3 destination = new Vector3();
         final Vector3 velocity = new Vector3();
         final Vector3 origin = new Vector3();
-        final Rectangle rectangle = new Rectangle(0,0,10,10);
+        final Vector3 oldPosition = new Vector3();
+        final Rectangle rectangle = new Rectangle(0, 0, 10, 10);
         final InteractionOfItems interaction = getInstance();
 
         CallBack.addCallBack(new Touch() {
             @Override
             public void main(Vector3 position) {
-                float x = position.x*10, z = position.z*10;
-                isDragged = !rectangle.contains(x, z-10);
-                rectangle.setCenter(x,z-10);
-                destination.set(position.x*10,0,position.z*10-10);
-                velocity.x = (destination.x-vector3.x);
-                velocity.z = (destination.z-vector3.z);
+                float x = position.x * 10, z = position.z * 10;
+                isDragged = !rectangle.contains(x, z - 10);
+                rectangle.setCenter(x, z - 10);
+                destination.set(position.x * 10, 0, position.z * 10 - 10);
+                velocity.x = (destination.x - vector3.x);
+                velocity.z = (destination.z - vector3.z);
                 origin.set(vector3);
 
             }
@@ -60,11 +61,12 @@ public class InteractionOfItems {
         CallBack.addCallBack(new Drag() {
             @Override
             public void main(Vector3 position) {
-                float x = position.x*10, z = position.z*10;
-                rectangle.setCenter(x,z-10);
-                destination.set(position.x*10,0,position.z*10-10);
-                velocity.x = (destination.x-vector3.x)*0.2f;
-                velocity.z = (destination.z-vector3.z)*0.2f;
+                float x = position.x * 10, z = position.z * 10;
+                rectangle.setCenter(x, z - 10);
+                destination.set(position.x * 10, 0, position.z * 10 - 10);
+                velocity.x = (destination.x - vector3.x) * 0.2f;
+                velocity.z = (destination.z - vector3.z) * 0.2f;
+                oldPosition.set(vector3);
                 origin.set(vector3);
             }
         });
@@ -84,11 +86,17 @@ public class InteractionOfItems {
                     Integer id = interaction.settableItemsHashMap.get(interaction.container.getId());
                     if (id == null) {
                         isDragged = false;
-                        rectangle.setCenter(-1000,-1000);
+                        rectangle.setCenter(-1000, -1000);
                         return;
                     }
-                    if(!(Math.abs(vector3.x-destination.x)<=Math.abs(velocity.x)&&Math.abs(vector3.z-destination.z)<=Math.abs(velocity.z)))
+
+                    if (!(Math.abs(vector3.x - destination.x) <= Math.abs(velocity.x) &&
+                            Math.abs(vector3.z - destination.z) <= Math.abs(velocity.z))){
                         vector3.add(velocity);
+                        if(!(Math.abs(vector3.x - destination.x)-Math.abs(oldPosition.x - destination.x)<Math.abs(velocity.x)&&
+                                Math.abs(vector3.z - destination.z)-Math.abs(oldPosition.z - destination.z)<Math.abs(velocity.z)))
+                            vector3.set(destination);
+                    }
                     else
                         vector3.set(destination);
                     Block.CustomBlock block = Block.getBlocks()[id];
@@ -101,14 +109,14 @@ public class InteractionOfItems {
                     material.set(textureAttribute);
                     Gdx.app.postRunnable(runnable);
                 } else
-                    vector3.set((float) player.getX(),0,(float) player.getZ());
+                    vector3.set((float) player.getX(), 0, (float) player.getZ());
             }
         });
         CallBack.addCallBack(new TouchOnBlock() {
 
 
             @Override
-            public void main(int x, int z) {
+            public void main(float x, float z) {
                 interaction.builder.setLength(0);
                 interaction.container = interaction.player.getCarriedItem();
                 interaction.id = interaction.settableItemsHashMap.get(interaction.container.getId());
@@ -121,18 +129,16 @@ public class InteractionOfItems {
                 if (isDragged) {
                     return;
                 }
-
-                if (World.getBlock(x, z) > 0 && Item.getItemFactories()[interaction.id] != null && interaction.player.coolDown == 0 && Item.getItemFactories()[interaction.id].getType() != Item.BLOCK) {
-                    interaction.hit(x, z);
+                if (World.getBlock((int) x,(int) z) > 0 && Item.getItemFactories()[interaction.id] != null && interaction.player.coolDown == 0 && Item.getItemFactories()[interaction.id].getType() != Item.BLOCK) {
+                    interaction.hit((int) x,(int) z);
                 }
 
 
-
-                if (!(World.getBlock(x, z) > 0) && set) {
+                if (!(World.getBlock((int) x,(int) z) > 0) && set) {
                     isDragged = false;
                     interaction.set(x, z);
                 }
-                rectangle.setCenter(-1000,-1000);
+                rectangle.setCenter(-1000, -1000);
             }
         });
     }
@@ -213,12 +219,10 @@ public class InteractionOfItems {
 
     }
 
-    private void set(int x, int z) {
+    private void set(float x, float z) {
         isDragged = false;
-        World.setBlock(x, z, id);
-        Tile tile = new Tile();
-        tile.setBlockID(id);
-        World.setBlockToChunk(x,z,tile);
+        //World.setBlock(x, z, id);
+        if(World.isCollision(x,z-1)) return;
         builder.append("player set block with id ").
                 append(id).
                 append(", used item with id ").
@@ -228,6 +232,10 @@ public class InteractionOfItems {
                 append("; z = ").
                 append(z);
         Gdx.app.log("PLAYER", "player set block with id " + id + ", used item with id " + Player.getPlayer().getCarriedItem().getId() + "; x = " + x + "; z = " + z);
+
+        Tile tile = new Tile();
+        tile.setBlockID(id);
+        World.setBlockToChunk(x, z-1, tile);
         container.delete();
     }
 }
