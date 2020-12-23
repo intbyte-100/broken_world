@@ -60,6 +60,14 @@ public class MainLayerUI extends Layer {
         addActor(slot2);
 
 
+        Slot slot3 = new Slot(Slot.SlotSkin.DEFAULT, new Container(1000));
+        slot3.setSize(160 * APIXEL);
+        slot3.addItems(Item.newItems("test1", 64));
+        adapter.addActor(slot3);
+        adapter.tiedTo(GravityAttribute.RIGHT, slot2);
+        adapter.setGravity(GravityAttribute.BOTTOM, GravityAttribute.RIGHT);
+        addActor(slot3);
+
         label = new Label(" ", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         label.setFontScale(2.5f);
         adapter.addActor(label);

@@ -1,4 +1,4 @@
-package com.intbyte.bw.gameAPI.environment;
+package com.intbyte.bw.gameAPI.physic;
 
 import com.badlogic.gdx.math.Vector3;
 

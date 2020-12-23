@@ -1,6 +1,8 @@
 package com.intbyte.bw.gameAPI.environment;
 
+import com.badlogic.gdx.Gdx;
 import com.intbyte.bw.core.game.Player;
+import com.intbyte.bw.gameAPI.physic.PhysicBlockEntity;
 
 public final class World {
 
@@ -96,22 +98,28 @@ public final class World {
     }
 
     public static boolean isCollision(float x, float z) {
+        return getIntersectedTile(x, z) != null;
+    }
 
+
+    public static Tile getIntersectedTile(float x, float z){
         for (int x1 = -2; x1 < 5; x1++)
             for (int z1 = -2; z1 < 5; z1++) {
                 Chunck chunck = getChunck(x+x1, z+z1);
                 for (Tile tile :
                         chunck.getTiles()) {
-                    BlockPhysicEntity physicEntity = Block.getBlocks()[tile.blockID].getPhysicEntity();
+                    if(tile.getID() == 0){
+                        Gdx.app.log("ERROR","can't check is intersected tile, because blockID = 0");
+                       // return null;
+                    }
+                    PhysicBlockEntity physicEntity = Block.getBlocks()[tile.blockID].getPhysicEntity();
                     physicEntity.setPosition(tile.position);
-                    System.err.println(physicEntity);
-                    if (physicEntity.containsXZ(x * 10 - tile.position.x + 10, z * 10 - tile.position.z + 10))
-                        return true;
+                    if (physicEntity.containsXZ(x * 10, z * 10))
+                        return tile;
                 }
             }
-        return false;
+        return null;
     }
-
     public static void setBlockToChunk(float x, float z, Tile tile) {
         Chunck chunck = getChunck(x, z);
         tile.setPosition(x * 10, 0, z * 10);

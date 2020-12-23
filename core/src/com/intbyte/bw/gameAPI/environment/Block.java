@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g3d.Material;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.attributes.TextureAttribute;
-import com.badlogic.gdx.math.collision.BoundingBox;
+import com.intbyte.bw.gameAPI.physic.PhysicBlockEntity;
 import com.intbyte.bw.gameAPI.utils.ID;
 import com.intbyte.bw.gameAPI.utils.Resource;
 
@@ -40,7 +40,7 @@ public class Block {
 
     public static void defineLandBlock(String id, String texture) {
         int integerId = ID.registeredId("land_block:" + id);
-        CustomBlock block = new CustomBlock(-1, -1);
+        CustomBlock block = new CustomBlock(-1, -1, integerId);
 
 
         block.modelInstance = getModelInstance("block/landblock.obj", texture);
@@ -48,9 +48,9 @@ public class Block {
         Gdx.app.log("BLOCK", "defined block " + id);
     }
 
-    public static void defineBlock(String id, String model, String texture, int type, int level, int maxHealth, BlockPhysicEntity physicEntity) {
+    public static void defineBlock(String id, String model, String texture, int type, int level, int maxHealth, PhysicBlockEntity physicEntity) {
         int integerId = ID.registeredId("block:" + id);
-        CustomBlock block = new CustomBlock(maxHealth, type);
+        CustomBlock block = new CustomBlock(maxHealth, type,integerId);
         block.setPhysicEntity(physicEntity);
         block.modelInstance = getModelInstance("block/"+model, texture);
         block.level = level;
@@ -60,7 +60,7 @@ public class Block {
 
     public static void defineBlock(String id, int integerId, String texture, int type, int level, int maxHealth) {
         ID.registeredId("block:" + id, integerId);
-        CustomBlock block = new CustomBlock(maxHealth, type);
+        CustomBlock block = new CustomBlock(maxHealth, type,integerId);
         block.level = level;
         block.modelInstance = getModelInstance("block/block.obj", texture);
         block.level = level;
@@ -70,7 +70,7 @@ public class Block {
 
     public static void defineBlock(String id, Model model, String texture, int type, int level, int maxHealth) {
         int integerId = ID.registeredId("block:" + id);
-        CustomBlock block = new CustomBlock(maxHealth, type);
+        CustomBlock block = new CustomBlock(maxHealth, type,integerId);
         TextureAttribute textureAttribute1 = new TextureAttribute(TextureAttribute.Diffuse, new Texture(Gdx.files.internal("textures/" + texture)));
         Material material = model.materials.get(0);
         material.set(textureAttribute1);
@@ -91,21 +91,22 @@ public class Block {
     }
 
     public static class CustomBlock {
-        public final int MAX_HEATH, TYPE;
+        public final int MAX_HEATH, TYPE, ID;
         protected int level;
         HashMap<Integer, BlockExtraData> blockData;
         private int dropID;
         private ModelInstance modelInstance;
-        private BlockPhysicEntity physicEntity;
+        private PhysicBlockEntity physicEntity;
 
         public ModelInstance getModelInstance() {
             return modelInstance;
         }
 
-        public CustomBlock(int maxHealth, int type) {
+        public CustomBlock(int maxHealth, int type, int id) {
             MAX_HEATH = maxHealth;
             TYPE = type;
             blockData = new HashMap<>();
+            this.ID = id;
         }
 
 
@@ -126,6 +127,10 @@ public class Block {
                     if (health < 0) health = 0;
                 }
 
+                @Override
+                public int getID() {
+                    return ID;
+                }
 
                 @Override
                 public byte[] getBytes() {
@@ -139,16 +144,20 @@ public class Block {
             };
         }
 
-        void setPhysicEntity(BlockPhysicEntity physicEntity) {
+        void setPhysicEntity(PhysicBlockEntity physicEntity) {
             this.physicEntity = physicEntity;
         }
 
-        public BlockPhysicEntity getPhysicEntity() {
+        public PhysicBlockEntity getPhysicEntity() {
             return physicEntity;
         }
 
         public int getDropID() {
             return dropID;
+        }
+
+        public int getID() {
+            return ID;
         }
 
         protected void setDropID(int dropID) {

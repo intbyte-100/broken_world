@@ -105,7 +105,7 @@ public class InteractionOfItems {
                     material.clear();
                     Color.GREEN.a = 0.5f;
                     material.set(ColorAttribute.createDiffuse(Color.GREEN), new BlendingAttribute(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA));
-                    block.render((float) (vector3.x - interaction.player.getX()), vector3.y, (float) (vector3.z - instance.player.getZ()));
+                    block.render((float) (vector3.x - interaction.player.getX()), 5, (float) (vector3.z - instance.player.getZ()));
                     material.set(textureAttribute);
                     Gdx.app.postRunnable(runnable);
                 } else
@@ -125,16 +125,14 @@ public class InteractionOfItems {
                     interaction.id = interaction.container.getId();
                     set = false;
                 }
-
-                if (isDragged) {
+                if (isDragged&&!World.isCollision(x, z-1)) {
                     return;
                 }
-                if (World.getBlock((int) x,(int) z) > 0 && Item.getItemFactories()[interaction.id] != null && interaction.player.coolDown == 0 && Item.getItemFactories()[interaction.id].getType() != Item.BLOCK) {
-                    interaction.hit((int) x,(int) z);
+                if (World.isCollision(x, z-1)&& Item.getItemFactories()[interaction.id] != null && interaction.player.coolDown == 0 && Item.getItemFactories()[interaction.id].getType() != Item.BLOCK) {
+                    interaction.hit(x,z);
+                    return;
                 }
-
-
-                if (!(World.getBlock((int) x,(int) z) > 0) && set) {
+                if (!(World.isCollision(x,z-1)) && set) {
                     isDragged = false;
                     interaction.set(x, z);
                 }
@@ -147,7 +145,7 @@ public class InteractionOfItems {
         settableItemsHashMap.put(itemId, blockId);
     }
 
-    private void hit(int x, int z) {
+    private void hit(float x, float z) {
         if (player.coolDown > 0 || player.getEndurance() < 2) return;
 
         if (container.getCountItems() != 0)
@@ -157,15 +155,16 @@ public class InteractionOfItems {
             item = container.delete();
         }
 
+        Tile tile = World.getIntersectedTile(x, z-1);
+        if(tile == null){
+            System.out.println(2222222222l);
+            return;
+        };
+        Block.CustomBlock customBlock = tile.getBlock();
 
-        Block.CustomBlock customBlock = Block.getBlocks()[World.getBlock(x, z)];
-        BlockExtraData data = World.getBlockData(x, z);
+        BlockExtraData data = tile.getData();
         player.coolDown += item.getItemData().getCoolDown();
-        if (data == BlockExtraData.NOT_DATA) {
-            World.setBlockData(x, z, customBlock.newData());
-            data = World.getBlockData(x, z);
-        }
-        int blockLevel = Block.getBlocks()[World.getBlock(x, z)].getLevel();
+        int blockLevel = tile.getBlock().getLevel();
         float damage = item.getItemData().getDamage();
         if (blockLevel != 0)
             damage = damage * ((float) item.getItemData().getLevel() / blockLevel);
@@ -209,11 +208,10 @@ public class InteractionOfItems {
                     append("; z = ").
                     append(z);
             if (customBlock.getDropID() != 0) {
-                Entity drop = Entity.spawn(customBlock.getDropID(), x, z);
-                drop.translate(Math.random() * 8 - 4, Math.random() * 8 - 4);
+                Entity drop = Entity.spawn(customBlock.getDropID(), x, z-0.5f);
                 builder.append("; drop = ").append(customBlock.getDropID());
             }
-            World.setBlock(x, z, 0);
+            tile.setBlockID(0);
             Gdx.app.log("PLAYER", builder.toString());
         }
 
@@ -221,7 +219,6 @@ public class InteractionOfItems {
 
     private void set(float x, float z) {
         isDragged = false;
-        //World.setBlock(x, z, id);
         if(World.isCollision(x,z-1)) return;
         builder.append("player set block with id ").
                 append(id).

@@ -22,7 +22,8 @@ public class Resource {
     private static final HashMap<String, Model> models = new HashMap<>();
     private static final ObjLoader loader = new ObjLoader();
     private static final PerspectiveCamera camera = new PerspectiveCamera(67,128,128);
-    private static final FrameBuffer frameBuffer = new FrameBuffer(Pixmap.Format.RGBA8888, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight(), true);
+    private static FrameBuffer frameBuffer;
+
 
     public static FileHandle getFile(String path) {
         FileHandle fileHandle = files.get(path);
@@ -71,6 +72,7 @@ public class Resource {
     }
 
     public static Sprite getIconFromModel(ModelInstance modelInstance){
+        frameBuffer = new FrameBuffer(Pixmap.Format.RGBA8888, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight(), true);
         frameBuffer.begin(); //Capture rendering to frame buffer.
         camera.position.set(10,10,10);
         modelInstance.transform.setToTranslation(0,0,0);
@@ -81,6 +83,7 @@ public class Resource {
         MODEL_BATCH.begin(camera);
         MODEL_BATCH.render(modelInstance,ENVIRONMENT);
         MODEL_BATCH.end();
+
         frameBuffer.end();
         Sprite sprite = new Sprite(frameBuffer.getColorBufferTexture());
         sprite.flip(false,true);

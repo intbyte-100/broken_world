@@ -1,13 +1,12 @@
-package com.intbyte.bw.gameAPI.environment;
+package com.intbyte.bw.gameAPI.physic;
 
 import com.badlogic.gdx.math.*;
 
-import java.util.Arrays;
 
-public class BlockPhysicEntity implements PhysicEntity{
+public class PhysicBlockEntity implements com.intbyte.bw.gameAPI.physic.PhysicEntity {
     Vector3 position = new Vector3();
     Shape2D shape2D;
-    Vector2 center = new Vector2();
+    Vector2 offset = new Vector2();
     @Override
     public boolean isCollision(PhysicEntity entity) {
         return false;
@@ -19,7 +18,7 @@ public class BlockPhysicEntity implements PhysicEntity{
     }
 
     public boolean containsXZ(float x, float z){
-        return shape2D.contains(x, z);
+        return shape2D.contains(x-position.x+offset.x, z- position.z+ offset.y);
     }
     @Override
     public Vector3 getPosition() {
@@ -36,7 +35,9 @@ public class BlockPhysicEntity implements PhysicEntity{
         this.position.set(x, y, z);
     }
 
-
+    public void setOffset(float x, float y) {
+        this.offset.set(x, y);
+    }
 
     public void setShape(Shape2D shape2D) {
         this.shape2D = shape2D;
