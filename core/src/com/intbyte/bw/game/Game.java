@@ -15,7 +15,7 @@ import com.intbyte.bw.gameAPI.environment.Entity;
 import com.intbyte.bw.gameAPI.environment.Item;
 import com.intbyte.bw.gameAPI.environment.Tools;
 import com.intbyte.bw.gameAPI.graphic.ui.GUI;
-import com.intbyte.bw.gameAPI.physic.PhysicBlockEntity;
+import com.intbyte.bw.gameAPI.physic.PhysicBlockObject;
 import com.intbyte.bw.gameAPI.utils.ID;
 import com.intbyte.bw.gameAPI.utils.Resource;
 
@@ -32,7 +32,7 @@ public class Game {
 
                 Rectangle rectangle = new Rectangle();
                 rectangle.setSize(20);
-                PhysicBlockEntity physicBlockEntity = new PhysicBlockEntity();
+                PhysicBlockObject physicBlockEntity = new PhysicBlockObject();
                 physicBlockEntity.setShape(rectangle);
                 physicBlockEntity.setOffset(10, 10);
 
@@ -58,7 +58,7 @@ public class Game {
                 Tools.newPickaxe("pickaxe2", "pickaxe.png", 10, 10000, 100, 100f / 6 * 1, (float) 100 / 3);
                 player = Player.getPlayer();
                 player.getCarriedItem().addItems(Item.newItems("test", 100));
-                player.setTranslateToBlock(100, 25);
+                player.setPosition(100, 25);
 
 
                 Entity.addFactory(new TestDropFactory());

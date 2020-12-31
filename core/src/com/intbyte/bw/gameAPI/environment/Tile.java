@@ -1,19 +1,33 @@
 package com.intbyte.bw.gameAPI.environment;
 
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.intbyte.bw.core.game.Player;
+import com.intbyte.bw.gameAPI.physic.Physic;
 
 public class Tile {
     static Block.CustomBlock[] blocks = Block.getBlocks();
-    Vector3 position = new Vector3();
-    int blockID;
-    BlockExtraData data;
+
+    private final Vector3 position = new Vector3();
+    private int blockID;
+    private int angle = 0;
+    private BlockExtraData data;
+    private Body body;
 
     public void setPosition(float x, float y, float z) {
         this.position.set(x, y, z);
+        this.body.setTransform(x/10, z/10, angle);
+        System.out.println(body.getTransform().getPosition());
     }
 
     public void setBlockID(int blockID) {
+        if (this.blockID != 0)
+            Physic.getBodyFactory(Block.getBlocks()[this.blockID].getPhysicEntity().getBodyID()).addBody(body);
         this.blockID = blockID;
+        if (blockID != 0)
+            body = Block.getBlocks()[blockID].getPhysicEntity().getBody();
+        body.setTransform(position.x, position.z, angle);
+        System.out.println(body+" "+ body.getPosition()+" "+Player.getPlayer().getBody().getPosition());
     }
 
     public void render(float x, float y, float z) {
@@ -43,5 +57,13 @@ public class Tile {
 
     public void setPosition(Vector3 position) {
         this.position.set(position);
+    }
+
+    public void setAngle(int angle) {
+        this.angle = angle;
+    }
+
+    public int getAngle() {
+        return angle;
     }
 }

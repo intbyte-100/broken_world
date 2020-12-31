@@ -11,7 +11,7 @@ import static com.intbyte.bw.gameAPI.graphic.Graphic.*;
 
 public abstract class Item {
     public static final int PICKAXE = 0, AXE = 1, SWARD = 2, RESOURCE = 3, BLOCK = 4;
-    private static final ItemFactory[] items = new ItemFactory[12000];
+    private static final ItemFactory[] items = new ItemFactory[1200];
     private static final InteractionOfItems interaction = InteractionOfItems.getInstance();
 
 

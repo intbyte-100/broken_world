@@ -10,6 +10,7 @@ import com.intbyte.bw.core.game.InteractionOfItems;
 import com.intbyte.bw.core.game.Player;
 import com.intbyte.bw.game.Game;
 import com.intbyte.bw.gameAPI.callbacks.CallBack;
+import com.intbyte.bw.gameAPI.physic.Physic;
 
 import static com.intbyte.bw.gameAPI.graphic.Graphic.BATCH;
 
@@ -38,6 +39,7 @@ public class Initialization implements Screen {
         BATCH.end();
 
         Gdx.app.log("INITIALIZATION", "starting initialization");
+        Physic.init();
         Player.getPlayer();
         boot.setScreen(new GameThread());
         isReadyCallBack = true;

@@ -38,7 +38,7 @@ public class MainLayerUI extends Layer {
         CallBack.addCallBack(new Render() {
             @Override
             public void main() {
-                label.setText("fps: " + Gdx.graphics.getFramesPerSecond() + "; player position: x = " + (int) player.getXOnBlock() + ", z = " + (int) player.getZOnBlock() + "; visible models = " + GameThread.visible+" "+ World.getChunck((float) player.getXOnBlock(),(float) player.getZOnBlock()).x);
+                label.setText("fps: " + Gdx.graphics.getFramesPerSecond() + "; player position: x = " + (int) player.getX() + ", z = " + (int) player.getZ() + "; visible models = " + GameThread.visible+" "+ World.getChunck((float) player.getX(),(float) player.getZ()).x);
             }
         });
 

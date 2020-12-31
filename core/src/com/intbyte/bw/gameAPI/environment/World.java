@@ -2,7 +2,7 @@ package com.intbyte.bw.gameAPI.environment;
 
 import com.badlogic.gdx.Gdx;
 import com.intbyte.bw.core.game.Player;
-import com.intbyte.bw.gameAPI.physic.PhysicBlockEntity;
+import com.intbyte.bw.gameAPI.physic.PhysicBlockObject;
 
 public final class World {
 
@@ -74,8 +74,8 @@ public final class World {
 
 
     public static void update() {
-        int chunckX = ((int) (player.getXOnBlock() / 2) - (int) (player.getXOnBlock() / 32) * 16);
-        int chunckZ = ((int) (player.getZOnBlock() / 2) - (int) (player.getZOnBlock() / 32) * 16);
+        int chunckX = ((int) (player.getX() / 2) - (int) (player.getX() / 32) * 16);
+        int chunckZ = ((int) (player.getZ() / 2) - (int) (player.getZ() / 32) * 16);
         isChangePosition = chunckX != playerX || chunckZ != playerZ;
         if (isChangePosition) {
             movedUp = playerZ < chunckZ;
@@ -92,8 +92,8 @@ public final class World {
 
 
     public static Chunck getChunck(float x, float z) {
-        x = (x / 2 - (int) (player.getXOnBlock() / 2));
-        z = (z / 2 - (int) (player.getZOnBlock() / 2));
+        x = (x / 2 - (int) (player.getX() / 2));
+        z = (z / 2 - (int) (player.getZ() / 2));
         return world[fixedIndex((int) (x + playerX))][fixedIndex((int) (z + playerZ))];
     }
 
@@ -110,10 +110,9 @@ public final class World {
                         chunck.getTiles()) {
                     if(tile.getID() == 0){
                         Gdx.app.log("ERROR","can't check is intersected tile, because blockID = 0");
-                       // return null;
                     }
-                    PhysicBlockEntity physicEntity = Block.getBlocks()[tile.blockID].getPhysicEntity();
-                    physicEntity.setPosition(tile.position);
+                    PhysicBlockObject physicEntity = Block.getBlocks()[tile.getID()].getPhysicEntity();
+                    physicEntity.setPosition(tile.getPosition());
                     if (physicEntity.containsXZ(x * 10, z * 10))
                         return tile;
                 }

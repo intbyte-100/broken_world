@@ -10,7 +10,7 @@ public class ChuncksRender extends FrustumCullingRender {
     @Override
     protected void draw(int x, int z) {
         if (!camera3d.frustum.boundsInFrustum(x * 10f, 0, z * 10f - 5, 5, 0, 5)) return;
-        int id = World.getLandBlock(x + ((int) player.getXOnBlock()), z + ((int) player.getZOnBlock()));
+        int id = World.getLandBlock(x + ((int) player.getX()), z + ((int) player.getZ()));
         landBlocks[id].render(x * 10f, 0, z * 10f - 5);
         GameThread.visible++;
     }
@@ -24,7 +24,7 @@ public class ChuncksRender extends FrustumCullingRender {
                 iterator.remove();
                 continue;
             }
-            tile.render((float) (tile.getPosition().x - player.getX() + GameThread.xDraw), 0, (float) (tile.getPosition().z - player.getZ() + GameThread.zDraw));
+            tile.render((float) (tile.getPosition().x - player.getPixelX() + GameThread.xDraw), 0, (float) (tile.getPosition().z - player.getPixelZ() + GameThread.zDraw));
             GameThread.visible++;
         }
     }

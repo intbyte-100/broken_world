@@ -41,6 +41,7 @@ public class Joystick extends Actor {
         isTouched = false;
         resetCursor();
         changePositionCursor(0, 0);
+        player.getBody().setLinearVelocity(0,0);
     }
 
     private void resetCursor() {
@@ -67,7 +68,7 @@ public class Joystick extends Actor {
 
         translateX = cursorX / radius;
         translateY = cursorY / radius;
-        player.translateBlock(-translateX * Gdx.graphics.getDeltaTime(), Gdx.graphics.getDeltaTime() * translateY);
+        player.getBody().setLinearVelocity(-translateX * Gdx.graphics.getDeltaTime()*60, Gdx.graphics.getDeltaTime()*60 * translateY);
 
     }
 

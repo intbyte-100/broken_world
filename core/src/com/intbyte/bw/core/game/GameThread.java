@@ -9,6 +9,7 @@ import com.intbyte.bw.gameAPI.callbacks.Render;
 import com.intbyte.bw.gameAPI.environment.Entity;
 import com.intbyte.bw.gameAPI.environment.World;
 import com.intbyte.bw.gameAPI.graphic.ui.container.TakenItemsRender;
+import com.intbyte.bw.gameAPI.physic.Physic;
 
 import static com.intbyte.bw.gameAPI.graphic.Graphic.*;
 
@@ -24,7 +25,7 @@ public class GameThread implements Screen {
 
 
     public GameThread() {
-        World.createVoidWorld(312, 312);
+        World.createVoidWorld(12, 12);
 
 
         render = new ChuncksRender();
@@ -44,17 +45,12 @@ public class GameThread implements Screen {
 
     @Override
     public void render(float p1) {
-
+        Physic.update();
         World.update();
 
-        new Thread() {
-            @Override
-            public void run() {
-                for (int i = 0; i < entityManager.getActive().size; i++) {
+                for (int i = 0; i < entityManager.getActive().size; i++)
                     entityManager.getActive().get(i).renderTick();
-                }
-            }
-        }.start();
+
         isReadyCallBack = true;
 
         Gdx.gl.glClearColor(0.52f, 0.8f, 92, 1);

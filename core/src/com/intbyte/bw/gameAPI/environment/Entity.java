@@ -2,7 +2,9 @@ package com.intbyte.bw.gameAPI.environment;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.intbyte.bw.core.game.GameThread;
 import com.intbyte.bw.core.game.Player;
 import com.intbyte.bw.gameAPI.graphic.ui.container.Container;
@@ -13,11 +15,13 @@ import static com.intbyte.bw.gameAPI.graphic.Graphic.BLOCK_SIZE;
 public abstract class Entity {
 
     protected static final Player player = Player.getPlayer();;
-    private static final EntityFactory[] factories = new EntityFactory[12000];
+    private static final EntityFactory[] factories = new EntityFactory[1200];
     public int id;
     protected double x, z;
     protected float health, width, height, rotate, endurance;
     protected int maxHealth = 100, maxEndurance = 100;
+    protected Body body;
+    protected Vector2 position = new Vector2();
 
     protected Container carriedItem = new Container(64);
 
@@ -34,8 +38,8 @@ public abstract class Entity {
 
     public static Entity spawn(int id,float x, float z){
         Entity entity = spawn(factories[id].create());
-        entity.setTranslateToBlock(x,z-0.5);
-        Gdx.app.log("ENTITY","spawned entity with id "+id+"; x = "+entity.getXOnBlock()+"; z = "+entity.getZOnBlock());
+        entity.setPosition(x,z-0.5f);
+        Gdx.app.log("ENTITY","spawned entity with id "+id+"; x = "+entity.getX()+"; z = "+entity.getZ());
         return entity;
     }
 
@@ -43,7 +47,7 @@ public abstract class Entity {
         return spawn(ID.get("entity:"+id),x,z);
     }
     public void calculateModelPositionAndRotation(float x, float y, float z) {
-        getEntityModel().transform.setToTranslation((float) (getX() - player.getX() + GameThread.xDraw) + x, y, (float) (getZ() - player.getZ() + GameThread.zDraw) + z);
+        getEntityModel().transform.setToTranslation((float) (getPixelX() - player.getPixelX() + GameThread.xDraw) + x, y, (float) (getPixelZ() - player.getPixelZ() + GameThread.zDraw) + z);
         getEntityModel().transform.rotateRad(Vector3.Y, rotate);
     }
 
@@ -54,7 +58,7 @@ public abstract class Entity {
 
     public void renderTick() {
         increaseEndurance((100/6*Gdx.graphics.getRawDeltaTime()));
-
+        position = body.getTransform().getPosition();
     }
 
 
@@ -83,51 +87,30 @@ public abstract class Entity {
         return width;
     }
 
-    public double getX() {
-        return x;
+    public double getPixelX() {
+        return position.x*10;
     }
 
-    public void setX(double x) {
-        this.x = x;
+
+    public double getPixelZ() {
+        return position.y*10;
     }
 
-    public double getZ() {
-        return z;
+    public float getX() {
+        return position.x;
     }
 
-    public void setZ(double z) {
-        this.z = z;
+    public float getZ() {
+        return position.y;
     }
 
-    public double getXOnBlock() {
-        return x / BLOCK_SIZE;
+
+    public void setPosition(Vector2 position) {
+        body.setTransform(position,rotate);
     }
 
-    public void setXOnBlock(double xOnBlock) {
-        this.x = xOnBlock * BLOCK_SIZE;
-    }
-
-    public double getZOnBlock() {
-        return z / BLOCK_SIZE;
-    }
-
-    public void setZOnBlock(double yOnBlock) {
-        this.z = yOnBlock * BLOCK_SIZE;
-    }
-
-    public void translate(double x, double z) {
-        this.x += x;
-        this.z += z;
-    }
-
-    public void translateBlock(double x, double z) {
-        this.x += x * BLOCK_SIZE;
-        this.z += z * BLOCK_SIZE;
-    }
-
-    public void setTranslateToBlock(double x, double z) {
-        this.x = x * BLOCK_SIZE;
-        this.z = z * BLOCK_SIZE;
+    public void setPosition(float x, float z){
+        body.setTransform(x,z,rotate);
     }
 
     public Container getCarriedItem() {
@@ -162,9 +145,14 @@ public abstract class Entity {
 
     public void setRotate(float rotate) {
         this.rotate = rotate;
+        body.setTransform(body.getPosition(),rotate);
     }
 
     public float getRotate() {
         return rotate;
+    }
+
+    public Body getBody() {
+        return body;
     }
 }

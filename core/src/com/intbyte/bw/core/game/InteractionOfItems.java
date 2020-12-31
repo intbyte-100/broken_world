@@ -105,11 +105,11 @@ public class InteractionOfItems {
                     material.clear();
                     Color.GREEN.a = 0.5f;
                     material.set(ColorAttribute.createDiffuse(Color.GREEN), new BlendingAttribute(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA));
-                    block.render((float) (vector3.x - interaction.player.getX()), 5, (float) (vector3.z - instance.player.getZ()));
+                    block.render((float) (vector3.x - interaction.player.getPixelX()), 5, (float) (vector3.z - instance.player.getPixelZ()));
                     material.set(textureAttribute);
                     Gdx.app.postRunnable(runnable);
                 } else
-                    vector3.set((float) player.getX(), 0, (float) player.getZ());
+                    vector3.set((float) player.getPixelX(), 0, (float) player.getPixelZ());
             }
         });
         CallBack.addCallBack(new TouchOnBlock() {
@@ -156,10 +156,7 @@ public class InteractionOfItems {
         }
 
         Tile tile = World.getIntersectedTile(x, z-1);
-        if(tile == null){
-            System.out.println(2222222222l);
-            return;
-        };
+
         Block.CustomBlock customBlock = tile.getBlock();
 
         BlockExtraData data = tile.getData();
@@ -175,7 +172,7 @@ public class InteractionOfItems {
             damage /= item.getItemData().getTakeEndurance() / player.getEndurance();
         }
         player.increaseEndurance(-item.getItemData().getTakeEndurance());
-        System.out.println(player.getEndurance());
+
         data.setHealth(data.getHealth() - Math.round(damage));
         builder.append("player hit to block with id ").
                 append(id).

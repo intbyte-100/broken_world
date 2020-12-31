@@ -40,11 +40,11 @@ public class EntityManager {
     class EntityGarbageCollector extends Thread {
         @Override
         public void run() {
-            activeRect.setCenter((float) player.getXOnBlock(), (float) player.getZOnBlock());
-            nonActiveRect.setCenter((float) player.getXOnBlock(), (float) player.getZOnBlock());
+            activeRect.setCenter((float) player.getX(), (float) player.getZ());
+            nonActiveRect.setCenter((float) player.getX(), (float) player.getZ());
             for (int j = 0; j < active.size; j++) {
                 Entity i = active.get(j);
-                if (!activeRect.contains((float) i.getXOnBlock(), (float) i.getZOnBlock())) {
+                if (!activeRect.contains((float) i.getX(), (float) i.getZ())) {
                     nonActive.add(i);
                     builder.setLength(0);
                     Gdx.app.log("ENTITY MANAGER", builder.append(i.getClass().getName()).append(" ").append(i.hashCode()).append(" is not active").toString());
@@ -53,12 +53,12 @@ public class EntityManager {
             }
             for (int j = 0; j < nonActive.size; j++) {
                 Entity i = nonActive.get(j);
-                if (activeRect.contains((float) i.getXOnBlock(), (float) i.getZOnBlock())) {
+                if (activeRect.contains((float) i.getX(), (float) i.getZ())) {
                     active.add(i);
                     nonActive.removeIndex(j);
                     builder.setLength(0);
                     Gdx.app.log("ENTITY MANAGER", builder.append(i.getClass().getName()).append(" ").append(i.hashCode()).append(" is active").toString());
-                } else if (!nonActiveRect.contains((float) i.getXOnBlock(), (float) i.getZOnBlock())) {
+                } else if (!nonActiveRect.contains((float) i.getX(), (float) i.getZ())) {
                     nonActive.removeIndex(j);
                     builder.setLength(0);
                     Gdx.app.log("ENTITY MANAGER", builder.append(i.getClass().getName()).append(" ").append(i.hashCode()).append(" is deleted").toString());

@@ -56,12 +56,13 @@ public class ID
 	}
 
 	static {
-		ID.registeredIdGroup("land_block", 12000);
-		ID.registeredIdGroup("item",12000);
+		ID.registeredIdGroup("land_block", 1200);
+		ID.registeredIdGroup("item",1200);
 		ID.registeredId("item:void");
-		ID.registeredIdGroup("block", 12000);
-		ID.registeredIdGroup("biome", 12000);
-		ID.registeredIdGroup("entity", 12000);
-		ID.registeredIdGroup("dimension", 12000);
+		ID.registeredIdGroup("block", 1200);
+		ID.registeredIdGroup("biome", 1200);
+		ID.registeredIdGroup("entity", 1200);
+		ID.registeredIdGroup("dimension", 1200);
+		ID.registeredIdGroup("2dBody",1200);
 	}
 }

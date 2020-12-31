@@ -7,6 +7,7 @@ import com.intbyte.bw.gameAPI.environment.Entity;
 import com.intbyte.bw.gameAPI.environment.EntityFactory;
 import com.intbyte.bw.gameAPI.graphic.Graphic;
 import com.intbyte.bw.gameAPI.graphic.ui.container.Container;
+import com.intbyte.bw.gameAPI.physic.Physic;
 import com.intbyte.bw.gameAPI.utils.Resource;
 
 
