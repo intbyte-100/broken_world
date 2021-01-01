@@ -7,11 +7,9 @@ import com.intbyte.bw.gameAPI.physic.PhysicBlockObject;
 public final class World {
 
     public static Chunck[][] world = new Chunck[16][16];
-    public static int playerX, playerZ, playerChunkX, playerChunkZ;
-    static int idDimension;
+    public static int playerX, playerZ;
     static short[][] landBlock;
     static short[][] block;
-    static short[][] biome;
     static Player player = Player.getPlayer();
     static boolean isChangePosition;
     static boolean movedUp, movedRight;
@@ -46,13 +44,8 @@ public final class World {
         return 0;
     }
 
-    public static void setBlock(int x, int z, int id) {
-        if (x > -1 && z > -1 && x < block.length && z < block.length) {
-            Block.CustomBlock customBlock = Block.getBlocks()[getBlock(x, z)];
-            if (customBlock != null && customBlock.blockData.containsKey(x * 1000 + z))
-                customBlock.blockData.remove(x * 1000 + z);
-            block[x][z] = (short) id;
-        }
+    public static void setBlock(float x, float z, int id) {
+        setBlockToChunk(x,z,new Tile(id));
     }
 
     public static void setLandBlock(int x, int z, int id) {

@@ -10,12 +10,18 @@ public abstract class BodyFactory {
     protected abstract Body getBody(World world);
 
     final Body allocate2dBody(World world) {
+        System.out.println(bodies2d.size);
         if (bodies2d.isEmpty())
             return getBody(world);
-        else return bodies2d.peek();
+        else {
+            Body body = bodies2d.pop();
+            body.setActive(true);
+            return body;
+        }
     }
 
     public final void addBody(Body body) {
         bodies2d.add(body);
+        body.setActive(false);
     }
 }

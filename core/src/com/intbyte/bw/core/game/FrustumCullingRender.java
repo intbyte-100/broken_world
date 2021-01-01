@@ -46,9 +46,7 @@ public class FrustumCullingRender {
     public void render() {
         xDraw = (float) (player.getPixelX() / 10 - Math.floor(player.getPixelX() / 10)) * 10;
         zDraw = (float) (player.getPixelZ() / 10 - Math.floor(player.getPixelZ() / 10)) * 10;
-
-        camera3d.position.set(0 + xDraw, 49.6f, -18 + zDraw-5);
-        camera3d.translate(0,8,0);
+        camera3d.position.set(0 + xDraw, 49.6f, -18 + zDraw);
         camera3d.lookAt(-0.008f + xDraw, 10, -0.6f * 10.3f + zDraw);
         camera3d.update();
         draw(xEdge, xEdge2 + 2, zEdge2 + 1, zEdge - 2);
@@ -58,9 +56,8 @@ public class FrustumCullingRender {
     public void resize() {
         Vector3 position = new Vector3();
         Graphic.resize();
-        camera3d.position.set(0 + xDraw, 49.6f, -18 + zDraw-5);
-        camera3d.lookAt(-0.008f + xDraw, 10, -0.6f * 10.3f + zDraw);
-        camera3d.translate(0,8,0);
+        camera3d.position.set(0 + xDraw, 49.6f, -18 + zDraw);
+        camera3d.lookAt(-0.008f + xDraw, 10, -0.6f * 10.3f + zDraw);;
         camera3d.update();
         xEdge = Math.round(GameInputProcessor.getFastBlock(camera3d, position, getScreenWidth(), 0).x)/10-1;
         zEdge = (int) GameInputProcessor.getFastBlock(camera3d, position, 0, getScreenHeight()).z/10;

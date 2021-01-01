@@ -2,7 +2,6 @@ package com.intbyte.bw.gameAPI.environment;
 
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.intbyte.bw.core.game.Player;
 import com.intbyte.bw.gameAPI.physic.Physic;
 
 public class Tile {
@@ -14,6 +13,14 @@ public class Tile {
     private BlockExtraData data;
     private Body body;
 
+
+    public Tile(){
+
+    }
+
+    public Tile(int blockID){
+        setBlockID(blockID);
+    }
     public void setPosition(float x, float y, float z) {
         this.position.set(x, y, z);
         this.body.setTransform(x/10, z/10, angle);
@@ -26,8 +33,7 @@ public class Tile {
         this.blockID = blockID;
         if (blockID != 0)
             body = Block.getBlocks()[blockID].getPhysicEntity().getBody();
-        body.setTransform(position.x, position.z, angle);
-        System.out.println(body+" "+ body.getPosition()+" "+Player.getPlayer().getBody().getPosition());
+
     }
 
     public void render(float x, float y, float z) {

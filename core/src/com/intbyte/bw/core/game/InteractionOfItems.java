@@ -8,7 +8,10 @@ import com.badlogic.gdx.graphics.g3d.attributes.BlendingAttribute;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.attributes.TextureAttribute;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.Contact;
 import com.intbyte.bw.gameAPI.callbacks.*;
 import com.intbyte.bw.gameAPI.environment.*;
 import com.intbyte.bw.gameAPI.graphic.ui.container.Container;
@@ -29,6 +32,7 @@ public class InteractionOfItems {
     private Integer id;
     private Container container;
     private Item item;
+    private static Rectangle rectangle = new Rectangle(0, 0, 10, 10);
 
     public static InteractionOfItems getInstance() {
         if (instance == null) instance = new InteractionOfItems();
@@ -41,16 +45,16 @@ public class InteractionOfItems {
         final Vector3 velocity = new Vector3();
         final Vector3 origin = new Vector3();
         final Vector3 oldPosition = new Vector3();
-        final Rectangle rectangle = new Rectangle(0, 0, 10, 10);
         final InteractionOfItems interaction = getInstance();
 
         CallBack.addCallBack(new Touch() {
             @Override
             public void main(Vector3 position) {
-                float x = position.x * 10, z = position.z * 10;
+                float x = position.x * 10- GameThread.xDraw, z = position.z * 10- GameThread.zDraw;
                 isDragged = !rectangle.contains(x, z - 10);
+                if(!isDragged) return;
                 rectangle.setCenter(x, z - 10);
-                destination.set(position.x * 10, 0, position.z * 10 - 10);
+                destination.set(x, 0, z - 10);
                 velocity.x = (destination.x - vector3.x);
                 velocity.z = (destination.z - vector3.z);
                 origin.set(vector3);
@@ -61,9 +65,9 @@ public class InteractionOfItems {
         CallBack.addCallBack(new Drag() {
             @Override
             public void main(Vector3 position) {
-                float x = position.x * 10, z = position.z * 10;
+                float x = position.x * 10- GameThread.xDraw, z = position.z * 10- GameThread.zDraw;
                 rectangle.setCenter(x, z - 10);
-                destination.set(position.x * 10, 0, position.z * 10 - 10);
+                destination.set(x, 0, z - 10);
                 velocity.x = (destination.x - vector3.x) * 0.2f;
                 velocity.z = (destination.z - vector3.z) * 0.2f;
                 oldPosition.set(vector3);
@@ -105,10 +109,11 @@ public class InteractionOfItems {
                     material.clear();
                     Color.GREEN.a = 0.5f;
                     material.set(ColorAttribute.createDiffuse(Color.GREEN), new BlendingAttribute(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA));
-                    block.render((float) (vector3.x - interaction.player.getPixelX()), 5, (float) (vector3.z - instance.player.getPixelZ()));
+                    block.render((float) (vector3.x - player.getPixelX())+ GameThread.xDraw, 5, (float) (vector3.z - player.getPixelZ())+ GameThread.zDraw);
                     material.set(textureAttribute);
                     Gdx.app.postRunnable(runnable);
-                } else
+                    return;
+                }
                     vector3.set((float) player.getPixelX(), 0, (float) player.getPixelZ());
             }
         });
@@ -226,10 +231,8 @@ public class InteractionOfItems {
                 append("; z = ").
                 append(z);
         Gdx.app.log("PLAYER", "player set block with id " + id + ", used item with id " + Player.getPlayer().getCarriedItem().getId() + "; x = " + x + "; z = " + z);
-
-        Tile tile = new Tile();
-        tile.setBlockID(id);
-        World.setBlockToChunk(x, z-1, tile);
+        Vector2 vector2 = rectangle.getCenter(new Vector2());
+        World.setBlock((rectangle.x+5)/10, (rectangle.y+5)/10, id);
         container.delete();
     }
 }

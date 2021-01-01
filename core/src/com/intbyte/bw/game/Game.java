@@ -10,10 +10,7 @@ import com.intbyte.bw.game.gameUI.InventoryLayerUI;
 import com.intbyte.bw.game.gameUI.MainLayerUI;
 import com.intbyte.bw.gameAPI.callbacks.CallBack;
 import com.intbyte.bw.gameAPI.callbacks.Initialization;
-import com.intbyte.bw.gameAPI.environment.Block;
-import com.intbyte.bw.gameAPI.environment.Entity;
-import com.intbyte.bw.gameAPI.environment.Item;
-import com.intbyte.bw.gameAPI.environment.Tools;
+import com.intbyte.bw.gameAPI.environment.*;
 import com.intbyte.bw.gameAPI.graphic.ui.GUI;
 import com.intbyte.bw.gameAPI.physic.PhysicBlockObject;
 import com.intbyte.bw.gameAPI.utils.ID;
@@ -69,6 +66,11 @@ public class Game {
 
                 GUI.putLayer("inventory", new InventoryLayerUI());
 
+
+                int id = ID.get("block:grass2");
+
+                for(int i = 100 - 7; i < 100+7; i++)
+                    World.setBlock(i, player.getZ()+5,id);
 
             }
         });
