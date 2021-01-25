@@ -24,7 +24,6 @@ public class Tile {
     public void setPosition(float x, float y, float z) {
         this.position.set(x, y, z);
         this.body.setTransform(x/10, z/10, angle);
-        System.out.println(body.getTransform().getPosition());
     }
 
     public void setBlockID(int blockID) {

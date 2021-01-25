@@ -2,6 +2,7 @@ package com.intbyte.bw.gameAPI.environment;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g3d.Material;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
@@ -25,16 +26,24 @@ public class Block {
         return blocks;
     }
 
+    public static CustomBlock getBlock(int id){
+        return blocks[id];
+    }
     public static CustomBlock[] getLandBlocks() {
         return landBlocks;
     }
 
+
+
+
+
     private static ModelInstance getModelInstance(String pathToModel, String pathToTexture) {
-        Model model = Resource.getObjModel(pathToModel);
+
+        ModelInstance instance = Resource.createModelInstance(pathToModel);
         TextureAttribute textureAttribute1 = new TextureAttribute(TextureAttribute.Diffuse, Resource.getSprite(pathToTexture));
-        Material material = model.materials.get(0);
+        Material material = instance.materials.get(0);
         material.set(textureAttribute1);
-        ModelInstance instance = new ModelInstance(model);
+
         return instance;
     }
 
@@ -55,6 +64,7 @@ public class Block {
         block.modelInstance = getModelInstance("block/"+model, texture);
         block.level = level;
         blocks[integerId] = block;
+        Resource.addSprite(Resource.getIconFromModel(block.modelInstance), "icon:"+id);
         Gdx.app.log("BLOCK", "defined block " + id);
     }
 
@@ -65,6 +75,7 @@ public class Block {
         block.modelInstance = getModelInstance("block/block.obj", texture);
         block.level = level;
         blocks[integerId] = block;
+        Resource.addSprite(Resource.getIconFromModel(block.modelInstance), "icon:"+id);
         Gdx.app.log("BLOCK", "defined block " + id);
     }
 
@@ -79,6 +90,7 @@ public class Block {
 
         block.modelInstance = instance;
         blocks[integerId] = block;
+        Resource.addSprite(Resource.getIconFromModel(block.modelInstance), "icon:"+id);
         Gdx.app.log("BLOCK", "defined block " + id);
     }
 
@@ -87,7 +99,7 @@ public class Block {
     }
 
     public static void setDropID(String blockID, String dropID) {
-        blocks[ID.get("block:" + blockID)].setDropID(ID.get("entity:" + dropID));
+        setDropID(ID.get("block:" + blockID),ID.get("entity:" + dropID));
     }
 
     public static class CustomBlock {

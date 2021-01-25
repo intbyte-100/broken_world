@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.loader.ObjLoader;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
+import com.intbyte.bw.gameAPI.physic.PhysicBlockObject;
 
 import java.util.HashMap;
 
@@ -20,6 +21,7 @@ public class Resource {
     private static final HashMap<String, FileHandle> files = new HashMap<>();
     private static final HashMap<String,Sprite> sprites = new HashMap<>();
     private static final HashMap<String, Model> models = new HashMap<>();
+    private static final HashMap<String, PhysicBlockObject> physicBlockObjects = new HashMap<>();
     private static final ObjLoader loader = new ObjLoader();
     private static final PerspectiveCamera camera = new PerspectiveCamera(67,128,128);
     private static FrameBuffer frameBuffer;
@@ -55,8 +57,17 @@ public class Resource {
         return model;
     }
 
-    public static ModelInstance createModalInstance(String modelPath) {
+    public static ModelInstance createModelInstance(String modelPath) {
         return new ModelInstance(getObjModel(modelPath));
+    }
+
+
+    public static PhysicBlockObject getBlockObject(String path){
+        return physicBlockObjects.get(path);
+    }
+
+    public static void putBlockObject(String path, PhysicBlockObject object){
+        physicBlockObjects.put(path,object);
     }
 
     public static void dispose() {

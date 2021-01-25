@@ -141,7 +141,7 @@ public class InteractionOfItems {
                     isDragged = false;
                     interaction.set(x, z);
                 }
-                rectangle.setCenter(-1000, -1000);
+                rectangle.setCenter(Integer.MIN_VALUE, Integer.MIN_VALUE);
             }
         });
     }

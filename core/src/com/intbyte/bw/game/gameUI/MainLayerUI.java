@@ -3,6 +3,7 @@ package com.intbyte.bw.game.gameUI;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.intbyte.bw.core.game.GameThread;
@@ -15,6 +16,7 @@ import com.intbyte.bw.gameAPI.graphic.GravityAdapter;
 import com.intbyte.bw.gameAPI.graphic.GravityAttribute;
 import com.intbyte.bw.gameAPI.graphic.ui.Joystick;
 import com.intbyte.bw.gameAPI.graphic.ui.Layer;
+import com.intbyte.bw.gameAPI.graphic.ui.Panel;
 import com.intbyte.bw.gameAPI.graphic.ui.ProgressBar;
 import com.intbyte.bw.gameAPI.graphic.ui.container.Container;
 import com.intbyte.bw.gameAPI.graphic.ui.container.Slot;
@@ -42,8 +44,9 @@ public class MainLayerUI extends Layer {
             }
         });
 
-
         GravityAdapter adapter = new GravityAdapter();
+
+
 
         Slot slot = new Slot(Slot.SlotSkin.DEFAULT, Player.getPlayer().getCarriedItem());
         slot.setSize(160 * APIXEL);
@@ -66,7 +69,7 @@ public class MainLayerUI extends Layer {
         adapter.addActor(slot3);
         adapter.tiedTo(GravityAttribute.RIGHT, slot2);
         adapter.setGravity(GravityAttribute.BOTTOM, GravityAttribute.RIGHT);
-        addActor(slot3);
+        //addActor(slot3);
 
         label = new Label(" ", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         label.setFontScale(2.5f);

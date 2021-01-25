@@ -10,7 +10,6 @@ public abstract class BodyFactory {
     protected abstract Body getBody(World world);
 
     final Body allocate2dBody(World world) {
-        System.out.println(bodies2d.size);
         if (bodies2d.isEmpty())
             return getBody(world);
         else {

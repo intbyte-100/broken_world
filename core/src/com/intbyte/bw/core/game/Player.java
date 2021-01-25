@@ -7,7 +7,6 @@ import com.intbyte.bw.gameAPI.environment.Entity;
 import com.intbyte.bw.gameAPI.environment.EntityFactory;
 import com.intbyte.bw.gameAPI.graphic.Graphic;
 import com.intbyte.bw.gameAPI.graphic.ui.container.Container;
-import com.intbyte.bw.gameAPI.physic.Physic;
 import com.intbyte.bw.gameAPI.utils.Resource;
 
 
@@ -23,7 +22,7 @@ public class Player extends Entity {
             inventory[i] = new Container(64);
         }
         Gdx.app.log("PLAYER", "player is initialized");
-        modelInstance = Resource.createModalInstance("block/2block.obj");
+        modelInstance = Resource.createModelInstance("block/2block.obj");
     }
 
     public static Player getPlayer() {

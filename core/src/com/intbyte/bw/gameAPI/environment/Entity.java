@@ -59,6 +59,7 @@ public abstract class Entity {
     public void renderTick() {
         increaseEndurance((100/6*Gdx.graphics.getRawDeltaTime()));
         position = body.getTransform().getPosition();
+        rotate = -body.getTransform().getRotation();
     }
 
 
@@ -145,7 +146,7 @@ public abstract class Entity {
 
     public void setRotate(float rotate) {
         this.rotate = rotate;
-        body.setTransform(body.getPosition(),rotate);
+        body.setTransform(body.getPosition(),-rotate);
     }
 
     public float getRotate() {
