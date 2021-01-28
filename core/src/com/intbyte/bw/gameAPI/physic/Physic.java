@@ -6,7 +6,7 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.intbyte.bw.gameAPI.utils.ID;
 
 public class Physic {
-    static private final World world = new World(new Vector2(0, 100), true);
+    static private final World world = new World(new Vector2(0, 0), true);
     private static final BodyFactory[] bodyFactories = new BodyFactory[1200];
 
     public static void init(){

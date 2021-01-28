@@ -1,6 +1,7 @@
 package com.intbyte.bw.core.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -8,6 +9,7 @@ import com.intbyte.bw.gameAPI.callbacks.CallBack;
 import com.intbyte.bw.gameAPI.callbacks.Render;
 import com.intbyte.bw.gameAPI.environment.Entity;
 import com.intbyte.bw.gameAPI.environment.World;
+import com.intbyte.bw.gameAPI.graphic.ui.GUI;
 import com.intbyte.bw.gameAPI.graphic.ui.container.TakenItemsRender;
 import com.intbyte.bw.gameAPI.physic.Physic;
 
@@ -22,6 +24,7 @@ public class GameThread implements Screen {
     private static boolean isReadyCallBack;
     private static EntityManager entityManager;
     private final FrustumCullingRender render;
+    private boolean isInventory;
 
 
     public GameThread() {
@@ -72,6 +75,25 @@ public class GameThread implements Screen {
         BATCH.end();
         isReadyCallBack = false;
         visible = 0;
+
+        if(Gdx.input.isKeyPressed(Input.Keys.SPACE)&&!isInventory){
+            GUI.setLayer("inventory",null);
+            isInventory = true;
+            try {
+                Thread.sleep(200);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        else if(Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+            GUI.setLayer("main", null);
+            isInventory = false;
+            try {
+                Thread.sleep(200);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 

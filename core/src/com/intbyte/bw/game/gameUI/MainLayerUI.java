@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.intbyte.bw.core.game.GameThread;
+import com.intbyte.bw.core.game.InteractionOfItems;
 import com.intbyte.bw.core.game.Player;
 import com.intbyte.bw.gameAPI.callbacks.CallBack;
 import com.intbyte.bw.gameAPI.callbacks.Render;
@@ -32,9 +33,7 @@ public class MainLayerUI extends Layer {
     private final Player player = Player.getPlayer();
     private final Label label;
 
-    Skin sk =new Skin(){
 
-    };
     public MainLayerUI() {
 
         CallBack.addCallBack(new Render() {
@@ -102,11 +101,12 @@ public class MainLayerUI extends Layer {
 
     @Override
     public Layer onCreate(ExtraData data) {
+        InteractionOfItems.setInteraction(true);
         return this;
     }
 
     @Override
     public void destroy() {
-
+        InteractionOfItems.setInteraction(false);
     }
 }

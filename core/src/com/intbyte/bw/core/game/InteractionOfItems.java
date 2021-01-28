@@ -14,6 +14,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.intbyte.bw.gameAPI.callbacks.*;
 import com.intbyte.bw.gameAPI.environment.*;
+import com.intbyte.bw.gameAPI.graphic.ui.GUI;
 import com.intbyte.bw.gameAPI.graphic.ui.container.Container;
 
 import java.util.HashMap;
@@ -33,10 +34,18 @@ public class InteractionOfItems {
     private Container container;
     private Item item;
     private static Rectangle rectangle = new Rectangle(0, 0, 10, 10);
-
+    private static boolean interaction;
     public static InteractionOfItems getInstance() {
         if (instance == null) instance = new InteractionOfItems();
         return instance;
+    }
+
+    public static boolean isInteraction() {
+        return interaction;
+    }
+
+    public static void setInteraction(boolean interaction) {
+        InteractionOfItems.interaction = interaction;
     }
 
     public static void init() {
@@ -50,6 +59,7 @@ public class InteractionOfItems {
         CallBack.addCallBack(new Touch() {
             @Override
             public void main(Vector3 position) {
+                if(!InteractionOfItems.interaction) return;
                 float x = position.x * 10- GameThread.xDraw, z = position.z * 10- GameThread.zDraw;
                 isDragged = !rectangle.contains(x, z - 10);
                 if(!isDragged) return;
@@ -65,6 +75,7 @@ public class InteractionOfItems {
         CallBack.addCallBack(new Drag() {
             @Override
             public void main(Vector3 position) {
+                if(!InteractionOfItems.interaction) return;
                 float x = position.x * 10- GameThread.xDraw, z = position.z * 10- GameThread.zDraw;
                 rectangle.setCenter(x, z - 10);
                 destination.set(x, 0, z - 10);
@@ -86,7 +97,7 @@ public class InteractionOfItems {
 
             @Override
             public void main() {
-                if (isDragged) {
+                if (isDragged&&InteractionOfItems.interaction) {
                     Integer id = interaction.settableItemsHashMap.get(interaction.container.getId());
                     if (id == null) {
                         isDragged = false;
@@ -114,7 +125,8 @@ public class InteractionOfItems {
                     Gdx.app.postRunnable(runnable);
                     return;
                 }
-                    vector3.set((float) player.getPixelX(), 0, (float) player.getPixelZ());
+                isDragged = false;
+                rectangle.setPosition(-1000,-1000);
             }
         });
         CallBack.addCallBack(new TouchOnBlock() {
@@ -122,6 +134,7 @@ public class InteractionOfItems {
 
             @Override
             public void main(float x, float z) {
+                if (!InteractionOfItems.interaction) return;
                 interaction.builder.setLength(0);
                 interaction.container = interaction.player.getCarriedItem();
                 interaction.id = interaction.settableItemsHashMap.get(interaction.container.getId());
