@@ -2,9 +2,6 @@ package com.intbyte.bw.gameAPI.environment;
 
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.intbyte.bw.gameAPI.graphic.Graphic;
-import com.intbyte.bw.gameAPI.graphic.ui.container.Container;
-import com.intbyte.bw.gameAPI.physic.Physic;
-import com.intbyte.bw.gameAPI.utils.Resource;
 
 public class Drop extends Entity {
 

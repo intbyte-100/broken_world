@@ -7,10 +7,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.intbyte.bw.core.game.GameThread;
 import com.intbyte.bw.core.game.Player;
-import com.intbyte.bw.gameAPI.graphic.ui.container.Container;
 import com.intbyte.bw.gameAPI.utils.ID;
-
-import static com.intbyte.bw.gameAPI.graphic.Graphic.BLOCK_SIZE;
 
 public abstract class Entity {
 

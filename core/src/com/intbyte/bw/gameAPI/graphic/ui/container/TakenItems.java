@@ -1,5 +1,7 @@
 package com.intbyte.bw.gameAPI.graphic.ui.container;
 
+import com.intbyte.bw.gameAPI.environment.Container;
+
 public final class TakenItems extends Container {
 
     private static TakenItems instance;

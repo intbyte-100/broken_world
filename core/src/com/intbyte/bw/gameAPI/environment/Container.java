@@ -1,11 +1,11 @@
-package com.intbyte.bw.gameAPI.graphic.ui.container;
+package com.intbyte.bw.gameAPI.environment;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
 import com.intbyte.bw.gameAPI.environment.Item;
 
 public class Container {
-    protected final int maxCountItems;
+    protected int maxCountItems;
     protected Array<Item> items;
 
 

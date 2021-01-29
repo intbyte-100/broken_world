@@ -7,37 +7,43 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.intbyte.bw.gameAPI.environment.Container;
 import com.intbyte.bw.gameAPI.environment.Item;
 import com.intbyte.bw.gameAPI.graphic.Graphic;
 import com.intbyte.bw.gameAPI.utils.Resource;
 
 public class Slot extends Actor {
     private final static BitmapFont font = new BitmapFont();
+    private static final Container empty = new Container(64);
     private final SlotSkin slotSkin;
     private final Container container;
     private float itemSize;
     private final TakenItems takenItems = TakenItems.getInstance();
     private boolean isSelect;
     private boolean drag;
-    public Slot(SlotSkin skin, final Container container) {
+
+    public Slot(){
+        this(SlotSkin.DEFAULT,empty);
+    }
+    public Slot(SlotSkin skin, Container container) {
         slotSkin = skin;
         this.container = container;
         addListener(new InputListener() {
 
             boolean take() {
-                if (container.items.isEmpty()) {
+                if (Slot.this.container.getItems().isEmpty()) {
                     takenItems.isTaken = false;
                     takenItems.isSelect = false;
                     return false;
                 }
 
-                takenItems.moveItems(container.items);
+                takenItems.moveItems(Slot.this.container.getItems());
                 return true;
             }
 
             void put() {
-                container.moveItems(takenItems.items);
-                if (takenItems.items.isEmpty()) {
+                Slot.this.container.moveItems(takenItems.getItems());
+                if (takenItems.getItems().isEmpty()) {
                     takenItems.isTaken = false;
                     takenItems.isSelect = false;
                     isSelect = false;
@@ -46,7 +52,7 @@ public class Slot extends Actor {
 
             void swap() {
                 if (takenItems.isSelect && takenItems.selectItems != null && !isSelect) {
-                    container.moveItems(takenItems.selectItems.items);
+                    Slot.this.container.moveItems(takenItems.selectItems.getItems());
                     takenItems.selectItems = null;
                     takenItems.clear = true;
                     drag = false;
@@ -60,10 +66,10 @@ public class Slot extends Actor {
 
                 swap();
 
-                if(!container.items.isEmpty()) {
+                if(!Slot.this.container.getItems().isEmpty()) {
                     if (isSelect = !isSelect) {
                         takenItems.isSelect = isSelect;
-                        takenItems.selectItems = container;
+                        takenItems.selectItems = Slot.this.container;
                     }
                     if (takenItems.isTaken || !takenItems.isSelect) {
                         takenItems.isSelect = false;
@@ -72,7 +78,7 @@ public class Slot extends Actor {
                 }
 
                 if (drag && (!isSelect))
-                    if (takenItems.items.isEmpty()) {
+                    if (takenItems.getItems().isEmpty()) {
                         if (take()) {
                             takenItems.isTaken = true;
                         }
@@ -95,8 +101,8 @@ public class Slot extends Actor {
             takenItems.isSelect = false;
         }
         batch.draw(isSelect ? slotSkin.getSelectedTexture() : slotSkin.getSprite(), getX(), getY(), getWidth(), getHeight());
-        if (container.items.notEmpty()) {
-            container.items.get(0).drawIcon(getX() + getWidth() * 0.1f, getY() + getHeight() * 0.1f, itemSize, itemSize);
+        if (container.getItems().notEmpty()) {
+            container.getItems().get(0).drawIcon(getX() + getWidth() * 0.1f, getY() + getHeight() * 0.1f, itemSize, itemSize);
             font.getData().setScale((18 / (18 / (getHeight() * 0.2f))) / 10);
             font.setColor(slotSkin.getCountTextColor());
             String value = String.valueOf(container.getCountItems());

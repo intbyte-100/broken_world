@@ -29,7 +29,7 @@ public class Game {
             @Override
             public void main() {
 
-                Sprite sprite = Panel.drawPanel(400,400,2,0.1f,0.1f,0.1f,0.8f);
+                Sprite sprite = Panel.drawPanel(400,400,8,0.1f,0.1f,0.1f,0.5f);
 
 
                 Resource.addSprite(sprite,"testPanel");
@@ -64,10 +64,10 @@ public class Game {
                 Block.setDropID("grass2", "test_drop2");
 
                 GUI.putLayer("main", new MainLayerUI());
-                GUI.setLayer("main", null);
+
 
                 GUI.putLayer("inventory", new InventoryLayerUI());
-
+                GUI.setLayer("inventory", null);
 
                 int id = ID.get("block:grass2");
 

@@ -64,7 +64,7 @@ public class TakenItemsRender extends Actor {
             @Override
             public void main() {
                 if (takenItems.isTaken && isRendering) {
-                    takenItems.items.get(0).drawIcon(getX(), getY(), getWidth(), getHeight());
+                    takenItems.getItems().get(0).drawIcon(getX(), getY(), getWidth(), getHeight());
                     String value = String.valueOf(takenItems.getCountItems());
                     font.draw(Graphic.BATCH, value, getX() + xDraw - (font.getXHeight() * value.length() - font.getXHeight()), getY() + font.getLineHeight() * 0.6f);
                 }

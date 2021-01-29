@@ -3,24 +3,24 @@ package com.intbyte.bw.core.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Array;
 import com.intbyte.bw.gameAPI.environment.Entity;
 import com.intbyte.bw.gameAPI.environment.EntityFactory;
 import com.intbyte.bw.gameAPI.graphic.Graphic;
-import com.intbyte.bw.gameAPI.graphic.ui.container.Container;
+import com.intbyte.bw.gameAPI.environment.Container;
 import com.intbyte.bw.gameAPI.utils.Resource;
 
 
 public class Player extends Entity {
     static Player player;
     float coolDown;
-    private Container[] inventory;
+    private Array<Container> inventory;
     private ModelInstance modelInstance;
 
     protected Player() {
-        inventory = new Container[36];
-        for (int i = 0; i < 36; i++) {
-            inventory[i] = new Container(64);
-        }
+        inventory = new Array<>();
+        for(int i = 0; i < 22; i++)
+            inventory.add(new Container(64));
         Gdx.app.log("PLAYER", "player is initialized");
         modelInstance = Resource.createModelInstance("block/2block.obj");
     }
@@ -62,6 +62,10 @@ public class Player extends Entity {
         protected Entity createEntity() {
             return new Player();
         }
+    }
+
+    public Array<Container> getInventory() {
+        return inventory;
     }
 }
 

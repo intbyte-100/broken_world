@@ -10,12 +10,9 @@ import com.badlogic.gdx.graphics.g3d.attributes.TextureAttribute;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.Contact;
 import com.intbyte.bw.gameAPI.callbacks.*;
 import com.intbyte.bw.gameAPI.environment.*;
-import com.intbyte.bw.gameAPI.graphic.ui.GUI;
-import com.intbyte.bw.gameAPI.graphic.ui.container.Container;
+import com.intbyte.bw.gameAPI.environment.Container;
 
 import java.util.HashMap;
 
