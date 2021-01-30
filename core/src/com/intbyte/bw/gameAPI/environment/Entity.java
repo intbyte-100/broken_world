@@ -5,8 +5,11 @@ import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.intbyte.bw.core.game.EntityManager;
 import com.intbyte.bw.core.game.GameThread;
 import com.intbyte.bw.core.game.Player;
+import com.intbyte.bw.gameAPI.physic.Physic;
+import com.intbyte.bw.gameAPI.physic.PhysicData;
 import com.intbyte.bw.gameAPI.utils.ID;
 
 public abstract class Entity {
@@ -18,6 +21,7 @@ public abstract class Entity {
     protected float health, width, height, rotate, endurance;
     protected int maxHealth = 100, maxEndurance = 100;
     protected Body body;
+    protected int bodyID;
     protected Vector2 position = new Vector2();
 
     protected Container carriedItem = new Container(64);
@@ -116,9 +120,19 @@ public abstract class Entity {
     }
 
 
+    protected void spawn(){
+        PhysicData data = (PhysicData) getBody().getUserData();
+        data.setObject(this);
+        data.setType(data.ENTITY);
+    }
+
     abstract public void render();
 
 
+    public void delete(){
+        Physic.getBodyFactory(bodyID).addBody(body);
+        GameThread.getEntityManager().delete(this);
+    }
     public int getId() {
         return id;
     }
@@ -152,5 +166,9 @@ public abstract class Entity {
 
     public Body getBody() {
         return body;
+    }
+
+    public boolean takeDrop(Container container){
+        return false;
     }
 }

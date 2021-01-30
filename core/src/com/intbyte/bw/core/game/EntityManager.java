@@ -35,7 +35,10 @@ public class EntityManager {
     public Array<Entity> getActive() {
         return active;
     }
-
+    public void delete(Entity entity){
+        if(!active.removeValue(entity,true))
+            nonActive.removeValue(entity,true);
+    }
 
     class EntityGarbageCollector extends Thread {
         @Override

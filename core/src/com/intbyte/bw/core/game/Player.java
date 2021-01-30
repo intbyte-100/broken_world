@@ -67,5 +67,10 @@ public class Player extends Entity {
     public Array<Container> getInventory() {
         return inventory;
     }
+
+    @Override
+    public boolean takeDrop(Container container) {
+        return true;
+    }
 }
 

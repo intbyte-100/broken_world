@@ -1,10 +1,6 @@
 package com.intbyte.bw.game;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g3d.Material;
-import com.badlogic.gdx.graphics.g3d.Model;
-import com.badlogic.gdx.graphics.g3d.ModelInstance;
-import com.badlogic.gdx.graphics.g3d.attributes.TextureAttribute;
 import com.badlogic.gdx.math.Rectangle;
 import com.intbyte.bw.core.game.Player;
 import com.intbyte.bw.game.gameUI.InventoryLayerUI;
@@ -58,9 +54,9 @@ public class Game {
                 player.setPosition(100, 100);
 
 
-                Entity.addFactory(new TestDropFactory("grass","test_drop"));
+                Entity.addFactory(new DropFactory("grass","test_drop",new DropData("test",1,1)));
                 Block.setDropID("grass", "test_drop");
-                Entity.addFactory(new TestDropFactory("grass2","test_drop2"));
+                Entity.addFactory(new DropFactory("grass2","test_drop2",new DropData("test1",1,1)));
                 Block.setDropID("grass2", "test_drop2");
 
                 GUI.putLayer("main", new MainLayerUI());

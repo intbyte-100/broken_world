@@ -43,7 +43,7 @@ public class Container {
         this.items = itemArray;
     }
 
-    public void addItems(Item... items) {
+    public void addItems(Array<Item> items) {
         Array<Item> array = new Array<>();
         array.addAll(items);
         moveItems(array);

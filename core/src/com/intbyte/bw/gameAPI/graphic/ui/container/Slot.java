@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.utils.Array;
 import com.intbyte.bw.gameAPI.environment.Container;
 import com.intbyte.bw.gameAPI.environment.Item;
 import com.intbyte.bw.gameAPI.graphic.Graphic;
@@ -110,7 +111,7 @@ public class Slot extends Actor {
         }
     }
 
-    public void addItems(Item... items) {
+    public void addItems(Array<Item> items) {
         container.addItems(items);
     }
 

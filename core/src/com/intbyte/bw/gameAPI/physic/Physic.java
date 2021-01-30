@@ -3,6 +3,8 @@ package com.intbyte.bw.gameAPI.physic;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.intbyte.bw.gameAPI.environment.Drop;
+import com.intbyte.bw.gameAPI.environment.Entity;
 import com.intbyte.bw.gameAPI.utils.ID;
 
 public class Physic {
@@ -12,6 +14,34 @@ public class Physic {
     public static void init(){
         defineStaticRectangleBody("default", 0.5f, 0.5f);
         defineDynamicRectangleBody("defaultEntity", 0.5f, 0.5f);
+        world.setContactListener(new ContactListener() {
+            @Override
+            public void beginContact(Contact contact) {
+                PhysicData data = (PhysicData) contact.getFixtureB().getBody().getUserData();
+                PhysicData physicData = (PhysicData) contact.getFixtureA().getBody().getUserData();
+                Drop drop = (Drop) (data.getType() == PhysicData.DROP ? data.getObject() : (physicData.getType()==PhysicData.DROP ? physicData.getObject() : null));
+                Entity entity = (Entity) (data.getType() == PhysicData.ENTITY ? data.getObject() : (physicData.getType()==PhysicData.ENTITY ? physicData.getObject() : null));
+                if(drop!=null&&entity!=null){
+                    if(entity.takeDrop(drop.getDrop()))
+                        drop.delete();
+                }
+            }
+
+            @Override
+            public void endContact(Contact contact) {
+
+            }
+
+            @Override
+            public void preSolve(Contact contact, Manifold oldManifold) {
+
+            }
+
+            @Override
+            public void postSolve(Contact contact, ContactImpulse impulse) {
+
+            }
+        });
     }
 
     public static void update() {

@@ -48,15 +48,15 @@ public abstract class Item {
         return newItem(ID.get("item:" + id));
     }
 
-    public static Item[] newItems(int id, int count) {
+    public static Array<Item> newItems(int id, int count) {
         Array<Item> itemsArray = new Array<>();
         for (int i = 0; i < count; i++)
             itemsArray.add(items[id].create());
-        return itemsArray.toArray(Item.class);
+        return itemsArray;
 
     }
 
-    public static Item[] newItems(String id, int count) {
+    public static Array<Item> newItems(String id, int count) {
         return newItems(ID.get("item:" + id), count);
 
     }

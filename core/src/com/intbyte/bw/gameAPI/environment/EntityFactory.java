@@ -33,7 +33,9 @@ public abstract class EntityFactory {
     public final Entity create(){
         Entity entity = createEntity();
         entity.body = Physic.allocateBody(bodyID);
+        entity.bodyID = bodyID;
         entity.setId(id);
+        entity.spawn();
         return entity;
     }
 }

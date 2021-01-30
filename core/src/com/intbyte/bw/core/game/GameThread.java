@@ -76,18 +76,8 @@ public class GameThread implements Screen {
         isReadyCallBack = false;
         visible = 0;
 
-        if(Gdx.input.isKeyPressed(Input.Keys.SPACE)&&!isInventory){
-            GUI.setLayer("inventory",null);
-            isInventory = true;
-            try {
-                Thread.sleep(200);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        else if(Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-            GUI.setLayer("main", null);
-            isInventory = false;
+        if(Gdx.input.isKeyPressed(Input.Keys.SPACE)){
+            GUI.setLayer(GUI.isOpen("main")?"inventory":"main",null);
             try {
                 Thread.sleep(200);
             } catch (InterruptedException e) {
