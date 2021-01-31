@@ -17,7 +17,7 @@ public class Slot extends Actor {
     private final static BitmapFont font = new BitmapFont();
     private static final Container empty = new Container(64);
     private final SlotSkin slotSkin;
-    private final Container container;
+    private Container container;
     private float itemSize;
     private final TakenItems takenItems = TakenItems.getInstance();
     private boolean isSelect;
@@ -94,6 +94,9 @@ public class Slot extends Actor {
         });
     }
 
+    public void setContainer(Container container){
+        this.container = container;
+    }
     @Override
     public void draw(Batch batch, float parentAlpha) {
         if (takenItems.isTaken || !takenItems.isSelect || takenItems.clear) {

@@ -14,11 +14,10 @@ import com.intbyte.bw.gameAPI.utils.Resource;
 public class Player extends Entity {
     static Player player;
     float coolDown;
-    private Array<Container> inventory;
+
     private ModelInstance modelInstance;
 
     protected Player() {
-        inventory = new Array<>();
         for(int i = 0; i < 22; i++)
             inventory.add(new Container(64));
         Gdx.app.log("PLAYER", "player is initialized");
@@ -70,6 +69,16 @@ public class Player extends Entity {
 
     @Override
     public boolean takeDrop(Container container) {
+        for(Container i: inventory) {
+            if(container.getItems().isEmpty())
+                break;
+            i.addItems(container.getItems());
+        }
+        if(container.getItems().notEmpty()){
+            Container container1 = new Container(64);
+            container1.addItems(container.getItems());
+            inventory.add(container1);
+        }
         return true;
     }
 }

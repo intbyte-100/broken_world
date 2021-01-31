@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.utils.Array;
 import com.intbyte.bw.core.game.EntityManager;
 import com.intbyte.bw.core.game.GameThread;
 import com.intbyte.bw.core.game.Player;
@@ -23,6 +24,7 @@ public abstract class Entity {
     protected Body body;
     protected int bodyID;
     protected Vector2 position = new Vector2();
+    protected Array<Container> inventory = new Array<>();
 
     protected Container carriedItem = new Container(64);
 

@@ -12,6 +12,7 @@ public class Tools {
 
                     {
                         icon = Resource.getSprite(texture);
+                        stackSize = 1;
                         itemData = new ItemData(strength,damage,level, coolDown, takeEndurance);
                     }
                     @Override

@@ -15,7 +15,7 @@ import com.intbyte.bw.gameAPI.utils.Resource;
 
 public class InventoryLayerUI extends Layer {
 
-
+    Inventory inventory = new Inventory();
     public InventoryLayerUI(){
         float width = (Gdx.graphics.getWidth() - Gdx.graphics.getHeight()*0.06f*2-Gdx.graphics.getHeight()*0.06f)/2;
         float height = Gdx.graphics.getHeight()-Gdx.graphics.getHeight()*0.06f*2;
@@ -39,17 +39,17 @@ public class InventoryLayerUI extends Layer {
         addActor(panel2);
         adapter.apply();
 
-        Inventory inventory = new Inventory();
+
         inventory.setContainers(Player.getPlayer().getInventory());
         inventory.setSize(width-Gdx.graphics.getHeight()*0.12f,height);
         inventory.setElementsPerLine(5);
-        inventory.apply();
+
         inventory.setPosition(Gdx.graphics.getHeight()*0.12f,Gdx.graphics.getHeight()*0.06f);
         addActor(inventory);
     }
     @Override
     public Layer onCreate(ExtraData data) {
-
+        inventory.apply();
         return this;
     }
 

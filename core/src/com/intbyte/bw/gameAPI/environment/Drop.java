@@ -48,6 +48,6 @@ public class Drop extends Entity {
 
 
     public Container getDrop() {
-        return null;
+        return dropData.get();
     }
 }

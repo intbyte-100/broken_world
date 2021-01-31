@@ -51,7 +51,7 @@ public class Game {
 
                 player = Player.getPlayer();
                 player.getCarriedItem().addItems(Item.newItems("test", 100));
-                player.setPosition(100, 100);
+
 
 
                 Entity.addFactory(new DropFactory("grass","test_drop",new DropData("test",1,1)));
@@ -67,8 +67,9 @@ public class Game {
 
                 int id = ID.get("block:grass2");
 
-                for(int i = 100 - 7; i < 100+7; i++)
-                    World.setBlock(i, player.getZ()+5,id);
+                player.setPosition(100, 100);
+                for(int i = 0; i < 1000; i++)
+                    World.setBlock(i, 100,id);
 
             }
         });

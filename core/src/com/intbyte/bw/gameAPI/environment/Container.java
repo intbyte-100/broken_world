@@ -44,9 +44,7 @@ public class Container {
     }
 
     public void addItems(Array<Item> items) {
-        Array<Item> array = new Array<>();
-        array.addAll(items);
-        moveItems(array);
+        moveItems(items);
     }
 
     public int getMaxCountItems() {

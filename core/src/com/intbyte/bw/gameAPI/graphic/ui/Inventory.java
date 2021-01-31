@@ -54,8 +54,10 @@ public class Inventory extends Group {
         while (slots.size<containers.size) {
             slots.add(new Slot(Slot.SlotSkin.DEFAULT, containers.get(i++)));
         }
+
         for(i = 0; i < containers.size; i++){
             slots.get(i).setSize(getWidth()/elementsPerLine);
+            slots.get(i).setContainer(containers.get(i));
             table.add(slots.get(i));
             if((i+1)%elementsPerLine==0)
                 table.row();

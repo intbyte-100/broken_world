@@ -4,7 +4,7 @@ import com.intbyte.bw.gameAPI.utils.ID;
 
 public abstract class ItemFactory {
 
-    protected int type, stackSize;
+    protected int type, stackSize = 64;
     private int id;
 
 
