@@ -18,7 +18,7 @@ public class Player extends Entity {
     private ModelInstance modelInstance;
 
     protected Player() {
-        for(int i = 0; i < 22; i++)
+        for(int i = 0; i < 100; i++)
             inventory.add(new Container(64));
         Gdx.app.log("PLAYER", "player is initialized");
         modelInstance = Resource.createModelInstance("block/2block.obj");

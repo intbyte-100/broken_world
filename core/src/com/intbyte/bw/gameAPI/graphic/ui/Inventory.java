@@ -1,8 +1,8 @@
 package com.intbyte.bw.gameAPI.graphic.ui;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Array;
 import com.intbyte.bw.gameAPI.environment.Container;
@@ -12,20 +12,20 @@ public class Inventory extends Group {
     protected int elementsPerLine;
     protected Array<Container> containers;
     protected Array<Slot> slots;
-    protected Table table;
+    protected Table scrollTable;
+    protected Table layout;
+    protected ScrollPane scrollPane;
 
     protected int defaultSize = 12;
 
     public  Inventory(){
-        this.table = new Table();
-        this.slots = new Array<>();
-        addActor(table);
+        this(null);
     }
 
 
     @Override
     public void setPosition(float x, float y) {
-        table.setPosition(x, y);
+        layout.setPosition(x, y);
     }
 
     public void setDefaultSize(int defaultSize) {
@@ -38,9 +38,15 @@ public class Inventory extends Group {
 
     public Inventory(Array<Container> containers){
         this.containers = containers;
-        this.table = new Table();
+        this.scrollTable = new Table();
         this.slots = new Array<>();
-        addActor(table);
+        this.scrollPane = new ScrollPane(scrollTable);
+        scrollTable.top().left();
+        layout = new Table();
+        layout.setFillParent(true);
+        layout.add(scrollPane).expand().fill();
+        layout.setSize(getWidth(),getHeight());
+        addActor(layout);
     }
 
     public void setElementsPerLine(int elementsPerLine) {
@@ -48,8 +54,7 @@ public class Inventory extends Group {
     }
 
     public void apply(){
-        table.setSize(getWidth(),getHeight());
-        table.clear();
+        scrollTable.clear();
         int i = 0;
         while (slots.size<containers.size) {
             slots.add(new Slot(Slot.SlotSkin.DEFAULT, containers.get(i++)));
@@ -58,10 +63,16 @@ public class Inventory extends Group {
         for(i = 0; i < containers.size; i++){
             slots.get(i).setSize(getWidth()/elementsPerLine);
             slots.get(i).setContainer(containers.get(i));
-            table.add(slots.get(i));
+            scrollTable.add(slots.get(i));
             if((i+1)%elementsPerLine==0)
-                table.row();
+                scrollTable.row();
         }
 
+    }
+
+    @Override
+    public void draw(Batch batch, float parentAlpha) {
+        super.draw(batch, parentAlpha);
+        batch.setColor(1,1,1,1);
     }
 }

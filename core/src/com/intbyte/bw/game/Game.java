@@ -54,16 +54,16 @@ public class Game {
 
 
 
-                Entity.addFactory(new DropFactory("grass","test_drop",new DropData("test",1,1)));
+                Entity.addFactory(new DropFactory("grass","test_drop",new DropData("test",1,10)));
                 Block.setDropID("grass", "test_drop");
-                Entity.addFactory(new DropFactory("grass2","test_drop2",new DropData("test1",1,1)));
+                Entity.addFactory(new DropFactory("grass2","test_drop2",new DropData("test1",1,10)));
                 Block.setDropID("grass2", "test_drop2");
 
                 GUI.putLayer("main", new MainLayerUI());
 
 
                 GUI.putLayer("inventory", new InventoryLayerUI());
-                GUI.setLayer("inventory", null);
+                GUI.setLayer("main", null);
 
                 int id = ID.get("block:grass2");
 

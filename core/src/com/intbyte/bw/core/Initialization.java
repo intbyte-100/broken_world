@@ -38,17 +38,23 @@ public class Initialization implements Screen {
         BATCH.draw(texture, Gdx.graphics.getWidth() / 4 + (Gdx.graphics.getHeight() / 4), Gdx.graphics.getWidth() / 4 - (Gdx.graphics.getHeight() / 4), Gdx.graphics.getHeight() / 2, Gdx.graphics.getHeight() / 2);
         BATCH.end();
 
-        Gdx.app.log("INITIALIZATION", "starting initialization");
-        Physic.init();
-        Player.getPlayer();
-        boot.setScreen(new GameThread());
-        isReadyCallBack = true;
-        InteractionOfItems.init();
-        new Game().main();
-        CallBack.executeInitializationCallBacks();
-        isReadyCallBack = false;
-        texture.dispose();
-        Gdx.app.log("INITIALIZATION", "initialization finished");
+        Gdx.app.postRunnable(new Runnable() {
+            @Override
+            public void run() {
+                Gdx.app.log("INITIALIZATION", "starting initialization");
+                Physic.init();
+                Player.getPlayer();
+                boot.setScreen(new GameThread());
+                isReadyCallBack = true;
+                InteractionOfItems.init();
+                new Game().main();
+                CallBack.executeInitializationCallBacks();
+                isReadyCallBack = false;
+                texture.dispose();
+                Gdx.app.log("INITIALIZATION", "initialization finished");
+            }
+        });
+
 
         isRendered = true;
 

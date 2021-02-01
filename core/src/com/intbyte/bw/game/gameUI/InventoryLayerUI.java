@@ -41,10 +41,9 @@ public class InventoryLayerUI extends Layer {
 
 
         inventory.setContainers(Player.getPlayer().getInventory());
-        inventory.setSize(width-Gdx.graphics.getHeight()*0.12f,height);
+        inventory.setSize(width-Gdx.graphics.getHeight()*0.12f,height-Gdx.graphics.getHeight()*0.06f*2);
         inventory.setElementsPerLine(5);
-
-        inventory.setPosition(Gdx.graphics.getHeight()*0.12f,Gdx.graphics.getHeight()*0.06f);
+        inventory.setPosition(Gdx.graphics.getHeight()*0.12f,Gdx.graphics.getHeight()*0.06f+Gdx.graphics.getHeight()*0.06f);
         addActor(inventory);
     }
     @Override
