@@ -22,6 +22,7 @@ public class Player extends Entity {
             inventory.add(new Container(64));
         Gdx.app.log("PLAYER", "player is initialized");
         modelInstance = Resource.createModelInstance("block/2block.obj");
+        setCarrying(100);
     }
 
     public static Player getPlayer() {
@@ -65,6 +66,16 @@ public class Player extends Entity {
 
     public Array<Container> getInventory() {
         return inventory;
+    }
+
+    @Override
+    public void tick() {
+        setItemsWeight(getSummaryWeight());
+        if(getItemsWeight()>getCarrying()){
+            float dWeight = (float) ((getItemsWeight()-getCarrying())*0.1);
+            getSpeed().set(getMaxSpeed().x/dWeight,0,getMaxSpeed().z/dWeight);
+        } else
+            getSpeed().set(getMaxSpeed());
     }
 
     @Override

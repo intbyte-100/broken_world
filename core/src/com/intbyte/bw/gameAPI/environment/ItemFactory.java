@@ -19,7 +19,7 @@ public abstract class ItemFactory {
     public final Item create() {
         Item item = createItem();
         item.setType(type);
-        item.setSTACK_SIZE(stackSize);
+        item.setStackSize(stackSize);
         item.setId(id);
         return item;
     }

@@ -2,7 +2,6 @@ package com.intbyte.bw.gameAPI.environment;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
-import com.intbyte.bw.gameAPI.environment.Item;
 
 public class Container {
     protected int maxCountItems;
@@ -18,7 +17,7 @@ public class Container {
         if (items.isEmpty()) return;
         if (this.items.isEmpty() || items.get(0).getId() == this.items.get(0).getId()) {
 
-            if (maxCountItems >= items.size + this.items.size && items.get(0).STACK_SIZE >= items.size + this.items.size) {
+            if (maxCountItems >= items.size + this.items.size && items.get(0).stackSize >= items.size + this.items.size) {
                 this.items.addAll(items);
                 items.clear();
                 return;
@@ -29,8 +28,8 @@ public class Container {
             }
 
 
-            if (this.items.size < maxCountItems && this.items.notEmpty() && this.items.get(0).STACK_SIZE > this.items.size) {
-                while (this.items.size < maxCountItems && this.items.get(0).STACK_SIZE > this.items.size)
+            if (this.items.size < maxCountItems && this.items.notEmpty() && this.items.get(0).stackSize > this.items.size) {
+                while (this.items.size < maxCountItems && this.items.get(0).stackSize > this.items.size)
                     this.items.add(items.pop());
                 return;
             }
@@ -78,7 +77,7 @@ public class Container {
     public void setItems(Array<Item> items) {
         if (items.isEmpty()) return;
         this.items.clear();
-        if (maxCountItems >= items.size && items.get(0).STACK_SIZE >= items.size)
+        if (maxCountItems >= items.size && items.get(0).stackSize >= items.size)
             this.items.addAll(items);
         else
             for (int i = 0; i < maxCountItems; i++) {

@@ -4,7 +4,6 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 import com.intbyte.bw.gameAPI.utils.ExtraData;
 import com.intbyte.bw.gameAPI.utils.ID;
-import com.intbyte.bw.gameAPI.utils.MathUtil;
 
 
 public class DropData implements ExtraData {
@@ -31,7 +30,7 @@ public class DropData implements ExtraData {
 
     public Container get(){
         Array<Item> items = Item.newItems(itemID, MathUtils.random(minCount,maxCount));
-        Container container = new Container(items.get(0).STACK_SIZE);
+        Container container = new Container(items.get(0).stackSize);
         container.addItems(items);
         return container;
     }

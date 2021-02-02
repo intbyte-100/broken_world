@@ -25,8 +25,11 @@ public abstract class Entity {
     protected int bodyID;
     protected Vector2 position = new Vector2();
     protected Array<Container> inventory = new Array<>();
-
+    protected double carrying;
     protected Container carriedItem = new Container(64);
+    protected double itemsWeight;
+    protected Vector3 speed = new Vector3(1,0,1);
+    protected Vector3 maxSpeed = new Vector3(1,0,1);
 
 
     public static void addFactory(EntityFactory entityFactory){
@@ -172,5 +175,40 @@ public abstract class Entity {
 
     public boolean takeDrop(Container container){
         return false;
+    }
+
+    public void setCarrying(double carrying) {
+        this.carrying = carrying;
+    }
+
+    public void tick(){
+
+    }
+
+    public double getSummaryWeight(){
+        double weight = 0;
+        for(Container i: inventory)
+            if(i.getItems().notEmpty())
+                weight+=i.getCountItems()*i.getItems().get(0).getWeight();
+        return weight;
+    }
+    public double getCarrying() {
+        return carrying;
+    }
+
+    public double getItemsWeight() {
+        return itemsWeight;
+    }
+
+    public void setItemsWeight(double itemsWeight) {
+        this.itemsWeight = itemsWeight;
+    }
+
+    public Vector3 getSpeed() {
+        return speed;
+    }
+
+    public Vector3 getMaxSpeed() {
+        return maxSpeed;
     }
 }

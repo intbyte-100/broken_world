@@ -10,7 +10,7 @@ public class ItemData {
     public ItemData(int maxStrength, int damage, int level, float coolDown, float takeEndurance) {
         this.damage = damage;
         this.maxStrength = maxStrength;
-        strength = maxStrength;
+        this.strength = maxStrength;
         this.level = level;
         this.takeEndurance = takeEndurance;
         this.coolDown = coolDown;

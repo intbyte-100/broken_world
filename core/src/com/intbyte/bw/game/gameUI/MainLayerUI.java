@@ -36,7 +36,7 @@ public class MainLayerUI extends Layer {
         CallBack.addCallBack(new Render() {
             @Override
             public void main() {
-                label.setText("fps: " + Gdx.graphics.getFramesPerSecond() + "; player position: x = " + (int) player.getX() + ", z = " + (int) player.getZ() + "; visible models = " + GameThread.visible+" "+ World.getChunck((float) player.getX(),(float) player.getZ()).x);
+                label.setText("fps: " + Gdx.graphics.getFramesPerSecond() + "; player position: x = " + (int) player.getX() + ", z = " + (int) player.getZ() + "; visible models = " + GameThread.visible+"; player weight = "+player.getItemsWeight());
             }
         });
 
@@ -68,7 +68,7 @@ public class MainLayerUI extends Layer {
         //addActor(slot3);
 
         label = new Label(" ", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        label.setFontScale(2.5f);
+        label.setFontScale(1.5f);
         adapter.addActor(label);
         adapter.setGravity(GravityAttribute.TOP, GravityAttribute.LEFT);
         addActor(label);

@@ -66,9 +66,9 @@ public class Joystick extends Actor {
             player.setRotate((float) MathUtil.getAngle(cursorX,cursorY,80,0,0,0));
 
 
-        translateX = cursorX / radius;
-        translateY = cursorY / radius;
-        player.getBody().setLinearVelocity(-translateX * Gdx.graphics.getDeltaTime()*60, Gdx.graphics.getDeltaTime()*60 * translateY);
+        translateX = cursorX / radius* player.getSpeed().x;
+        translateY = cursorY / radius* player.getSpeed().z;
+        player.getBody().setLinearVelocity(-translateX, translateY);
 
     }
 

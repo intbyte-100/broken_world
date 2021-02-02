@@ -15,13 +15,15 @@ public abstract class Item {
     private static final InteractionOfItems interaction = InteractionOfItems.getInstance();
 
 
-    public int STACK_SIZE;
-    protected boolean takenable;
+    private double weight;
+
+    public int stackSize;
     protected Sprite icon;
     protected ModelInstance modelInstance;
     protected ItemData itemData;
-    private int id;
-    private int type;
+    protected int id;
+    protected int type;
+
 
 
     public static void addItemFactory(String id, ItemFactory item) {
@@ -69,12 +71,12 @@ public abstract class Item {
         this.type = type;
     }
 
-    public int getSTACK_SIZE() {
-        return STACK_SIZE;
+    public int getStackSize() {
+        return stackSize;
     }
 
-    void setSTACK_SIZE(int STACK_SIZE) {
-        this.STACK_SIZE = STACK_SIZE;
+    void setStackSize(int stackSize) {
+        this.stackSize = stackSize;
     }
 
     public int getId() {
@@ -101,5 +103,13 @@ public abstract class Item {
 
     public ItemData getItemData() {
         return itemData;
+    }
+
+    public double getWeight() {
+        return weight;
+    }
+
+    public void setWeight(double weight) {
+        this.weight = weight;
     }
 }

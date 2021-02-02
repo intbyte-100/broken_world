@@ -8,6 +8,8 @@ import com.badlogic.gdx.utils.Array;
 import com.intbyte.bw.gameAPI.environment.Container;
 import com.intbyte.bw.gameAPI.graphic.ui.container.Slot;
 
+import java.lang.reflect.Field;
+
 public class Inventory extends Group {
     protected int elementsPerLine;
     protected Array<Container> containers;
@@ -41,6 +43,7 @@ public class Inventory extends Group {
         this.scrollTable = new Table();
         this.slots = new Array<>();
         this.scrollPane = new ScrollPane(scrollTable);
+        scrollPane.setOverscroll(false,true);
         scrollTable.top().left();
         layout = new Table();
         layout.setFillParent(true);
@@ -67,7 +70,6 @@ public class Inventory extends Group {
             if((i+1)%elementsPerLine==0)
                 scrollTable.row();
         }
-
     }
 
     @Override

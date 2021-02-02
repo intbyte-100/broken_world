@@ -47,6 +47,7 @@ public class EntityManager {
             nonActiveRect.setCenter((float) player.getX(), (float) player.getZ());
             for (int j = 0; j < active.size; j++) {
                 Entity i = active.get(j);
+                i.tick();
                 if (!activeRect.contains((float) i.getX(), (float) i.getZ())) {
                     nonActive.add(i);
                     builder.setLength(0);
@@ -68,7 +69,7 @@ public class EntityManager {
                 }
             }
             try {
-                sleep(60);
+                sleep(50);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

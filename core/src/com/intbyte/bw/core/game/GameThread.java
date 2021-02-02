@@ -84,6 +84,11 @@ public class GameThread implements Screen {
                 e.printStackTrace();
             }
         }
+
+        if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
+            Gdx.app.log("APPLICATION","application finished");
+            System.exit(0);
+        }
     }
 
 
