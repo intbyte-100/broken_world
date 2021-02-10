@@ -44,8 +44,8 @@ public class Game {
                 Block.defineBlock("grass2", "2block.obj", "android.jpg", Block.STONE, 1, 10, physicBlockEntity);
 
 
-                Tools.newBlock("test", "icon:grass", "grass",4);
-                Tools.newBlock("test1", "icon:grass2", "grass2",4);
+                Tools.newBlock("test", "icon:grass", "grass",1);
+                Tools.newBlock("test1", "icon:grass2", "grass2",1);
                 Tools.newPickaxe("pickaxe", "pickaxe.png", 10, 10000, 100, 100f / 12 * 1, (float) 100 / 3,2);
                 Tools.newPickaxe("pickaxe2", "pickaxe.png", 10, 10000, 100, 100f / 12 * 1, (float) 100 / 3,2);
 
@@ -63,7 +63,7 @@ public class Game {
 
 
                 GUI.putLayer("inventory", new InventoryLayerUI());
-                GUI.setLayer("inventory", null);
+                GUI.setLayer("main", null);
 
                 int id = ID.get("block:grass2");
 

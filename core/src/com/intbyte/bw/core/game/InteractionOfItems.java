@@ -4,11 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g3d.Material;
+import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.attributes.BlendingAttribute;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
-import com.badlogic.gdx.graphics.g3d.attributes.TextureAttribute;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.intbyte.bw.gameAPI.callbacks.*;
 import com.intbyte.bw.gameAPI.environment.*;
@@ -23,15 +22,16 @@ public class InteractionOfItems {
     private static final Player player = Player.getPlayer();
     private static InteractionOfItems instance;
     private static boolean isDragged;
-    static private Material material;
-    static private TextureAttribute textureAttribute;
+
     private final HashMap<Integer, Integer> settableItemsHashMap = new HashMap<>();
     private final StringBuilder builder = new StringBuilder();
     private Integer id;
     private Container container;
     private Item item;
-    private static Rectangle rectangle = new Rectangle(0, 0, 10, 10);
+    private static final Rectangle rectangle = new Rectangle(0, 0, 10, 10);
     private static boolean interaction;
+    private static ModelInstance modelInstance;
+
     public static InteractionOfItems getInstance() {
         if (instance == null) instance = new InteractionOfItems();
         return instance;
@@ -56,10 +56,10 @@ public class InteractionOfItems {
         CallBack.addCallBack(new Touch() {
             @Override
             public void main(Vector3 position) {
-                if(!InteractionOfItems.interaction) return;
-                float x = position.x * 10- GameThread.xDraw, z = position.z * 10- GameThread.zDraw;
+                if (!InteractionOfItems.interaction) return;
+                float x = position.x * 10 - GameThread.xDraw, z = position.z * 10 - GameThread.zDraw;
                 isDragged = !rectangle.contains(x, z - 10);
-                if(!isDragged) return;
+                if (!isDragged) return;
                 rectangle.setCenter(x, z - 10);
                 destination.set(x, 0, z - 10);
                 velocity.x = (destination.x - vector3.x);
@@ -72,8 +72,8 @@ public class InteractionOfItems {
         CallBack.addCallBack(new Drag() {
             @Override
             public void main(Vector3 position) {
-                if(!InteractionOfItems.interaction) return;
-                float x = position.x * 10- GameThread.xDraw, z = position.z * 10- GameThread.zDraw;
+                if (!InteractionOfItems.interaction) return;
+                float x = position.x * 10 - GameThread.xDraw, z = position.z * 10 - GameThread.zDraw;
                 rectangle.setCenter(x, z - 10);
                 destination.set(x, 0, z - 10);
                 velocity.x = (destination.x - vector3.x) * 0.2f;
@@ -84,17 +84,9 @@ public class InteractionOfItems {
         });
 
         CallBack.addCallBack(new Render() {
-            final Runnable runnable = new Runnable() {
-                @Override
-                public void run() {
-                    material.clear();
-                    material.set(textureAttribute);
-                }
-            };
-
             @Override
             public void main() {
-                if (isDragged&&InteractionOfItems.interaction) {
+                if (isDragged && InteractionOfItems.interaction) {
                     Integer id = interaction.settableItemsHashMap.get(interaction.container.getId());
                     if (id == null) {
                         isDragged = false;
@@ -103,51 +95,50 @@ public class InteractionOfItems {
                     }
 
                     if (!(Math.abs(vector3.x - destination.x) <= Math.abs(velocity.x) &&
-                            Math.abs(vector3.z - destination.z) <= Math.abs(velocity.z))){
+                            Math.abs(vector3.z - destination.z) <= Math.abs(velocity.z))) {
                         vector3.add(velocity);
-                        if(!(Math.abs(vector3.x - destination.x)-Math.abs(oldPosition.x - destination.x)<Math.abs(velocity.x)&&
-                                Math.abs(vector3.z - destination.z)-Math.abs(oldPosition.z - destination.z)<Math.abs(velocity.z)))
+                        if (!(Math.abs(vector3.x - destination.x) - Math.abs(oldPosition.x - destination.x) < Math.abs(velocity.x) &&
+                                Math.abs(vector3.z - destination.z) - Math.abs(oldPosition.z - destination.z) < Math.abs(velocity.z)))
                             vector3.set(destination);
-                    }
-                    else
+                    } else
                         vector3.set(destination);
-                    Block.CustomBlock block = Block.getBlocks()[id];
-                    material = block.getModelInstance().materials.peek();
-                    textureAttribute = (TextureAttribute) material.get(TextureAttribute.Diffuse);
-                    material.clear();
+                    if (modelInstance == null) return;
                     Color.GREEN.a = 0.5f;
-                    material.set(ColorAttribute.createDiffuse(Color.GREEN), new BlendingAttribute(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA));
-                    block.render((float) (vector3.x - player.getPixelX())+ GameThread.xDraw, 5, (float) (vector3.z - player.getPixelZ())+ GameThread.zDraw);
-                    material.set(textureAttribute);
-                    Gdx.app.postRunnable(runnable);
+                    modelInstance.materials.peek().set(ColorAttribute.createDiffuse(Color.GREEN), new BlendingAttribute(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA));
+                    Block.getBlocks()[id].render(modelInstance, (float) (vector3.x - player.getPixelX()) + GameThread.xDraw, 5, (float) (vector3.z - player.getPixelZ()) + GameThread.zDraw);
                     return;
                 }
                 isDragged = false;
-                rectangle.setPosition(-1000,-1000);
+                rectangle.setPosition(-1000, -1000);
             }
         });
         CallBack.addCallBack(new TouchOnBlock() {
 
+            private int oldId;
 
             @Override
             public void main(float x, float z) {
                 if (!InteractionOfItems.interaction) return;
                 interaction.builder.setLength(0);
-                interaction.container = interaction.player.getCarriedItem();
+                interaction.container = player.getCarriedItem();
                 interaction.id = interaction.settableItemsHashMap.get(interaction.container.getId());
                 boolean set = true;
                 if (interaction.id == null) {
                     interaction.id = interaction.container.getId();
                     set = false;
+                } else {
+                    if (oldId != instance.id)
+                        modelInstance = new ModelInstance(Block.getBlock(interaction.settableItemsHashMap.get(interaction.id)).getModelInstance().model);
+                    oldId = interaction.id;
                 }
-                if (isDragged&&!World.isCollision(x, z-1)) {
+                if (isDragged && !World.isCollision(x, z - 1)) {
                     return;
                 }
-                if (World.isCollision(x, z-1)&& Item.getItemFactories()[interaction.id] != null && interaction.player.coolDown == 0 && Item.getItemFactories()[interaction.id].getType() != Item.BLOCK) {
-                    interaction.hit(x,z);
+                if (World.isCollision(x, z - 1) && Item.getItemFactories()[interaction.id] != null && player.coolDown == 0 && Item.getItemFactories()[interaction.id].getType() != Item.BLOCK) {
+                    interaction.hit(x, z);
                     return;
                 }
-                if (!(World.isCollision(x,z-1)) && set) {
+                if (!(World.isCollision(x, z - 1)) && set) {
                     isDragged = false;
                     interaction.set(x, z);
                 }
@@ -170,7 +161,7 @@ public class InteractionOfItems {
             item = container.delete();
         }
 
-        Tile tile = World.getIntersectedTile(x, z-1);
+        Tile tile = World.getIntersectedTile(x, z - 1);
 
         Block.CustomBlock customBlock = tile.getBlock();
 
@@ -220,7 +211,7 @@ public class InteractionOfItems {
                     append("; z = ").
                     append(z);
             if (customBlock.getDropID() != 0) {
-                Entity drop = Entity.spawn(customBlock.getDropID(), x, z-0.5f);
+                Entity.spawn(customBlock.getDropID(), x, z - 0.5f);
                 builder.append("; drop = ").append(customBlock.getDropID());
             }
             tile.setBlockID(0);
@@ -231,7 +222,7 @@ public class InteractionOfItems {
 
     private void set(float x, float z) {
         isDragged = false;
-        if(World.isCollision(x,z-1)) return;
+        if (World.isCollision(x, z - 1)) return;
         builder.append("player set block with id ").
                 append(id).
                 append(", used item with id ").
@@ -241,8 +232,7 @@ public class InteractionOfItems {
                 append("; z = ").
                 append(z);
         Gdx.app.log("PLAYER", "player set block with id " + id + ", used item with id " + Player.getPlayer().getCarriedItem().getId() + "; x = " + x + "; z = " + z);
-        Vector2 vector2 = rectangle.getCenter(new Vector2());
-        World.setBlock((rectangle.x+5)/10, (rectangle.y+5)/10, id);
+        World.setBlock((rectangle.x + 5) / 10, (rectangle.y + 5) / 10, id);
         container.delete();
     }
 }

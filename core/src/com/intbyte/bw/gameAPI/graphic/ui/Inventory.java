@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Array;
 import com.intbyte.bw.gameAPI.environment.Container;
 import com.intbyte.bw.gameAPI.graphic.ui.container.Slot;
+import com.intbyte.bw.gameAPI.graphic.ui.container.TakenItems;
 
 import java.lang.reflect.Field;
 
@@ -72,9 +73,15 @@ public class Inventory extends Group {
         }
     }
 
+
+    public float getSlotSize(){
+        return getWidth()/elementsPerLine;
+    }
+    boolean scrollLock;
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
         batch.setColor(1,1,1,1);
+
     }
 }

@@ -6,11 +6,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.intbyte.bw.gameAPI.utils.Resource;
 
-public class Panel extends Actor {
+public class Panel extends Group {
     Sprite sprite;
 
 
@@ -29,6 +30,7 @@ public class Panel extends Actor {
     public void draw(Batch batch, float parentAlpha) {
         batch.enableBlending();
         batch.draw(sprite,getX(),getY(),getWidth(),getHeight());
+        super.draw(batch, parentAlpha);
     }
 
 

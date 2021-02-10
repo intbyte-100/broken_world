@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -15,7 +16,8 @@ import com.intbyte.bw.gameAPI.utils.Resource;
 
 public class Slot extends Actor {
     private final static BitmapFont font = new BitmapFont();
-    private static final Container empty = new Container(64);
+    private boolean touchedDown;
+    private final static Vector2 touchPosition = new Vector2(), oldPosition = new Vector2();
     private final SlotSkin slotSkin;
     private Container container;
     private float itemSize;
@@ -24,7 +26,14 @@ public class Slot extends Actor {
     private boolean drag;
 
     public Slot(){
-        this(SlotSkin.DEFAULT,empty);
+        this(64);
+    }
+    public Slot(int maxCountItems){
+        this(new Container(maxCountItems));
+    }
+
+    public Slot(Container container){
+        this(SlotSkin.DEFAULT,container);
     }
     public Slot(SlotSkin skin, Container container) {
         slotSkin = skin;
@@ -53,7 +62,9 @@ public class Slot extends Actor {
 
             void swap() {
                 if (takenItems.isSelect && takenItems.selectItems != null && !isSelect) {
-                    Slot.this.container.moveItems(takenItems.selectItems.getItems());
+
+
+                    Slot.this.container.moveItems(takenItems.selectItems);
                     takenItems.selectItems = null;
                     takenItems.clear = true;
                     drag = false;
@@ -62,6 +73,7 @@ public class Slot extends Actor {
 
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                touchedDown = false;
                 if (hit(x, y, true) == null) return;
                 drag = true;
 
@@ -89,7 +101,19 @@ public class Slot extends Actor {
 
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                if(takenItems.isTaken||!takenItems.isSelect) return true;
+                touchedDown = true;
+                touchPosition.set(x, y);
+                oldPosition.set(touchPosition);
                 return true;
+            }
+
+            @Override
+            public void touchDragged(InputEvent event, float x, float y, int pointer) {
+                if(touchedDown&&touchPosition.add(-x,-y).len()>getHeight()/2){
+                    System.out.println(10000);
+                } else
+                    touchPosition.set(oldPosition);
             }
         });
     }
@@ -145,7 +169,7 @@ public class Slot extends Actor {
         return container;
     }
 
-    public static interface SlotSkin {
+    public interface SlotSkin {
         SlotSkin DEFAULT = new SlotSkin() {
             private final Sprite texture = Resource.getSprite("testPanel"),
                     selected = Resource.getSprite("selected_slot.png");

@@ -41,6 +41,7 @@ public class Resource {
         Sprite sprite = sprites.get(path);
         if (sprite == null) {
             sprite = new Sprite(new Texture(getFile("textures/" + path)));
+            sprite.getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
             sprites.put(path, sprite);
             Gdx.app.log("RESOURCE LOADER","sprite "+sprite.getTexture()+" is loaded");
         }
@@ -98,6 +99,7 @@ public class Resource {
         frameBuffer.end();
         Sprite sprite = new Sprite(frameBuffer.getColorBufferTexture());
         sprite.flip(false,true);
+        sprite.getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         return sprite;
     }
 

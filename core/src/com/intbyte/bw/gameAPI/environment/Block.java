@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g3d.attributes.TextureAttribute;
 import com.intbyte.bw.gameAPI.physic.PhysicBlockObject;
 import com.intbyte.bw.gameAPI.utils.ID;
 import com.intbyte.bw.gameAPI.utils.Resource;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 
 import java.util.HashMap;
 
@@ -182,6 +183,10 @@ public class Block {
         }
 
         public void render(float x, float y, float z) {
+            render(modelInstance,x,y,z);
+        }
+
+        public void render(ModelInstance modelInstance,float x, float y, float z){
             modelInstance.transform.setToTranslation(x, y, z);
             MODEL_BATCH.render(modelInstance, ENVIRONMENT);
         }

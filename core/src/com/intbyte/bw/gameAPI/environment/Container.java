@@ -2,6 +2,7 @@ package com.intbyte.bw.gameAPI.environment;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
+import com.intbyte.bw.gameAPI.graphic.ui.container.Slot;
 
 public class Container {
     protected int maxCountItems;
@@ -35,6 +36,7 @@ public class Container {
             }
         }
 
+        if(items.size>this.getMaxCountItems()) return;
         Array<Item> itemArray = new Array<>();
         itemArray.addAll(items);
         items.clear();
@@ -42,6 +44,13 @@ public class Container {
         this.items = itemArray;
     }
 
+    public void moveItems(Container container){
+        if((container.getCountItems()<=getMaxCountItems()&&
+                getCountItems()<=container.getMaxCountItems()||
+                getId()==container.getId())||
+                getItems().isEmpty())
+            moveItems(container.getItems());
+    }
     public void addItems(Array<Item> items) {
         moveItems(items);
     }

@@ -72,8 +72,8 @@ public class Player extends Entity {
     public void tick() {
         setItemsWeight(getSummaryWeight());
         if(getItemsWeight()>getCarrying()){
-            float dWeight = (float) ((getItemsWeight()-getCarrying())*0.1);
-            getSpeed().set(getMaxSpeed().x/dWeight,0,getMaxSpeed().z/dWeight);
+            float dWeight = (float) ((getItemsWeight()-getCarrying()));
+            getSpeed().set(getMaxSpeed().x-getMaxSpeed().x/30*dWeight,0,getMaxSpeed().z-getMaxSpeed().z/30*dWeight);
         } else
             getSpeed().set(getMaxSpeed());
     }

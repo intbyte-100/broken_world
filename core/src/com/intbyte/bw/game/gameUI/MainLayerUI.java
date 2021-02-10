@@ -21,6 +21,13 @@ import com.intbyte.bw.gameAPI.graphic.ui.container.Slot;
 import com.intbyte.bw.gameAPI.graphic.ui.container.TakenItemsRender;
 import com.intbyte.bw.gameAPI.utils.ExtraData;
 import com.intbyte.bw.gameAPI.utils.Resource;
+import com.sun.management.OperatingSystemMXBean;
+
+import javax.management.MBeanServerConnection;
+
+import java.lang.management.ManagementFactory;
+import java.lang.management.RuntimeMXBean;
+import java.lang.management.ThreadMXBean;
 
 import static com.intbyte.bw.gameAPI.graphic.TypedValue.APIXEL;
 
@@ -36,7 +43,7 @@ public class MainLayerUI extends Layer {
         CallBack.addCallBack(new Render() {
             @Override
             public void main() {
-                label.setText("fps: " + Gdx.graphics.getFramesPerSecond() + "; player position: x = " + (int) player.getX() + ", z = " + (int) player.getZ() + "; visible models = " + GameThread.visible+"; player weight = "+player.getItemsWeight());
+            label.setText("\nfps: " + Gdx.graphics.getFramesPerSecond() + "; player position: x = " + (int) player.getX() + ", z = " + (int) player.getZ() + "; visible models = " + GameThread.visible+"; player weight = "+player.getItemsWeight()+"; player speed = "+player.getSpeed()+";");
             }
         });
 
