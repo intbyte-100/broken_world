@@ -2,7 +2,6 @@ package com.intbyte.bw.gameAPI.environment;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
-import com.intbyte.bw.gameAPI.graphic.ui.container.Slot;
 
 public class Container {
     protected int maxCountItems;
@@ -96,5 +95,9 @@ public class Container {
 
     public Item getLastElement() {
         return items.get(getCountItems() - 1);
+    }
+
+    public void setMaxCountItems(int maxCountItems) {
+        this.maxCountItems = maxCountItems;
     }
 }

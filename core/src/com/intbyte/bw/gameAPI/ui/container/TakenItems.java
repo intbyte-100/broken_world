@@ -1,4 +1,4 @@
-package com.intbyte.bw.gameAPI.graphic.ui.container;
+package com.intbyte.bw.gameAPI.ui.container;
 
 import com.intbyte.bw.gameAPI.environment.Container;
 

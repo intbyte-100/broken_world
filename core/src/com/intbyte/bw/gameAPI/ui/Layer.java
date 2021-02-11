@@ -1,4 +1,4 @@
-package com.intbyte.bw.gameAPI.graphic.ui;
+package com.intbyte.bw.gameAPI.ui;
 
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.intbyte.bw.gameAPI.utils.ExtraData;

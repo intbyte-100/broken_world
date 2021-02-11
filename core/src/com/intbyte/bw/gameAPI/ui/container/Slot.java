@@ -1,4 +1,4 @@
-package com.intbyte.bw.gameAPI.graphic.ui.container;
+package com.intbyte.bw.gameAPI.ui.container;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -62,8 +62,6 @@ public class Slot extends Actor {
 
             void swap() {
                 if (takenItems.isSelect && takenItems.selectItems != null && !isSelect) {
-
-
                     Slot.this.container.moveItems(takenItems.selectItems);
                     takenItems.selectItems = null;
                     takenItems.clear = true;
@@ -74,6 +72,7 @@ public class Slot extends Actor {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 touchedDown = false;
+                SlotAllocateController.setAllocate(false);
                 if (hit(x, y, true) == null) return;
                 drag = true;
 
@@ -111,6 +110,7 @@ public class Slot extends Actor {
             @Override
             public void touchDragged(InputEvent event, float x, float y, int pointer) {
                 if(touchedDown&&touchPosition.add(-x,-y).len()>getHeight()/2){
+                    SlotAllocateController.setAllocate(true);
                     System.out.println(10000);
                 } else
                     touchPosition.set(oldPosition);
@@ -167,6 +167,15 @@ public class Slot extends Actor {
 
     public Container getContainer() {
         return container;
+    }
+
+    @Override
+    public Actor hit(float x, float y, boolean touchable) {
+        Actor actor = super.hit(x, y, touchable);
+        if(actor!=null){
+            SlotAllocateController.allocate(getContainer());
+        }
+        return actor;
     }
 
     public interface SlotSkin {

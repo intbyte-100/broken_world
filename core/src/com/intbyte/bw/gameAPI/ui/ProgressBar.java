@@ -1,4 +1,4 @@
-package com.intbyte.bw.gameAPI.graphic.ui;
+package com.intbyte.bw.gameAPI.ui;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;

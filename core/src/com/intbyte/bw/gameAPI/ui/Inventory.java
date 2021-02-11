@@ -1,4 +1,4 @@
-package com.intbyte.bw.gameAPI.graphic.ui;
+package com.intbyte.bw.gameAPI.ui;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -6,10 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Array;
 import com.intbyte.bw.gameAPI.environment.Container;
-import com.intbyte.bw.gameAPI.graphic.ui.container.Slot;
-import com.intbyte.bw.gameAPI.graphic.ui.container.TakenItems;
-
-import java.lang.reflect.Field;
+import com.intbyte.bw.gameAPI.ui.container.Slot;
 
 public class Inventory extends Group {
     protected int elementsPerLine;

@@ -1,7 +1,7 @@
 package com.intbyte.bw.game;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.intbyte.bw.gameAPI.graphic.ui.button.Button;
+import com.intbyte.bw.gameAPI.ui.button.Button;
 import com.intbyte.bw.gameAPI.utils.Resource;
 
 public class TestButtonSkin implements Button.ButtonSkin {

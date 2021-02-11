@@ -1,4 +1,4 @@
-package com.intbyte.bw.gameAPI.graphic.ui.container;
+package com.intbyte.bw.gameAPI.ui.container;
 
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputProcessor;

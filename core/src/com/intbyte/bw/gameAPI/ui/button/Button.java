@@ -1,11 +1,10 @@
-package com.intbyte.bw.gameAPI.graphic.ui.button;
+package com.intbyte.bw.gameAPI.ui.button;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.intbyte.bw.gameAPI.utils.Resource;
 
 public class Button extends Actor {
 

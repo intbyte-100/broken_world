@@ -1,4 +1,4 @@
-package com.intbyte.bw.gameAPI.graphic.ui.button;
+package com.intbyte.bw.gameAPI.ui.button;
 
 import com.badlogic.gdx.math.Polygon;
 

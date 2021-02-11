@@ -9,8 +9,8 @@ import com.intbyte.bw.gameAPI.callbacks.CallBack;
 import com.intbyte.bw.gameAPI.callbacks.Render;
 import com.intbyte.bw.gameAPI.environment.Entity;
 import com.intbyte.bw.gameAPI.environment.World;
-import com.intbyte.bw.gameAPI.graphic.ui.GUI;
-import com.intbyte.bw.gameAPI.graphic.ui.container.TakenItemsRender;
+import com.intbyte.bw.gameAPI.ui.GUI;
+import com.intbyte.bw.gameAPI.ui.container.TakenItemsRender;
 import com.intbyte.bw.gameAPI.physic.Physic;
 
 import static com.intbyte.bw.gameAPI.graphic.Graphic.*;

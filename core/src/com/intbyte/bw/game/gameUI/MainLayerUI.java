@@ -10,24 +10,16 @@ import com.intbyte.bw.core.game.Player;
 import com.intbyte.bw.gameAPI.callbacks.CallBack;
 import com.intbyte.bw.gameAPI.callbacks.Render;
 import com.intbyte.bw.gameAPI.environment.Item;
-import com.intbyte.bw.gameAPI.environment.World;
 import com.intbyte.bw.gameAPI.graphic.GravityAdapter;
 import com.intbyte.bw.gameAPI.graphic.GravityAttribute;
-import com.intbyte.bw.gameAPI.graphic.ui.Joystick;
-import com.intbyte.bw.gameAPI.graphic.ui.Layer;
-import com.intbyte.bw.gameAPI.graphic.ui.ProgressBar;
+import com.intbyte.bw.gameAPI.ui.Joystick;
+import com.intbyte.bw.gameAPI.ui.Layer;
+import com.intbyte.bw.gameAPI.ui.ProgressBar;
 import com.intbyte.bw.gameAPI.environment.Container;
-import com.intbyte.bw.gameAPI.graphic.ui.container.Slot;
-import com.intbyte.bw.gameAPI.graphic.ui.container.TakenItemsRender;
+import com.intbyte.bw.gameAPI.ui.container.Slot;
+import com.intbyte.bw.gameAPI.ui.container.TakenItemsRender;
 import com.intbyte.bw.gameAPI.utils.ExtraData;
 import com.intbyte.bw.gameAPI.utils.Resource;
-import com.sun.management.OperatingSystemMXBean;
-
-import javax.management.MBeanServerConnection;
-
-import java.lang.management.ManagementFactory;
-import java.lang.management.RuntimeMXBean;
-import java.lang.management.ThreadMXBean;
 
 import static com.intbyte.bw.gameAPI.graphic.TypedValue.APIXEL;
 

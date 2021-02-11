@@ -6,10 +6,10 @@ import com.intbyte.bw.core.game.Player;
 import com.intbyte.bw.gameAPI.graphic.GravityAdapter;
 import com.intbyte.bw.gameAPI.graphic.GravityAttribute;
 import com.intbyte.bw.gameAPI.graphic.TypedValue;
-import com.intbyte.bw.gameAPI.graphic.ui.Inventory;
-import com.intbyte.bw.gameAPI.graphic.ui.Layer;
-import com.intbyte.bw.gameAPI.graphic.ui.Panel;
-import com.intbyte.bw.gameAPI.graphic.ui.container.Slot;
+import com.intbyte.bw.gameAPI.ui.Inventory;
+import com.intbyte.bw.gameAPI.ui.Layer;
+import com.intbyte.bw.gameAPI.ui.Panel;
+import com.intbyte.bw.gameAPI.ui.container.Slot;
 import com.intbyte.bw.gameAPI.utils.ExtraData;
 import com.intbyte.bw.gameAPI.utils.Resource;
 

@@ -1,7 +1,5 @@
-package com.intbyte.bw.gameAPI.graphic.ui;
+package com.intbyte.bw.gameAPI.ui;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;

@@ -8,8 +8,8 @@ import com.intbyte.bw.game.gameUI.MainLayerUI;
 import com.intbyte.bw.gameAPI.callbacks.CallBack;
 import com.intbyte.bw.gameAPI.callbacks.Initialization;
 import com.intbyte.bw.gameAPI.environment.*;
-import com.intbyte.bw.gameAPI.graphic.ui.GUI;
-import com.intbyte.bw.gameAPI.graphic.ui.Panel;
+import com.intbyte.bw.gameAPI.ui.GUI;
+import com.intbyte.bw.gameAPI.ui.Panel;
 import com.intbyte.bw.gameAPI.physic.PhysicBlockObject;
 import com.intbyte.bw.gameAPI.utils.ID;
 import com.intbyte.bw.gameAPI.utils.Resource;
@@ -63,12 +63,12 @@ public class Game {
 
 
                 GUI.putLayer("inventory", new InventoryLayerUI());
-                GUI.setLayer("main", null);
+                GUI.setLayer("inventory", null);
 
                 int id = ID.get("block:grass2");
 
                 player.setPosition(100, 100);
-                for(int i = 0; i < 1000; i++)
+                for(int i = 0; i < 100; i++)
                     World.setBlock(i, 100,id);
 
             }
