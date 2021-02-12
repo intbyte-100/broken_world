@@ -15,6 +15,9 @@ object SlotAllocateController {
         if (!value) allocateContainers.clear()
         field = value
     }
+    @JvmStatic
+    var isLockScroll = false
+
 
 
     @JvmStatic
@@ -23,11 +26,11 @@ object SlotAllocateController {
         if (isAllocate&&slotUID != System.identityHashCode(currentContainer)) {
             slotUID = System.identityHashCode(currentContainer)
 
-            println(true)
+
             val container = takenItems.selectItems
 
             if (currentContainer.items.notEmpty()&&currentContainer.id != container.id) return
-            println(false)
+
             allocateContainers.add(container)
             allocateContainers.add(currentContainer)
 

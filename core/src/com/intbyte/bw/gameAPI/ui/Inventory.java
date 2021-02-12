@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Array;
 import com.intbyte.bw.gameAPI.environment.Container;
 import com.intbyte.bw.gameAPI.ui.container.Slot;
+import com.intbyte.bw.gameAPI.ui.container.SlotAllocateController;
 
 public class Inventory extends Group {
     protected int elementsPerLine;
@@ -79,6 +80,13 @@ public class Inventory extends Group {
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
         batch.setColor(1,1,1,1);
+    }
+
+    @Override
+    public void act(float delta) {
+        super.act(delta);
+        if(SlotAllocateController.isAllocate()||SlotAllocateController.isLockScroll())
+            scrollPane.cancel();
 
     }
 }

@@ -35,7 +35,7 @@ public class Slot extends Actor {
     public Slot(Container container){
         this(SlotSkin.DEFAULT,container);
     }
-    public Slot(SlotSkin skin, Container container) {
+    public Slot(SlotSkin skin, final Container container) {
         slotSkin = skin;
         this.container = container;
         addListener(new InputListener() {
@@ -73,6 +73,12 @@ public class Slot extends Actor {
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 touchedDown = false;
                 SlotAllocateController.setAllocate(false);
+                SlotAllocateController.setLockScroll(false);
+                if((Slot.this.container.getItems().isEmpty()&&isSelect)) {
+                    takenItems.isSelect = isSelect = false;
+                    return;
+                }
+
                 if (hit(x, y, true) == null) return;
                 drag = true;
 
@@ -96,11 +102,13 @@ public class Slot extends Actor {
                         }
                     } else
                         put();
+
             }
 
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if(takenItems.isTaken||!takenItems.isSelect) return true;
+                if(takenItems.isTaken||!takenItems.isSelect||!isSelect) return true;
+                SlotAllocateController.setLockScroll(true);
                 touchedDown = true;
                 touchPosition.set(x, y);
                 oldPosition.set(touchPosition);
@@ -109,9 +117,8 @@ public class Slot extends Actor {
 
             @Override
             public void touchDragged(InputEvent event, float x, float y, int pointer) {
-                if(touchedDown&&touchPosition.add(-x,-y).len()>getHeight()/2){
+                if(touchedDown&&touchPosition.add(-x,-y).len()>getHeight()*0.5){
                     SlotAllocateController.setAllocate(true);
-                    System.out.println(10000);
                 } else
                     touchPosition.set(oldPosition);
             }
