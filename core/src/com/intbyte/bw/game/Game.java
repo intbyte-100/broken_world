@@ -28,7 +28,7 @@ public class Game {
                 Sprite sprite = Panel.drawPanel(400,400,8,0.1f,0.1f,0.1f,0.5f);
 
 
-                Resource.addSprite(sprite,"testPanel");
+                Resource.addSprite(sprite,"slot");
                 Rectangle rectangle = new Rectangle();
 
                 rectangle.setSize(20);

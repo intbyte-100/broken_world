@@ -187,7 +187,7 @@ public class Slot extends Actor {
 
     public interface SlotSkin {
         SlotSkin DEFAULT = new SlotSkin() {
-            private final Sprite texture = Resource.getSprite("testPanel"),
+            private final Sprite texture = Resource.getSprite("slot"),
                     selected = Resource.getSprite("selected_slot.png");
 
             @Override

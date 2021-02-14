@@ -15,15 +15,19 @@ public class Panel extends Group {
 
 
     public Panel(String texture) {
-        sprite = Resource.getSprite(texture);
-        addListener(new InputListener(){
+        this(Resource.getSprite(texture));
+
+    }
+
+    public Panel(Sprite sprite){
+        this.sprite = sprite;
+                addListener(new InputListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 return true;
             }
         });
     }
-
     @Override
     public void draw(Batch batch, float parentAlpha) {
         batch.enableBlending();

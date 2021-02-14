@@ -15,7 +15,7 @@ import com.intbyte.bw.gameAPI.utils.Resource;
 
 public class InventoryLayerUI extends Layer {
 
-    Inventory inventory = new Inventory();
+    private Inventory inventory = new Inventory();
 
     public InventoryLayerUI() {
         final float padding = Gdx.graphics.getHeight() * 0.06f;
@@ -49,10 +49,15 @@ public class InventoryLayerUI extends Layer {
         Slot firstItem = new Slot(Player.getPlayer().getCarriedItem()), secondItem = new Slot(1), thirdItem = new Slot(),
                 helmet = new Slot(1), armor = new Slot(1), leggings = new Slot(1);
 
-        final float slotSize = (panel2.getWidth() - padding * 4) / 3f * 0.86f;
+
+
+        final float slotSize = (panel2.getWidth() - padding * 4) / 3f * 0.85f;
         firstItem.setSize(slotSize);
         secondItem.setSize(slotSize);
         thirdItem.setSize(slotSize);
+        helmet.setSize(slotSize);
+        armor.setSize(slotSize);
+        leggings.setSize(slotSize);
 
         panel2.addActor(firstItem);
         panel2.addActor(secondItem);
@@ -67,6 +72,34 @@ public class InventoryLayerUI extends Layer {
         adapter.addActor(thirdItem);
         adapter.tiedTo(GravityAttribute.BOTTOM, secondItem);
         adapter.margin(padding, 0);
+
+        Panel playerPanel = new Panel(Panel.drawPanel(10,10,0,0.1f,0.1f,0.1f,0.5f));
+        playerPanel.setSize(panel2.getWidth()-(firstItem.getWidth()+padding*2)*2,firstItem.getHeight()*3);
+
+        adapter.addActor(playerPanel);
+        adapter.tiedTo(GravityAttribute.BOTTOM,secondItem);
+        adapter.tiedTo(GravityAttribute.LEFT,secondItem);
+        adapter.margin(padding,0);
+        panel2.addActor(playerPanel);
+
+        helmet.setPosition(0,panel2.getHeight() - padding - firstItem.getHeight());
+        adapter.addActor(helmet);
+        adapter.tiedTo(GravityAttribute.LEFT,playerPanel);
+        adapter.margin(padding,0);
+        panel2.addActor(helmet);
+
+        adapter.addActor(armor);
+        adapter.tiedTo(GravityAttribute.LEFT,playerPanel);
+        adapter.tiedTo(GravityAttribute.BOTTOM,helmet);
+        adapter.margin(padding,0);
+        panel2.addActor(armor);
+
+        adapter.addActor(leggings);
+        adapter.tiedTo(GravityAttribute.LEFT,playerPanel);
+        adapter.tiedTo(GravityAttribute.BOTTOM,armor);
+        adapter.margin(padding,0);
+        panel2.addActor(leggings);
+
         adapter.apply();
 
     }

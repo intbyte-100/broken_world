@@ -18,7 +18,13 @@ public class Player extends Entity {
     private ModelInstance modelInstance;
 
     protected Player() {
-        for(int i = 0; i < 100; i++)
+        final float padding = Gdx.graphics.getHeight() * 0.06f;
+        float width = (Gdx.graphics.getWidth() - padding * 2 - padding) / 2;
+        float height = Gdx.graphics.getHeight() - padding * 2;
+        final float slotSize = (width - padding * 4) / 3f * 0.85f;
+        int containerCount = (int) Math.round((height-padding)/slotSize)*5-3;
+
+        for(int i = 0; i < containerCount; i++)
             inventory.add(new Container(64));
         Gdx.app.log("PLAYER", "player is initialized");
         modelInstance = Resource.createModelInstance("block/2block.obj");
