@@ -6,7 +6,7 @@ import com.badlogic.gdx.utils.Array;
 public class Container {
     protected int maxCountItems;
     protected Array<Item> items;
-
+    protected int availableType = -2;
 
     public Container(int maxCountItems) {
         items = new Array<>();
@@ -44,6 +44,8 @@ public class Container {
     }
 
     public void moveItems(Container container){
+        System.out.println(getAvailableType()+" "+container.getAvailableType());
+        if((getAvailableType()==container.getAvailableType())||getAvailableType()==container.getType())
         if((container.getCountItems()<=getMaxCountItems()&&
                 getCountItems()<=container.getMaxCountItems()||
                 getId()==container.getId())||
@@ -95,6 +97,18 @@ public class Container {
 
     public Item getLastElement() {
         return items.get(getCountItems() - 1);
+    }
+
+    public int getType(){
+        return items.notEmpty() ? items.get(0).getType() : -1;
+    }
+
+    public int getAvailableType() {
+        return availableType;
+    }
+
+    public void setAvailableType(int availableType) {
+        this.availableType = availableType;
     }
 
     public void setMaxCountItems(int maxCountItems) {

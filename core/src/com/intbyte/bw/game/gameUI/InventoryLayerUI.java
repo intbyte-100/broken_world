@@ -13,6 +13,7 @@ import com.intbyte.bw.gameAPI.ui.container.Slot;
 import com.intbyte.bw.gameAPI.utils.ExtraData;
 import com.intbyte.bw.gameAPI.utils.Resource;
 
+import static com.intbyte.bw.gameAPI.environment.Item.*;
 public class InventoryLayerUI extends Layer {
 
     private Inventory inventory = new Inventory();
@@ -59,6 +60,10 @@ public class InventoryLayerUI extends Layer {
         armor.setSize(slotSize);
         leggings.setSize(slotSize);
 
+        helmet.getContainer().setAvailableType(PICKAXE);
+        armor.getContainer().setAvailableType(ARMOR);
+        leggings.getContainer().setAvailableType(LEGGINGS);
+
         panel2.addActor(firstItem);
         panel2.addActor(secondItem);
         panel2.addActor(thirdItem);
@@ -95,6 +100,7 @@ public class InventoryLayerUI extends Layer {
         panel2.addActor(armor);
 
         adapter.addActor(leggings);
+
         adapter.tiedTo(GravityAttribute.LEFT,playerPanel);
         adapter.tiedTo(GravityAttribute.BOTTOM,armor);
         adapter.margin(padding,0);

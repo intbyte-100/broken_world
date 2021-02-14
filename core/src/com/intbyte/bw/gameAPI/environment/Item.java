@@ -10,19 +10,19 @@ import com.intbyte.bw.gameAPI.utils.ID;
 import static com.intbyte.bw.gameAPI.graphic.Graphic.*;
 
 public abstract class Item {
-    public static final int PICKAXE = 0, AXE = 1, SWARD = 2, RESOURCE = 3, BLOCK = 4;
+    public static final int PICKAXE = 0, AXE = 1, SWARD = 2, RESOURCE = 3, BLOCK = 4, HELMET = 5, ARMOR = 6, LEGGINGS = 6;
     private static final ItemFactory[] items = new ItemFactory[1200];
     private static final InteractionOfItems interaction = InteractionOfItems.getInstance();
 
 
     private double weight;
 
-    public int stackSize;
-    protected Sprite icon;
-    protected ModelInstance modelInstance;
-    protected ItemData itemData;
+    int stackSize;
+    Sprite icon;
+    private ModelInstance modelInstance;
+    ItemData itemData;
     protected int id;
-    protected int type;
+    private int type;
 
 
 
