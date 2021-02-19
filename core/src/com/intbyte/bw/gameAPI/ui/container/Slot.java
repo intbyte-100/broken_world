@@ -47,12 +47,12 @@ public class Slot extends Actor {
                     return false;
                 }
 
-                takenItems.moveItems(Slot.this.container.getItems());
+                takenItems.moveItems(Slot.this.container);
                 return true;
             }
 
             void put() {
-                Slot.this.container.moveItems(takenItems.getItems());
+                Slot.this.container.moveItems(takenItems);
                 if (takenItems.getItems().isEmpty()) {
                     takenItems.isTaken = false;
                     takenItems.isSelect = false;
@@ -69,6 +69,7 @@ public class Slot extends Actor {
                 }
             }
 
+            int i = 0;
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 touchedDown = false;
@@ -81,6 +82,7 @@ public class Slot extends Actor {
 
                 if (hit(x, y, true) == null) return;
                 drag = true;
+
 
                 swap();
 

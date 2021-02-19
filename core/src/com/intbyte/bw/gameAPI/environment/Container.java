@@ -44,12 +44,15 @@ public class Container {
     }
 
     public void moveItems(Container container){
-        System.out.println(getAvailableType()+" "+container.getAvailableType());
-        if((getAvailableType()==container.getAvailableType())||getAvailableType()==container.getType())
-        if((container.getCountItems()<=getMaxCountItems()&&
+
+        if(container.getAvailableType()==getAvailableType()||
+                getAvailableType()==-2||
+                container.getType()==getType()||
+                (getAvailableType()==container.getType())&&
+                        ((container.getCountItems()<=getMaxCountItems()&&
                 getCountItems()<=container.getMaxCountItems()||
                 getId()==container.getId())||
-                getItems().isEmpty())
+                getItems().isEmpty()))
             moveItems(container.getItems());
     }
     public void addItems(Array<Item> items) {

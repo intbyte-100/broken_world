@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g3d.Material;
 import com.badlogic.gdx.graphics.g3d.Model;
+import com.badlogic.gdx.graphics.g3d.ModelCache;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.attributes.TextureAttribute;
 import com.intbyte.bw.gameAPI.physic.PhysicBlockObject;
@@ -189,6 +190,15 @@ public class Block {
         public void render(ModelInstance modelInstance,float x, float y, float z){
             modelInstance.transform.setToTranslation(x, y, z);
             MODEL_BATCH.render(modelInstance, ENVIRONMENT);
+        }
+
+        public void render(ModelCache modelCache, float x, float y, float z) {
+            render(modelCache,modelInstance,x,y,z);
+        }
+
+        public void render(ModelCache modelCache,ModelInstance modelInstance, float x, float y, float z){
+            modelInstance.transform.setToTranslation(x, y, z);
+            modelCache.add(modelInstance);
         }
     }
 }
