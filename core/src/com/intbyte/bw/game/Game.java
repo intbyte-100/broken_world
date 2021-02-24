@@ -40,17 +40,27 @@ public class Game {
                 Resource.putBlockObject("10x10",physicBlockEntity);
                 Block.defineLandBlock("grass", "grass.jpg");
                 ID.registeredId("block:void", 0);
-                Block.defineBlock("grass", "block.obj", "grass.jpg", Block.STONE, 100, 10, physicBlockEntity);
-                Block.defineBlock("grass2", "2block.obj", "android.jpg", Block.STONE, 1, 10, physicBlockEntity);
 
+                Block.defineBlock("grass", "_stone_3.g3db", "null", Block.STONE, 100, 10, physicBlockEntity);
+                Block.defineBlock("grass2", "_bush_2.g3db", "null", Block.STONE, 1, 10, physicBlockEntity);
+                Block.getBlock(ID.get("block:grass")).setScale(0.1f);
+                Block.getBlock(ID.get("block:grass")).setPosition(0,-5,0);
+                Block.getBlock(ID.get("block:grass2")).setScale(0.1f);
+                Block.getBlock(ID.get("block:grass2")).setPosition(2,2.5f,2);
+                Block.getBlock(ID.get("block:grass2")).updateIcon();
+                Block.getBlock(ID.get("block:grass2")).setPosition(0,-5,0);
 
+                Block.getBlock(ID.get("block:grass")).setScale(0.1f);
+                Block.getBlock(ID.get("block:grass")).setPosition(2,2.5f,2);
+                Block.getBlock(ID.get("block:grass")).updateIcon();
+                Block.getBlock(ID.get("block:grass")).setPosition(0,-5,0);
                 Tools.newBlock("test", "icon:grass", "grass",1);
                 Tools.newBlock("test1", "icon:grass2", "grass2",1);
                 Tools.newPickaxe("pickaxe", "pickaxe.png", 10, 10000, 100, 100f / 12 * 1, (float) 100 / 3,2);
                 Tools.newPickaxe("pickaxe2", "pickaxe.png", 10, 10000, 100, 100f / 12 * 1, (float) 100 / 3,2);
 
                 player = Player.getPlayer();
-                player.getCarriedItem().addItems(Item.newItems("test", 100));
+                player.getCarriedItem().addItems(Item.newItems("test1", 100));
 
 
 
@@ -68,8 +78,8 @@ public class Game {
                 int id = ID.get("block:grass2");
 
                 player.setPosition(100, 100);
-                for(int i = 0; i < 30; i++)
-                    World.setBlock(i, 100,id);
+                player.takeDrop(new Container(64).addItems(
+                        Item.newItems("test",64)));
 
             }
         });

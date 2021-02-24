@@ -55,7 +55,7 @@ public class Player extends Entity {
     public void render() {
         modelInstance.transform.setToTranslation(0 + GameThread.xDraw, 0, 0 + GameThread.zDraw);
         modelInstance.transform.rotateRad(Vector3.Y, rotate);
-        Graphic.MODEL_BATCH.render(modelInstance, Graphic.ENVIRONMENT);
+        Graphic.getModelBatch().render(modelInstance, Graphic.ENVIRONMENT);
     }
 
     private static class PlayerFactory extends EntityFactory {
@@ -80,6 +80,7 @@ public class Player extends Entity {
         if(getItemsWeight()>getCarrying()){
             float dWeight = (float) ((getItemsWeight()-getCarrying()));
             getSpeed().set(getMaxSpeed().x-getMaxSpeed().x/30*dWeight,0,getMaxSpeed().z-getMaxSpeed().z/30*dWeight);
+            if(getSpeed().x<0) getSpeed().set(0,0,0);
         } else
             getSpeed().set(getMaxSpeed());
     }

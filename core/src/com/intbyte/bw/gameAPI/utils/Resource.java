@@ -9,8 +9,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
+import com.badlogic.gdx.graphics.g3d.loader.G3dModelLoader;
 import com.badlogic.gdx.graphics.g3d.loader.ObjLoader;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
+import com.badlogic.gdx.utils.UBJsonReader;
 import com.intbyte.bw.gameAPI.physic.PhysicBlockObject;
 
 import java.util.HashMap;
@@ -23,6 +25,7 @@ public class Resource {
     private static final HashMap<String, Model> models = new HashMap<>();
     private static final HashMap<String, PhysicBlockObject> physicBlockObjects = new HashMap<>();
     private static final ObjLoader loader = new ObjLoader();
+    private static final G3dModelLoader g3dLoader = new G3dModelLoader(new UBJsonReader());
     private static final PerspectiveCamera camera = new PerspectiveCamera(67,128,128);
     private static FrameBuffer frameBuffer;
 
@@ -48,10 +51,11 @@ public class Resource {
         return sprite;
     }
 
-    public static Model getObjModel(String path) {
+    public static Model getModel(String path) {
         Model model = models.get(path);
         if (model == null) {
-            model = loader.loadModel(getFile("objects/" + path));
+
+            model = (path.split("\\.")[1].equals("obj") ? loader : g3dLoader).loadModel(getFile("objects/" + path));
             models.put(path, model);
             Gdx.app.log("RESOURCE LOADER","model "+path+" is loaded");
         }
@@ -59,7 +63,7 @@ public class Resource {
     }
 
     public static ModelInstance createModelInstance(String modelPath) {
-        return new ModelInstance(getObjModel(modelPath));
+        return new ModelInstance(getModel(modelPath));
     }
 
 
@@ -84,17 +88,22 @@ public class Resource {
     }
 
     public static Sprite getIconFromModel(ModelInstance modelInstance){
+        return getIconFromModel(modelInstance,0,0,0,1);
+    }
+
+    public static Sprite getIconFromModel(ModelInstance modelInstance, float x, float y, float z, float scale){
         frameBuffer = new FrameBuffer(Pixmap.Format.RGBA8888, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight(), true);
         frameBuffer.begin(); //Capture rendering to frame buffer.
-        camera.position.set(10,10,10);
-        modelInstance.transform.setToTranslation(0,0,0);
+        camera.position.set(10-x,10-y,10-z);
+        modelInstance.transform.setToTranslation(x,y,z);
+        modelInstance.transform.setToScaling(scale,scale,scale);
         camera.lookAt(0,0,0);
         Gdx.gl.glClearColor(1f,1f,1f,0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
         camera.update();
-        MODEL_BATCH.begin(camera);
-        MODEL_BATCH.render(modelInstance,ENVIRONMENT);
-        MODEL_BATCH.end();
+        getModelBatch().begin(camera);
+        getModelBatch().render(modelInstance,ENVIRONMENT);
+        getModelBatch().end();
 
         frameBuffer.end();
         Sprite sprite = new Sprite(frameBuffer.getColorBufferTexture());
@@ -102,7 +111,6 @@ public class Resource {
         sprite.getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         return sprite;
     }
-
     public static void addSprite(Sprite sprite, String path){
         sprites.put(path,sprite);
     }

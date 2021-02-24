@@ -1,14 +1,19 @@
 package com.intbyte.bw.core.game;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g3d.ModelCache;
+import com.badlogic.gdx.math.Vector3;
 import com.intbyte.bw.gameAPI.environment.Chunck;
 import com.intbyte.bw.gameAPI.environment.Tile;
 import com.intbyte.bw.gameAPI.environment.World;
+import com.intbyte.bw.gameAPI.graphic.Graphic;
 
 import java.util.Iterator;
 
-import static com.intbyte.bw.gameAPI.graphic.Graphic.ENVIRONMENT;
-import static com.intbyte.bw.gameAPI.graphic.Graphic.MODEL_BATCH;
+import static com.intbyte.bw.core.game.GameThread.xDraw;
+import static com.intbyte.bw.core.game.GameThread.zDraw;
+
 
 public class ChuncksRender extends FrustumCullingRender {
 
@@ -45,14 +50,32 @@ public class ChuncksRender extends FrustumCullingRender {
 
     }
 
-    @Override
-    protected void draw(int x, int xTo, int z, int zTo) {
-        draw2(x, xTo, z, zTo);
+    private void render(int x, int xTo, int z, int zTo){
+        x-=20;
+        z+=20;
         draw2(x, xTo, z, zTo);
         for (; x < xTo; x++)
             for (int zz = z; zz > zTo; zz--)
                 draw(x, zz);
+    }
+    @Override
+    protected void draw(int x, int xTo, int z, int zTo) {
+        xDraw = (float) (player.getPixelX() / 10 - Math.floor(player.getPixelX() / 10)) * 10;
+        zDraw = (float) (player.getPixelZ() / 10 - Math.floor(player.getPixelZ() / 10)) * 10;
+        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
+        System.out.println(1);
 
-
+        Graphic.setShadowMod(true);
+        Graphic.getShadowLight().begin(Vector3.Zero,camera3d.direction);
+            Graphic.getShadowLight().getCamera().translate(xDraw,0,zDraw);
+            Graphic.getShadowLight().getCamera().update();
+            Graphic.getModelBatch().begin(Graphic.getShadowLight().getCamera());
+                draw2(x, xTo, z, zTo);
+            Graphic.getModelBatch().end();
+        Graphic.getShadowLight().end();
+        Graphic.setShadowMod(false);
+        Graphic.getModelBatch().begin(camera3d);
+        render(x, xTo, z, zTo);
     }
 }

@@ -90,7 +90,7 @@ public abstract class Item {
     public void render(Vector3 vector, Vector3 axis, float radiant) {
         modelInstance.transform.setToTranslation(vector);
         modelInstance.transform.setToRotationRad(axis, radiant);
-        MODEL_BATCH.render(modelInstance, ENVIRONMENT);
+        getModelBatch().render(modelInstance, ENVIRONMENT);
     }
 
     public void drawIcon(float x, float y, float width, float height) {

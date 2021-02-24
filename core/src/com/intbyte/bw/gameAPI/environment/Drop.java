@@ -40,8 +40,9 @@ public class Drop extends Entity {
         float scaleX = modelInstance.transform.getScaleX(),
               scaleY = modelInstance.transform.getScaleY(),
               scaleZ = modelInstance.transform.getScaleZ();
-        modelInstance.transform.scale(0.2f, 0.2f, 0.2f);
-        Graphic.MODEL_BATCH.render(modelInstance, Graphic.ENVIRONMENT);
+        float scale = Block.getBlock(bodyID).getScale()*0.2f;
+        modelInstance.transform.scale(scale,scale,scale);
+        Graphic.getModelBatch().render(modelInstance, Graphic.ENVIRONMENT);
         modelInstance.transform.scale(scaleX,scaleY,scaleZ);
     }
 

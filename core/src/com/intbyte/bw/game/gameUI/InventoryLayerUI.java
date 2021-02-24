@@ -2,10 +2,14 @@ package com.intbyte.bw.game.gameUI;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.intbyte.bw.core.game.Player;
 import com.intbyte.bw.gameAPI.graphic.GravityAdapter;
 import com.intbyte.bw.gameAPI.graphic.GravityAttribute;
 import com.intbyte.bw.gameAPI.graphic.TypedValue;
+import com.intbyte.bw.gameAPI.ui.GUI;
 import com.intbyte.bw.gameAPI.ui.Inventory;
 import com.intbyte.bw.gameAPI.ui.Layer;
 import com.intbyte.bw.gameAPI.ui.Panel;
@@ -26,6 +30,20 @@ public class InventoryLayerUI extends Layer {
         Sprite sprite = Panel.getDrawRoundedPanel((int) (width), (int) (height), (int) (TypedValue.APIXEL * 4), 0.1f, 0.1f, 0.1f, 0.7f);
         Resource.addSprite(sprite, "inventory");
 
+        Actor actor = new Actor();
+        actor.setSize(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+        actor.addListener(new InputListener(){
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                return true;
+            }
+
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                GUI.setLayer("main",null);
+            }
+        });
+        addActor(actor);
 
         Panel panel = new Panel("inventory");
         panel.setSize(width, height);
@@ -107,6 +125,8 @@ public class InventoryLayerUI extends Layer {
         panel2.addActor(leggings);
 
         adapter.apply();
+
+
 
     }
 

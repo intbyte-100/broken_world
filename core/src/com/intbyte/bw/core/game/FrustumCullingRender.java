@@ -32,9 +32,9 @@ public class FrustumCullingRender {
             blocks[id].render(x * 10, 5, z * 10 - 5);
             GameThread.visible++;
         } //else {
-            id = World.getLandBlock(x + ((int) player.getX()), z + ((int) player.getZ()));
-            landBlocks[id].render(x * 10f, 0, z * 10f - 5);
-       // }
+        id = World.getLandBlock(x + ((int) player.getX()), z + ((int) player.getZ()));
+        landBlocks[id].render(x * 10f, 0, z * 10f - 5);
+        // }
     }
 
     protected void draw(int x, int xTo, int z, int zTo) {

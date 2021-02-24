@@ -55,8 +55,9 @@ public class Container {
                 getItems().isEmpty()))
             moveItems(container.getItems());
     }
-    public void addItems(Array<Item> items) {
+    public Container addItems(Array<Item> items) {
         moveItems(items);
+        return this;
     }
 
     public int getMaxCountItems() {

@@ -56,10 +56,9 @@ public class GameThread implements Screen {
 
         isReadyCallBack = true;
 
-        Gdx.gl.glClearColor(0.52f, 0.8f, 92, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 
-        MODEL_BATCH.begin(render.getCamera());
+
+
         render.render();
         for (Entity i : entityManager.getActive()) {
             i.render();
@@ -67,7 +66,7 @@ public class GameThread implements Screen {
         BATCH.begin();
         CallBack.executeRenderCallBacks();
         BATCH.end();
-        MODEL_BATCH.end();
+        getModelBatch().end();
         STAGE.act();
         STAGE.draw();
         BATCH.begin();

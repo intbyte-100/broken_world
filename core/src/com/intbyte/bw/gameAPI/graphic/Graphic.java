@@ -3,19 +3,26 @@ package com.intbyte.bw.gameAPI.graphic;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.loaders.ModelLoader;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g3d.Environment;
 import com.badlogic.gdx.graphics.g3d.ModelBatch;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
+import com.badlogic.gdx.graphics.g3d.environment.DirectionalShadowLight;
 import com.badlogic.gdx.graphics.g3d.loader.ObjLoader;
+import com.badlogic.gdx.graphics.g3d.utils.DefaultShaderProvider;
+import com.badlogic.gdx.graphics.g3d.utils.DepthShaderProvider;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 public final class Graphic {
-    static public final ModelBatch MODEL_BATCH;
+    private static final ModelBatch modelBatch = new ModelBatch();
+    private static final ModelBatch shadowModelBatch = new ModelBatch(new DepthShaderProvider());
+    private static boolean shadowMod;
     static public final Stage STAGE;
     static public final Environment ENVIRONMENT;
     static public final ModelLoader MODEL_LOADER;
+    private static final DirectionalShadowLight shadowLight;
     public static final Batch BATCH;
     static int screenWidth, screenHeight;
     public static final float BLOCK_SIZE;
@@ -28,10 +35,11 @@ public final class Graphic {
         BLOCK_SIZE = 10;
         MODEL_LOADER = new ObjLoader();
         BATCH = STAGE.getBatch();
-        MODEL_BATCH = new ModelBatch();
+
         ENVIRONMENT = new Environment();
         ENVIRONMENT.set(new ColorAttribute(ColorAttribute.AmbientLight, 0.4f, 0.4f, 0.4f, 1f));
-        ENVIRONMENT.add(new DirectionalLight().set(Color.WHITE, -0.5f, -0.8f, -0.2f));
+        ENVIRONMENT.add(new DirectionalLight().set(Color.ORANGE, -0.5f, -0.8f, -0.2f)).add((shadowLight = new DirectionalShadowLight(1536, 1024, 150f, 100f, 1f, 200f)).set(0.8f, 0.8f, 0.8f, -1f, -2f, 1f));
+        ENVIRONMENT.shadowMap = shadowLight;
     }
 
     public static int greatestCommonFactor(int width, int height) {
@@ -55,10 +63,21 @@ public final class Graphic {
         return screenHeight;
     }
 
-    public static void resize(){
+    public static void resize() {
         screenWidth = Gdx.graphics.getWidth();
         screenHeight = Gdx.graphics.getHeight();
     }
 
+    public static ModelBatch getModelBatch() {
+        return shadowMod ? shadowModelBatch : modelBatch;
+    }
+
+    public static void setShadowMod(boolean shadowMod) {
+        Graphic.shadowMod = shadowMod;
+    }
+
+    public static DirectionalShadowLight getShadowLight() {
+        return shadowLight;
+    }
 }
 

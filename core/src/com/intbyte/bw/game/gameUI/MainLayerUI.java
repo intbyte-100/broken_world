@@ -3,6 +3,8 @@ package com.intbyte.bw.game.gameUI;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.intbyte.bw.core.game.GameThread;
 import com.intbyte.bw.core.game.InteractionOfItems;
@@ -12,6 +14,7 @@ import com.intbyte.bw.gameAPI.callbacks.Render;
 import com.intbyte.bw.gameAPI.environment.Item;
 import com.intbyte.bw.gameAPI.graphic.GravityAdapter;
 import com.intbyte.bw.gameAPI.graphic.GravityAttribute;
+import com.intbyte.bw.gameAPI.ui.GUI;
 import com.intbyte.bw.gameAPI.ui.Joystick;
 import com.intbyte.bw.gameAPI.ui.Layer;
 import com.intbyte.bw.gameAPI.ui.ProgressBar;
@@ -78,6 +81,17 @@ public class MainLayerUI extends Layer {
 
 
         final ProgressBar bar = new ProgressBar(new TestProgressBarSkin());
+        bar.addListener(new InputListener(){
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                return true;
+            }
+
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                GUI.setLayer("inventory",null);
+            }
+        });
         bar.setSize(100*APIXEL,20*APIXEL);
         adapter.addActor(bar);
         adapter.setGravity(GravityAttribute.TOP,GravityAttribute.RIGHT);
