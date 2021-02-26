@@ -27,7 +27,7 @@ public class Game {
 
                 Sprite sprite = Panel.drawPanel(400,400,8,0.1f,0.1f,0.1f,0.5f);
 
-
+                Resource.getSprite("grass.jpg").setColor(1,2,2,1);
                 Resource.addSprite(sprite,"slot");
                 Rectangle rectangle = new Rectangle();
 

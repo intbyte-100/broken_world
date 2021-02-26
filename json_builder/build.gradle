@@ -1,0 +1,14 @@
+apply plugin: "java"
+apply plugin: 'kotlin'
+
+sourceSets.main.java.srcDirs = [ "src/" ]
+
+version '1.0'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib"
+}

@@ -1,0 +1,22 @@
+{
+  "group": [
+    {
+      "type": "block:test",
+      "texture": "texture.png",
+      "model": "_model_.g3db",
+      "drop": {
+        "id": "test2",
+        "count": "random 0 to 69"
+      }
+    },
+    {
+      "type": "block:test",
+      "texture": "texture.png",
+      "model": "_model_.g3db",
+      "drop": {
+        "id": "test2",
+        "count": "random 0 to 69"
+      }
+    }
+  ]
+}

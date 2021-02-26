@@ -55,6 +55,7 @@ project(":desktop") {
     }
 }
 
+
 project(":android") {
     apply plugin: "android"
 
@@ -78,6 +79,14 @@ project(":android") {
     }
 }
 
+project(":json_builder"){
+    apply plugin: "java-library"
+    dependencies {
+        api "com.badlogicgames.gdx:gdx:$gdxVersion"
+        api "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
+
+    }
+}
 project(":core") {
     apply plugin: "java-library"
 
