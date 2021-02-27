@@ -41,8 +41,8 @@ public class Game {
                 Block.defineLandBlock("grass", "grass.jpg");
                 ID.registeredId("block:void", 0);
 
-                Block.defineBlock("grass", "_stone_3.g3db", "null", Block.STONE, 100, 10, physicBlockEntity);
-                Block.defineBlock("grass2", "_bush_2.g3db", "null", Block.STONE, 1, 10, physicBlockEntity);
+                Block.defineBlock("grass", "_stone_3.g3db", "Ekfs_bush_map.png", Block.STONE, 100, 10, physicBlockEntity);
+                Block.defineBlock("grass2", "_bush_2.g3db", "Ekfs_bush_map.png", Block.STONE, 1, 10, physicBlockEntity);
                 Block.getBlock(ID.get("block:grass")).setScale(0.1f);
                 Block.getBlock(ID.get("block:grass")).setPosition(0,-5,0);
                 Block.getBlock(ID.get("block:grass2")).setScale(0.1f);

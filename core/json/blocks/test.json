@@ -1,22 +1,15 @@
 {
-  "group": [
+  "group":[
     {
-      "type": "block:test",
-      "texture": "texture.png",
-      "model": "_model_.g3db",
-      "drop": {
-        "id": "test2",
-        "count": "random 0 to 69"
-      }
-    },
-    {
-      "type": "block:test",
-      "texture": "texture.png",
-      "model": "_model_.g3db",
-      "drop": {
-        "id": "test2",
-        "count": "random 0 to 69"
-      }
+      "type": "block:test4",
+      "iconScale": 1.5,
+      "scale": 1.5,
+      "iconRenderCoord": [454,45,34],
+      "renderCoord": [1,1,1],
+      "texture": "test4",
+      "model": "main.obj",
+      "blockType": "wood",
+      "level": 2
     }
   ]
 }

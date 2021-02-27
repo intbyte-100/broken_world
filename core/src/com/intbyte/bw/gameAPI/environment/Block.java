@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g3d.ModelCache;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.attributes.TextureAttribute;
 import com.badlogic.gdx.math.Vector3;
+import com.intbyte.bw.gameAPI.environment.json_wrapper.BlockWrapper;
 import com.intbyte.bw.gameAPI.graphic.Graphic;
 import com.intbyte.bw.gameAPI.physic.PhysicBlockObject;
 import com.intbyte.bw.gameAPI.utils.ID;
@@ -45,10 +46,12 @@ public class Block {
         if(pathToTexture.equals("null")) return instance;
         TextureAttribute textureAttribute1 = new TextureAttribute(TextureAttribute.Diffuse, Resource.getSprite(pathToTexture));
         Material material = instance.materials.get(0);
+        material.clear();
         material.set(textureAttribute1);
 
         return instance;
     }
+
 
     public static void defineLandBlock(String id, String texture) {
         int integerId = ID.registeredId("land_block:" + id);
@@ -72,6 +75,22 @@ public class Block {
         Gdx.app.log("BLOCK", "defined block " + id);
     }
 
+
+    public static CustomBlock defineBlock(BlockWrapper wrapper){
+        int id = ID.registeredId("block:"+wrapper.getId());
+        CustomBlock block = new CustomBlock(wrapper.getHealth(),wrapper.getType(),id);
+        block.id = wrapper.getId();
+        block.level = wrapper.getLevel();
+        block.modelInstance = getModelInstance(wrapper.getModel(),wrapper.getTexture());
+        block.scale = wrapper.getIconScale();
+        block.setPosition(wrapper.getIconRender());
+        block.updateIcon();
+        block.scale = wrapper.getScale();
+        block.setPosition(wrapper.getRender());
+        blocks[id] = block;
+        block.updateIcon();
+        return block;
+    }
     public static void defineBlock(String id, int integerId, String texture, int type, int level, int maxHealth) {
         ID.registeredId("block:" + id, integerId);
         CustomBlock block = new CustomBlock(maxHealth, type,integerId);
@@ -206,6 +225,10 @@ public class Block {
 
         public void setPosition(float x, float y, float z) {
             position.set(x, y, z);
+        }
+
+        public void setPosition(Vector3 position) {
+            this.position.set(position);
         }
 
         public void updateIcon(){
