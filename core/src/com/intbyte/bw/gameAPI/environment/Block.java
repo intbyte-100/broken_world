@@ -78,14 +78,17 @@ public class Block {
 
     public static CustomBlock defineBlock(BlockWrapper wrapper){
         int id = ID.registeredId("block:"+wrapper.getId());
+        System.out.println(wrapper);
         CustomBlock block = new CustomBlock(wrapper.getHealth(),wrapper.getType(),id);
         block.id = wrapper.getId();
         block.level = wrapper.getLevel();
-        block.modelInstance = getModelInstance(wrapper.getModel(),wrapper.getTexture());
+        block.modelInstance = getModelInstance("block/"+wrapper.getModel(),wrapper.getTexture());
         block.scale = wrapper.getIconScale();
         block.setPosition(wrapper.getIconRender());
         block.updateIcon();
+        block.setPhysicEntity(wrapper.getBody());
         block.scale = wrapper.getScale();
+        System.out.println(wrapper.getScale());
         block.setPosition(wrapper.getRender());
         blocks[id] = block;
         block.updateIcon();
@@ -235,6 +238,7 @@ public class Block {
             Resource.addSprite(Resource.getIconFromModel(modelInstance,position.x,position.y,position.z,scale), "icon:"+id);
         }
         public void setScale(float scale) {
+            System.out.println(scale);
             this.scale = scale;
         }
 

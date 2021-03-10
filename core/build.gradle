@@ -9,6 +9,7 @@ sourceSets.main.java.srcDirs = [ "src/" ]
 eclipse.project.name = appName + "-core"
 buildscript {
     ext.kotlin_version = '1.4.30'
+
     repositories {
         mavenCentral()
     }
@@ -16,6 +17,11 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
+task cmd(type: Exec){
+    doFirst {commandLine 'sh', '-c', 'java -jar ' + project(":json_builder").buildDir.path+'/libs/json_builder-1.0.jar '+project(":core").projectDir.path}
+}
+
+compileJava.dependsOn cmd
 repositories {
     mavenCentral()
 }
@@ -23,6 +29,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 }
 compileKotlin {
+
     kotlinOptions {
         jvmTarget = "1.8"
     }

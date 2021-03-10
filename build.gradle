@@ -1,5 +1,9 @@
+
+
+
 buildscript {
     ext.kotlin_version = '1.4.30'
+
 
 
     repositories {
@@ -48,6 +52,7 @@ project(":desktop") {
 
     dependencies {
         implementation project(":core")
+
         api "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
         api "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
@@ -91,7 +96,9 @@ project(":core") {
     apply plugin: "java-library"
 
 
+
     dependencies {
+
         api "com.badlogicgames.gdx:gdx:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
         

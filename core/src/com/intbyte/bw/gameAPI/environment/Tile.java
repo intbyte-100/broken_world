@@ -34,7 +34,7 @@ public class Tile {
         this.blockID = blockID;
         if (blockID != 0)
             body = Block.getBlocks()[blockID].getPhysicEntity().getBody();
-        PhysicData data = (PhysicData) body.getUserData();
+        PhysicData data = (PhysicData)  body.getUserData();
         data.setType(data.BLOCK);
         data.setObject(this);
 

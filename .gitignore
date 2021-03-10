@@ -39,6 +39,10 @@ com_crashlytics_export_strings.xml
 /android/bin/
 /core/bin/
 /desktop/bin/
+/json_builder/build/classes
+/json_builder/build/kotlin
+/json_builder/build/resources
+/json_builder/build/tmp
 /html/bin/
 /ios/bin/
 /ios-moe/bin/

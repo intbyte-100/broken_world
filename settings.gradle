@@ -1,3 +1,2 @@
-include 'desktop', 'android', 'core'
-include 'json_builder'
+include 'desktop', 'android', 'core', 'json_builder'
 

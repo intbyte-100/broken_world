@@ -1,3 +1,3 @@
 #!/bin/bash
 
-python3
+bash gradlew json_builder:compileJson

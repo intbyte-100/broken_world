@@ -1,15 +1,12 @@
 {
   "group":[
     {
-      "type": "block:test4",
-      "iconScale": 1.5,
-      "scale": 1.5,
-      "iconRenderCoord": [454,45,34],
-      "renderCoord": [1,1,1],
-      "texture": "test4",
-      "model": "main.obj",
-      "blockType": "wood",
-      "level": 2
+      "type": "block:grass",
+      "model": "_stone_3.g3db",
+      "texture": "Ekfs_bush_map.png",
+      "level": 100,
+      "health": 100,
+      "scale": 0.1
     }
   ]
 }

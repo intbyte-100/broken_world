@@ -8,6 +8,7 @@ import com.intbyte.bw.game.gameUI.MainLayerUI;
 import com.intbyte.bw.gameAPI.callbacks.CallBack;
 import com.intbyte.bw.gameAPI.callbacks.Initialization;
 import com.intbyte.bw.gameAPI.environment.*;
+import com.intbyte.bw.gameAPI.environment.json_wrapper.GeneratedJsonData;
 import com.intbyte.bw.gameAPI.ui.GUI;
 import com.intbyte.bw.gameAPI.ui.Panel;
 import com.intbyte.bw.gameAPI.physic.PhysicBlockObject;
@@ -24,13 +25,13 @@ public class Game {
         CallBack.addCallBack(new Initialization() {
             @Override
             public void main() {
-
+                ID.registeredId("block:void", 0);
+                GeneratedJsonData.init();
                 Sprite sprite = Panel.drawPanel(400,400,8,0.1f,0.1f,0.1f,0.5f);
 
-                Resource.getSprite("grass.jpg").setColor(1,2,2,1);
+
                 Resource.addSprite(sprite,"slot");
                 Rectangle rectangle = new Rectangle();
-
                 rectangle.setSize(20);
                 PhysicBlockObject physicBlockEntity = new PhysicBlockObject();
                 physicBlockEntity.setShape(rectangle);
@@ -39,9 +40,9 @@ public class Game {
 
                 Resource.putBlockObject("10x10",physicBlockEntity);
                 Block.defineLandBlock("grass", "grass.jpg");
-                ID.registeredId("block:void", 0);
 
-                Block.defineBlock("grass", "_stone_3.g3db", "Ekfs_bush_map.png", Block.STONE, 100, 10, physicBlockEntity);
+
+
                 Block.defineBlock("grass2", "_bush_2.g3db", "Ekfs_bush_map.png", Block.STONE, 1, 10, physicBlockEntity);
                 Block.getBlock(ID.get("block:grass")).setScale(0.1f);
                 Block.getBlock(ID.get("block:grass")).setPosition(0,-5,0);

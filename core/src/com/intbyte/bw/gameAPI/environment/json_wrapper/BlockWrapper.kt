@@ -2,6 +2,7 @@ package com.intbyte.bw.gameAPI.environment.json_wrapper
 
 import com.badlogic.gdx.math.Vector3
 import com.intbyte.bw.gameAPI.environment.Block
+import com.intbyte.bw.gameAPI.physic.PhysicBlockObject
 
 class BlockWrapper : Wrapper{
     var id = ""
@@ -16,6 +17,7 @@ class BlockWrapper : Wrapper{
     var type = 0
     var health = 0
     var level = 0
+    var body: PhysicBlockObject? = null
     override fun reset(){
         render.set(0f,0f,0f)
         iconRender.set(0f,0f,0f)

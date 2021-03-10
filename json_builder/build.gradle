@@ -1,8 +1,12 @@
+
 apply plugin: "java"
 apply plugin: 'kotlin'
 
 sourceSets.main.java.srcDirs = [ "src/" ]
-
+sourceSets.main.resources.srcDirs = ["../android/assets"]
+project.ext.mainClassName = "com.intbyte.bw.jsondb.MainKt"
+sourceCompatibility = 1.7
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 version '1.0'
 
 repositories {
@@ -12,3 +16,23 @@ repositories {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib"
 }
+
+
+
+
+task compileJson(dependsOn: classes, type: JavaExec){
+    main = "com.intbyte.bw.jsondb.MainKt"
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task dist(type: Jar) {
+    manifest {
+        attributes 'Main-Class': project.mainClassName
+    }
+    dependsOn configurations.runtimeClasspath
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    with jar
+}
+
