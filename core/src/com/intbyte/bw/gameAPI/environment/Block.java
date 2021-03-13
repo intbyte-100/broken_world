@@ -88,7 +88,6 @@ public class Block {
         block.updateIcon();
         block.setPhysicEntity(wrapper.getBody());
         block.scale = wrapper.getScale();
-        System.out.println(wrapper.getScale());
         block.setPosition(wrapper.getRender());
         blocks[id] = block;
         block.updateIcon();
@@ -238,7 +237,6 @@ public class Block {
             Resource.addSprite(Resource.getIconFromModel(modelInstance,position.x,position.y,position.z,scale), "icon:"+id);
         }
         public void setScale(float scale) {
-            System.out.println(scale);
             this.scale = scale;
         }
 

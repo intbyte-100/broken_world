@@ -34,7 +34,9 @@ public class Tools {
     }
 
 
-
+    public static void newSward(String strId, String texture, int level, int damage, int strength, float coolDown, float takeEndurance, double weight){
+        newTool(Item.SWARD,strId,texture,level,damage,strength,coolDown,takeEndurance,weight);
+    }
     public static void newAxe(String strId, String texture, int level, int damage, int strength,float coolDown, float takeEndurance, double weight){
         newTool(Item.PICKAXE, strId, texture,level,damage,strength,coolDown, takeEndurance,weight);
     }
