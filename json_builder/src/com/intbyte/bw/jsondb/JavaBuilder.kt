@@ -1,8 +1,10 @@
 package com.intbyte.bw.jsondb
 
 import com.badlogic.gdx.utils.Array
+import com.badlogic.gdx.utils.JsonReader
 import com.badlogic.gdx.utils.JsonValue
 import java.io.File
+import java.lang.RuntimeException
 
 class JavaBuilder : AbstractBuilder {
 
@@ -38,7 +40,7 @@ class JavaBuilder : AbstractBuilder {
     override fun build(out: String, jsonValues: Array<JsonValue>) {
         sort(jsonValues)
 
-        File(out).writeText("$head${generateBlockData()}${generateDrop()}$end")
+        File(out).writeText("$head${generateBlockData()}${generateItems()}${generateDrop()}$end")
     }
 
     private fun sort(array: Array<JsonValue>) {
@@ -53,16 +55,17 @@ class JavaBuilder : AbstractBuilder {
         var code = ""
 
         (map["block"] ?: return "").forEach {
+            val id = it["type"].asString().split(":")[1]
             code += """
-                
+        
         blockWrapper.reset();
-        blockWrapper.setId("${it["type"].asString().split(":")[1]}");
+        blockWrapper.setId("$id");
         
         """.trimEnd()
             if (it["hasDrop"]?.asBoolean() == true)
                 dropData.add(it)
-            code+="\n\t\tblockWrapper.setModel(\"${it["model"]?.asString()}\");"
-            code+="\n\t\tblockWrapper.setTexture(\"${it["texture"]?.asString()}\");"
+            code+="\n\t\tblockWrapper.setModel(\"${get("model",it)}\");"
+            code+="\n\t\tblockWrapper.setTexture(\"${get("texture",it)}\");"
             code+="\n\t\tblockWrapper.setHealth(${it["health"]?.asString()?:"100"});"
             code+="\n\t\tblockWrapper.setBody(object);"
             val iconScale = it["iconScale"]?.asString()
@@ -79,13 +82,26 @@ class JavaBuilder : AbstractBuilder {
             code+="\n\t\tblockWrapper.setType(Block.${(it["blockType"]?.asString()?:"STONE").toUpperCase()});"
             code+="\n\t\tblockWrapper.setLevel(${it["level"]?.asString()?:"1"});"
 
-            code+="\n\t\tblock = Block.defineBlock(blockWrapper);\n\t\tblock.updateIcon();".trimEnd()
+            code+="\n\t\tblock = Block.defineBlock(blockWrapper);".trimEnd()
 
 
 
             if(scale!=null) code+="\n\t\tblock.setScale(${scale}f);"
             if(renderCoord!=null) code+="\n\t\tblock.setPosition(${renderCoord[0]}f,${renderCoord[1]}f,${renderCoord[2]}f);"
 
+            if(map["item"] == null)
+                map["item"] = Array()
+            map["item"]!!.add(JsonReader().parse("""
+                {
+                    type: "item:block_$id",
+                    itemType: "block",
+                    texture: "icon:$id",
+                    block: $id,
+                    ${
+                        if (it["weight"]!=null) "weight: ${it["weight"].asString()}" else ""
+                    }
+                }
+            """.trimIndent()))
         }
         return code
     }
@@ -100,10 +116,10 @@ class JavaBuilder : AbstractBuilder {
     private fun generateItem(json: JsonValue): String{
         var code = ""
         val id = "\"${json["type"].asString().split(":")[1]}\""
-        val texture = "\"${json["texture"].asString()}\""
+        val texture = "\"${get("texture",json)}\""
         val level = json["level"]?.asInt()?:1
         val damage = json["damage"]?.asInt()?:0
-        val strength = json["level"]?.asInt()?:1
+        val strength = json["strength"]?.asInt()?:1
         val coolDown = json["coolDown"]?.asString()?:"0"
         val takeEndurance = json["takeEndurance"]?.asString()?:"0"
         val weight = json["weight"]?.asString()?:"1"
@@ -125,10 +141,22 @@ class JavaBuilder : AbstractBuilder {
             }
 
             "block" -> {
-
+                code+="\n\t\tTools.newBlock($id,$texture,\"${get("block",json)}\",$weight);"
             }
         }
         return code
+    }
+
+    fun generateItems(): String {
+        var code = "\n\n"
+        (map["item"] ?: return "").forEach {
+            code+=generateItem(it)
+        }
+        return code
+    }
+
+    private fun get(key: String, json: JsonValue): String{
+        return json[key]?.asString()?:throw RuntimeException("Type ${json["type"].asString()} requires \"$key\" field at \n$json")
     }
 }
 

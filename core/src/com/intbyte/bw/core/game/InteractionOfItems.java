@@ -127,14 +127,16 @@ public class InteractionOfItems {
                     interaction.id = interaction.container.getId();
                     set = false;
                 } else {
-                    if (oldId != instance.id)
-                        modelInstance = new ModelInstance(Block.getBlock(interaction.settableItemsHashMap.get(interaction.id)).getModelInstance().model);
+                    if (oldId != instance.id) {
+                        modelInstance = new ModelInstance(Block.getBlock(interaction.id).getModelInstance().model);
+                    }
                     oldId = interaction.id;
                 }
                 if (isDragged && !World.isCollision(x, z - 1)) {
                     return;
                 }
-                if (World.isCollision(x, z - 1) && Item.getItemFactories()[interaction.id] != null && player.coolDown == 0 && Item.getItemFactories()[interaction.id].getType() != Item.BLOCK) {
+                if (World.isCollision(x, z - 1) && Item.getItemFactories()[interaction.container.getId()] != null && player.coolDown == 0 && Item.getItemFactories()[interaction.container.getId()].getType() != Item.BLOCK) {
+                    System.out.println(Item.getItemFactories()[interaction.id].getType());
                     interaction.hit(x, z);
                     return;
                 }
@@ -151,7 +153,7 @@ public class InteractionOfItems {
         settableItemsHashMap.put(itemId, blockId);
     }
 
-    private void hit(float x, float z) {
+    synchronized private void hit(float x, float z) {
         if (player.coolDown > 0 || player.getEndurance() < 2) return;
 
         if (container.getCountItems() != 0)
@@ -163,6 +165,7 @@ public class InteractionOfItems {
 
         Tile tile = World.getIntersectedTile(x, z - 1);
 
+        assert tile != null;
         Block.CustomBlock customBlock = tile.getBlock();
 
         BlockExtraData data = tile.getData();

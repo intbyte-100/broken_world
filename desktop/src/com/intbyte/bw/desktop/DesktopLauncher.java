@@ -10,12 +10,12 @@ public class DesktopLauncher {
     public static void main(String[] arg) {
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 
-        config.height = 630;
+        config.height = 620;
         config.width = 1210;
         config.samples = 4;
 
         config.useGL30 = true;
-        config.fullscreen = true;
+
         new LwjglApplication(new GameBoot(), config);
     }
 }

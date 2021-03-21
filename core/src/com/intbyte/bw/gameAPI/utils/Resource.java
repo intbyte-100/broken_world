@@ -7,8 +7,12 @@ import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g3d.Environment;
 import com.badlogic.gdx.graphics.g3d.Model;
+import com.badlogic.gdx.graphics.g3d.ModelBatch;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
+import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
+import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.graphics.g3d.loader.G3dModelLoader;
 import com.badlogic.gdx.graphics.g3d.loader.ObjLoader;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
@@ -17,7 +21,6 @@ import com.intbyte.bw.gameAPI.physic.PhysicBlockObject;
 
 import java.util.HashMap;
 
-import static com.intbyte.bw.gameAPI.graphic.Graphic.*;
 
 public class Resource {
     private static final HashMap<String, FileHandle> files = new HashMap<>();
@@ -27,8 +30,13 @@ public class Resource {
     private static final ObjLoader loader = new ObjLoader();
     private static final G3dModelLoader g3dLoader = new G3dModelLoader(new UBJsonReader());
     private static final PerspectiveCamera camera = new PerspectiveCamera(67,128,128);
-    private static FrameBuffer frameBuffer;
+    private static final Environment environment = new Environment();
+    private static final ModelBatch modelBatch = new ModelBatch();
 
+    static {
+        environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 0.4f, 0.4f, 0.4f, 1f));
+        environment.add(new DirectionalLight().set(0.6f,0.6f,0.6f, -1f, -1f, 1f));
+    }
 
     public static FileHandle getFile(String path) {
         FileHandle fileHandle = files.get(path);
@@ -92,7 +100,7 @@ public class Resource {
     }
 
     public static Sprite getIconFromModel(ModelInstance modelInstance, float x, float y, float z, float scale){
-        frameBuffer = new FrameBuffer(Pixmap.Format.RGBA8888, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight(), true);
+        FrameBuffer frameBuffer = new FrameBuffer(Pixmap.Format.RGBA8888, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight(), true);
         frameBuffer.begin(); //Capture rendering to frame buffer.
         camera.position.set(10-x,10-y,10-z);
         modelInstance.transform.setToTranslation(x,y,z);
@@ -101,9 +109,11 @@ public class Resource {
         Gdx.gl.glClearColor(1f,1f,1f,0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
         camera.update();
-        getModelBatch().begin(camera);
-        getModelBatch().render(modelInstance,ENVIRONMENT);
-        getModelBatch().end();
+
+        modelBatch.begin(camera);
+
+        modelBatch.render(modelInstance,environment);
+        modelBatch.end();
 
         frameBuffer.end();
         Sprite sprite = new Sprite(frameBuffer.getColorBufferTexture());

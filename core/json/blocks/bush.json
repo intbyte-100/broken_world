@@ -1,0 +1,10 @@
+{
+  "type": "block:grass2",
+  "model": "_bush_2.g3db",
+  "texture": "Ekfs_bush_map.png",
+  "blockType": "wood",
+  "level": 20,
+  "health": 10,
+  "scale": 0.1,
+  "renderCoord": [0,-5,0]
+}

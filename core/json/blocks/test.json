@@ -4,9 +4,12 @@
       "type": "block:grass",
       "model": "_stone_3.g3db",
       "texture": "Ekfs_bush_map.png",
-      "level": 100,
-      "health": 100,
-      "scale": 0.1
+      "level": 20,
+      "health": 10,
+      "scale": 0.1,
+      "iconScale": 0.1,
+      "renderCoord": [0,-5,0],
+      "iconRenderCoord": [2,2.5,2]
     }
   ]
 }

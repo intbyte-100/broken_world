@@ -90,7 +90,6 @@ public class Block {
         block.scale = wrapper.getScale();
         block.setPosition(wrapper.getRender());
         blocks[id] = block;
-        block.updateIcon();
         return block;
     }
     public static void defineBlock(String id, int integerId, String texture, int type, int level, int maxHealth) {

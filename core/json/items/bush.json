@@ -1,0 +1,7 @@
+{
+  "type": "item:test1",
+  "itemType": "block",
+  "texture": "icon:grass2",
+  "block": "grass2",
+  "weight": 1
+}

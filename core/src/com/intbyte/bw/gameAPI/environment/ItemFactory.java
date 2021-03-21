@@ -4,7 +4,7 @@ import com.intbyte.bw.gameAPI.utils.ID;
 
 public abstract class ItemFactory {
 
-    protected int type, stackSize = 64;
+    public int type, stacksize = 64;
     private int id;
 
 
@@ -19,7 +19,7 @@ public abstract class ItemFactory {
     public final Item create() {
         Item item = createItem();
         item.setType(type);
-        item.setStackSize(stackSize);
+        item.setStackSize(stacksize);
         item.setId(id);
         return item;
     }
@@ -28,8 +28,8 @@ public abstract class ItemFactory {
         return type;
     }
 
-    public int getStackSize() {
-        return stackSize;
+    public int getStacksize() {
+        return stacksize;
     }
 
     public int getId() {

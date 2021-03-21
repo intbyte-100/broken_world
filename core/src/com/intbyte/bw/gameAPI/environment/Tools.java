@@ -6,13 +6,14 @@ public class Tools {
     
     public static void newTool(int type, String strId, final String texture, final int level, final int damage, final int strength, final float coolDown, final float takeEndurance, final double weight){
         Item.addItemFactory(strId, new ItemFactory(strId,type) {
+
             @Override
             public Item createItem() {
                 return new Item() {
 
                     {
                         icon = Resource.getSprite(texture);
-                        stackSize = 1;
+                        stacksize = 1;
                         itemData = new ItemData(strength,damage,level, coolDown, takeEndurance);
                         setWeight(weight);
                     }
