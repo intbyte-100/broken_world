@@ -86,6 +86,7 @@ public class GravityAdapter {
             tiedToActor(i);
             i.actor.moveBy(i.translate[0], i.translate[1]);
         }
+        adapters.clear();
     }
 
     private static class ActorAdapter {

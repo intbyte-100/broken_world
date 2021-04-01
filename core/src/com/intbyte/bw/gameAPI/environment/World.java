@@ -13,9 +13,8 @@ public final class World {
     static Player player = Player.getPlayer();
     static boolean isChangePosition;
     static boolean movedUp, movedRight;
-
+    static WorldConfig config;
     static {
-
         int j = 0;
         for (Chunck[] chuncks : world) {
             j++;
@@ -27,9 +26,15 @@ public final class World {
         }
     }
 
-    public static void createVoidWorld(int width, int height) {
+
+    public static WorldConfig getConfig() {
+        return config;
+    }
+
+    public static void createVoidWorld(int width, int height, WorldConfig settings) {
         block = new short[width * 32][height * 32];
         landBlock = new short[width * 32][height * 32];
+        World.config = settings;
     }
 
     public static int getBlock(int x, int z) {

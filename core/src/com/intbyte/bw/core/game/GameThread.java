@@ -4,11 +4,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.GL20;
 import com.intbyte.bw.gameAPI.callbacks.CallBack;
 import com.intbyte.bw.gameAPI.callbacks.Render;
 import com.intbyte.bw.gameAPI.environment.Entity;
 import com.intbyte.bw.gameAPI.environment.World;
+import com.intbyte.bw.gameAPI.environment.WorldConfig;
 import com.intbyte.bw.gameAPI.ui.GUI;
 import com.intbyte.bw.gameAPI.ui.container.TakenItemsRender;
 import com.intbyte.bw.gameAPI.physic.Physic;
@@ -28,7 +28,7 @@ public class GameThread implements Screen {
 
 
     public GameThread() {
-        World.createVoidWorld(12, 12);
+        World.createVoidWorld(12, 12, new WorldConfig(true,true));
 
 
         render = new ChuncksRender();

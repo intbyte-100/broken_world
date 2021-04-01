@@ -12,6 +12,8 @@ import com.intbyte.bw.core.game.Player;
 import com.intbyte.bw.gameAPI.callbacks.CallBack;
 import com.intbyte.bw.gameAPI.callbacks.Render;
 import com.intbyte.bw.gameAPI.environment.Item;
+import com.intbyte.bw.gameAPI.environment.World;
+import com.intbyte.bw.gameAPI.graphic.Graphic;
 import com.intbyte.bw.gameAPI.graphic.GravityAdapter;
 import com.intbyte.bw.gameAPI.graphic.GravityAttribute;
 import com.intbyte.bw.gameAPI.ui.GUI;
@@ -34,15 +36,20 @@ public class MainLayerUI extends Layer {
 
 
     public MainLayerUI() {
-
+        final GravityAdapter adapter = new GravityAdapter();
         CallBack.addCallBack(new Render() {
             @Override
             public void main() {
-            label.setText("\nfps: " + Gdx.graphics.getFramesPerSecond() + "; player position: x = " + (int) player.getX() + ", z = " + (int) player.getZ() + "; visible models = " + GameThread.visible+"; player weight = "+player.getItemsWeight()+"; player speed = "+player.getSpeed()+";");
+            label.setText("fps: " + Gdx.graphics.getFramesPerSecond() + "; \nplayer position: x = " + (int) player.getX() + ", z = " + (int) player.getZ() + "; \nvisible models = " + GameThread.visible+"; \nplayer weight = "+player.getItemsWeight()+"; \nplayer speed = "+player.getSpeed()+";");
+            adapter.addActor(label);
+            adapter.setHeight(label.getPrefHeight());
+            adapter.setGravity(GravityAttribute.TOP, GravityAttribute.LEFT);
+            adapter.margin(10*APIXEL,0);
+            adapter.apply();
             }
         });
 
-        GravityAdapter adapter = new GravityAdapter();
+
 
 
 
@@ -63,15 +70,15 @@ public class MainLayerUI extends Layer {
 
         Slot slot3 = new Slot(Slot.SlotSkin.DEFAULT, new Container(1000));
         slot3.setSize(160 * APIXEL);
-        slot3.addItems(Item.newItems("test1", 64));
         adapter.addActor(slot3);
         adapter.tiedTo(GravityAttribute.RIGHT, slot2);
         adapter.setGravity(GravityAttribute.BOTTOM, GravityAttribute.RIGHT);
         //addActor(slot3);
 
         label = new Label(" ", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        label.setFontScale(1.5f);
+        label.setFontScale(APIXEL);
         adapter.addActor(label);
+        adapter.setHeight(label.getPrefHeight());
         adapter.setGravity(GravityAttribute.TOP, GravityAttribute.LEFT);
         addActor(label);
 
@@ -112,6 +119,10 @@ public class MainLayerUI extends Layer {
     @Override
     public Layer onCreate(ExtraData data) {
         InteractionOfItems.setInteraction(true);
+        if(!World.getConfig().isDebug())
+            removeActor(label);
+        else
+            addActor(label);
         return this;
     }
 

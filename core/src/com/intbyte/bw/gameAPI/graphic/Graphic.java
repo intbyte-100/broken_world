@@ -40,6 +40,7 @@ public final class Graphic {
         ENVIRONMENT.set(new ColorAttribute(ColorAttribute.AmbientLight, 0.4f, 0.4f, 0.4f, 1f));
         ENVIRONMENT.add((shadowLight = new DirectionalShadowLight(2000, 2000, 150f, 100f, 1f, 200f)).set(0.6f,0.6f,0.6f, -1f, -1f, 1f));
         ENVIRONMENT.shadowMap = shadowLight;
+
     }
 
     public static int greatestCommonFactor(int width, int height) {

@@ -13,6 +13,7 @@ public class Container {
         this.maxCountItems = maxCountItems;
     }
 
+
     public void moveItems(Array<Item> items) {
         if (items.isEmpty()) return;
         if (this.items.isEmpty() || items.get(0).getId() == this.items.get(0).getId()) {

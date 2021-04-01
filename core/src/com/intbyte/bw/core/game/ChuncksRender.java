@@ -28,7 +28,7 @@ public class ChuncksRender extends FrustumCullingRender {
 
     protected void draw2(int x, int z) {
 
-        if (!camera3d.frustum.boundsInFrustum(x * 10f, 0, z * 10f, 20, 0, 20)) return;
+        if (!camera3d.frustum.boundsInFrustum(x * 10f, 0, z * 10f, 40, 0, 40)) return;
         Chunck chunck = World.world[World.fixedIndex(World.playerX + x / 2)][World.fixedIndex(World.playerZ + z / 2)];
         for (Iterator<Tile> iterator = chunck.getTiles().iterator(); iterator.hasNext(); ) {
             Tile tile = iterator.next();
@@ -44,8 +44,8 @@ public class ChuncksRender extends FrustumCullingRender {
 
     protected void draw2(int x, int xTo, int z, int zTo) {
 
-        for (; x < xTo; x += 2)
-            for (int zz = z; zz > zTo; zz -= 2)
+        for (; x < xTo+4; x += 2)
+            for (int zz = z; zz > zTo-4; zz -= 2)
                 draw2(x, zz);
 
     }

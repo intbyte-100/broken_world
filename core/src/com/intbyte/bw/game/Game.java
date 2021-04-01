@@ -37,7 +37,6 @@ public class Game {
 
 
                 player = Player.getPlayer();
-                player.getCarriedItem().addItems(Item.newItems("block_grass2", 100));
 
 
 
@@ -53,12 +52,16 @@ public class Game {
 
 
                 player.setPosition(100, 100);
-                player.takeDrop(new Container(64).addItems(
-                        Item.newItems("block_grass",64)));
-                player.takeDrop(new Container(64).addItems(
-                        Item.newItems("pickaxe",4)));
-                player.takeDrop(new Container(64).addItems(
-                        Item.newItems("block_mashroom",4)));
+                Container container = new Container(64);
+                if(World.getConfig().isCreative())
+                    for (int i = 1; i < Item.getItemFactories().length; i++) {
+                        ItemFactory factory;
+                        if((factory = Item.getItemFactories()[i]) == null) break;
+                        container.setMaxCountItems(factory.getStacksize());
+                        container.clear();
+                        player.takeDrop(container.addItems(Item.newItems(factory.getId(),factory.getStacksize())));
+                    }
+
 
             }
         });

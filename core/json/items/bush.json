@@ -1,5 +1,5 @@
 {
-  "type": "item:test1",
+  "type": "example-item:test1",
   "itemType": "block",
   "texture": "icon:grass2",
   "block": "grass2",

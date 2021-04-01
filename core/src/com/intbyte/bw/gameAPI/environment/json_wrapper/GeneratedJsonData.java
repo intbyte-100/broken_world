@@ -16,8 +16,8 @@ public class GeneratedJsonData{
         Resource.putBlockObject("10x10",object);
         
         blockWrapper.reset();
-        blockWrapper.setId("mashroom");
-		blockWrapper.setModel("_mashroom_2.g3db");
+        blockWrapper.setId("grass2");
+		blockWrapper.setModel("_bush_2.g3db");
 		blockWrapper.setTexture("Ekfs_bush_map.png");
 		blockWrapper.setHealth(10);
 		blockWrapper.setBody(object);
@@ -30,8 +30,8 @@ public class GeneratedJsonData{
 		block.setPosition(0f,-5f,0f);
         
         blockWrapper.reset();
-        blockWrapper.setId("grass2");
-		blockWrapper.setModel("_bush_2.g3db");
+        blockWrapper.setId("mashroom");
+		blockWrapper.setModel("_mashroom_2.g3db");
 		blockWrapper.setTexture("Ekfs_bush_map.png");
 		blockWrapper.setHealth(10);
 		blockWrapper.setBody(object);
@@ -56,13 +56,26 @@ public class GeneratedJsonData{
 		block = Block.defineBlock(blockWrapper);
 		block.setScale(0.1f);
 		block.setPosition(0f,-5f,0f);
+        
+        blockWrapper.reset();
+        blockWrapper.setId("spruce");
+		blockWrapper.setModel("spruce_1.obj");
+		blockWrapper.setTexture("Lp_trees_texture_atlas.png");
+		blockWrapper.setHealth(20);
+		blockWrapper.setBody(object);
+		blockWrapper.setIconScale(1f);
+		blockWrapper.getIconRender().set(0f,0f,0f);
+		blockWrapper.setType(Block.WOOD);
+		blockWrapper.setLevel(2);
+		block = Block.defineBlock(blockWrapper);
+		block.setScale(4f);
+		block.setPosition(0f,-5f,0f);
 
 
-		Tools.newBlock("test","icon:grass","grass",1);
 		Tools.newPickaxe("pickaxe","pickaxe.png",20,10,10,100f / 12 * 1,10,1);
-		Tools.newBlock("test1","icon:grass2","grass2",1);
-		Tools.newBlock("block_mashroom","icon:mashroom","mashroom",1);
-		Tools.newBlock("block_grass2","icon:grass2","grass2",1);
-		Tools.newBlock("block_grass","icon:grass","grass",1);
+		Tools.newBlock("block_grass2","icon:grass2","grass2",0);
+		Tools.newBlock("block_mashroom","icon:mashroom","mashroom",0);
+		Tools.newBlock("block_grass","icon:grass","grass",0);
+		Tools.newBlock("block_spruce","icon:spruce","spruce",0);
     }
 }

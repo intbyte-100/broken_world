@@ -5,6 +5,7 @@
   "texture": "Ekfs_bush_map.png",
   "blockType": "wood",
   "level": 20,
+  "weight": 0,
   "health": 10,
   "scale": 0.1,
   "renderCoord": [0,-5,0]
