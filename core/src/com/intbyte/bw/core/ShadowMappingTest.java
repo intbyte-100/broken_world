@@ -16,11 +16,9 @@ import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalShadowLight;
 import com.badlogic.gdx.graphics.g3d.environment.PointLight;
 import com.badlogic.gdx.graphics.g3d.loader.ObjLoader;
-import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
-import com.badlogic.gdx.graphics.g3d.utils.DepthShaderProvider;
-import com.badlogic.gdx.graphics.g3d.utils.MeshPartBuilder;
-import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
+import com.badlogic.gdx.graphics.g3d.utils.*;
 import com.badlogic.gdx.math.Vector3;
+import com.intbyte.bw.gameAPI.utils.ShaderContainer;
 
 
 public class ShadowMappingTest extends Game {
@@ -38,10 +36,11 @@ public class ShadowMappingTest extends Game {
     public void create () {
         Model model = new ObjLoader().loadModel(Gdx.files.internal("objects/block/tree.obj"));
         modelInstance = new ModelInstance(model);
-        modelBatch = new ModelBatch();
+        ShaderContainer container = new ShaderContainer("default");
+        modelBatch = new ModelBatch(new DefaultShaderProvider(container.getVert(),container.getFrag()));
         environment = new Environment();
         environment.set(new ColorAttribute(ColorAttribute.AmbientLight, .4f, .4f, .4f, 1f));
-        environment.add((shadowLight = new DirectionalShadowLight(1024, 1024, 10f, 10f, 1f, 100f)).set(0.8f, 0.8f, 0.8f, -1f, -01f,
+        environment.add((shadowLight = new DirectionalShadowLight(1024, 1024, 10f, 10f, 1f, 100f)).set(0.6f, 0.6f, 0.6f, -1f, -01f,
                 -.2f));
         environment.shadowMap = shadowLight;
 

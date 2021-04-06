@@ -41,6 +41,7 @@ public class Initialization implements Screen {
         Gdx.app.postRunnable(new Runnable() {
             @Override
             public void run() {
+
                 Gdx.app.log("INITIALIZATION", "starting initialization");
                 Physic.init();
                 Player.getPlayer();

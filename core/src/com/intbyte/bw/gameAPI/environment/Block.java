@@ -2,11 +2,10 @@ package com.intbyte.bw.gameAPI.environment;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g3d.Material;
-import com.badlogic.gdx.graphics.g3d.Model;
-import com.badlogic.gdx.graphics.g3d.ModelCache;
-import com.badlogic.gdx.graphics.g3d.ModelInstance;
+import com.badlogic.gdx.graphics.g3d.*;
+import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.attributes.TextureAttribute;
+import com.badlogic.gdx.graphics.g3d.environment.DirectionalShadowLight;
 import com.badlogic.gdx.math.Vector3;
 import com.intbyte.bw.gameAPI.environment.json_wrapper.BlockWrapper;
 import com.intbyte.bw.gameAPI.graphic.Graphic;
@@ -59,6 +58,7 @@ public class Block {
         block.id = id;
 
         block.modelInstance = getModelInstance("block/landblock.obj", texture);
+        block.isLand = true;
         landBlocks[integerId] = block;
         Gdx.app.log("BLOCK", "defined block " + id);
     }
@@ -137,6 +137,7 @@ public class Block {
         private ModelInstance modelInstance;
         private PhysicBlockObject physicEntity;
         private float scale = 1;
+        public boolean isLand = false;
         private Vector3 position = new Vector3(0,0,0);
         public ModelInstance getModelInstance() {
             return modelInstance;
@@ -213,13 +214,15 @@ public class Block {
             render(modelInstance,x,y,z);
         }
 
+
         public void render(ModelInstance modelInstance,float x, float y, float z){
             modelInstance.transform.setToTranslation(x+position.x, y+position.y, z+position.z);
             float scaleX = modelInstance.transform.getScaleX(),
                     scaleY = modelInstance.transform.getScaleY(),
                     scaleZ = modelInstance.transform.getScaleZ();
             modelInstance.transform.scale(scale, scale, scale);
-            Graphic.getModelBatch().render(modelInstance, Graphic.ENVIRONMENT);
+
+            Graphic.getModelBatch().render(modelInstance, Graphic.getEnvironment(isLand));
             modelInstance.transform.scale(scaleX,scaleY,scaleZ);
         }
 

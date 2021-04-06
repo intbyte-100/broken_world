@@ -1,11 +1,12 @@
 package com.intbyte.bw.core.game;
 
+import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.intbyte.bw.gameAPI.environment.Entity;
 
-public class EntityManager {
+public class EntityManager extends EntitySystem {
     private final Array<Entity> active, nonActive;
     private final Player player;
     private final StringBuilder builder;
@@ -38,6 +39,12 @@ public class EntityManager {
     public void delete(Entity entity){
         if(!active.removeValue(entity,true))
             nonActive.removeValue(entity,true);
+    }
+
+
+
+    public void add(Entity entity){
+        active.add(entity);
     }
 
     class EntityGarbageCollector extends Thread {
@@ -77,8 +84,6 @@ public class EntityManager {
             new EntityGarbageCollector().start();
         }
     }
-
-    public void add(Entity entity){
-        active.add(entity);
-    }
 }
+
+

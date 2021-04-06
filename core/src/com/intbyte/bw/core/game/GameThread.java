@@ -1,5 +1,6 @@
 package com.intbyte.bw.core.game;
 
+import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
@@ -9,6 +10,7 @@ import com.intbyte.bw.gameAPI.callbacks.Render;
 import com.intbyte.bw.gameAPI.environment.Entity;
 import com.intbyte.bw.gameAPI.environment.World;
 import com.intbyte.bw.gameAPI.environment.WorldConfig;
+import com.intbyte.bw.gameAPI.graphic.GlobalEnvironment;
 import com.intbyte.bw.gameAPI.ui.GUI;
 import com.intbyte.bw.gameAPI.ui.container.TakenItemsRender;
 import com.intbyte.bw.gameAPI.physic.Physic;
@@ -24,7 +26,7 @@ public class GameThread implements Screen {
     private static boolean isReadyCallBack;
     private static EntityManager entityManager;
     private final FrustumCullingRender render;
-    private boolean isInventory;
+    private final Engine engine;
 
 
     public GameThread() {
@@ -36,6 +38,7 @@ public class GameThread implements Screen {
 
 
         entityManager = new EntityManager();
+        engine = new Engine();
     }
 
     public static EntityManager getEntityManager() {
@@ -45,11 +48,23 @@ public class GameThread implements Screen {
     public static boolean isReadyCallBack() {
         return isReadyCallBack;
     }
-
+    float power = 0;
     @Override
-    public void render(float p1) {
-        Physic.update();
-        World.update();
+    public void render(final float delta) {
+        GlobalEnvironment.setIntensity(power);
+        GlobalEnvironment.update();
+        new Thread() {
+            @Override
+            public void run() {
+
+                Physic.update();
+                World.update();
+
+                power+=delta/40;
+                if(power>1)power=0.0f;
+            }
+        }.start();
+
 
                 for (int i = 0; i < entityManager.getActive().size; i++)
                     entityManager.getActive().get(i).renderTick();
@@ -63,6 +78,8 @@ public class GameThread implements Screen {
         for (Entity i : entityManager.getActive()) {
             i.render();
         }
+        engine.update(delta);
+
         BATCH.begin();
         CallBack.executeRenderCallBacks();
         BATCH.end();

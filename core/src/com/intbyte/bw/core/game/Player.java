@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.intbyte.bw.gameAPI.environment.Entity;
 import com.intbyte.bw.gameAPI.environment.EntityFactory;
+import com.intbyte.bw.gameAPI.graphic.GlobalEnvironment;
 import com.intbyte.bw.gameAPI.graphic.Graphic;
 import com.intbyte.bw.gameAPI.environment.Container;
 import com.intbyte.bw.gameAPI.utils.Resource;
@@ -46,7 +47,7 @@ public class Player extends Entity {
     public void renderTick() {
         super.renderTick();
         if (0 < coolDown) {
-            coolDown -= (float) 100 / 6 * Gdx.graphics.getRawDeltaTime();
+            coolDown -= (float) 100 / 6 * Gdx.graphics.getDeltaTime();
         } else
             coolDown = 0;
     }
@@ -55,7 +56,7 @@ public class Player extends Entity {
     public void render() {
         modelInstance.transform.setToTranslation(0 + GameThread.xDraw, 0, 0 + GameThread.zDraw);
         modelInstance.transform.rotateRad(Vector3.Y, rotate);
-        Graphic.getModelBatch().render(modelInstance, Graphic.ENVIRONMENT);
+        Graphic.getModelBatch().render(modelInstance, GlobalEnvironment.getEnvironment(false));
     }
 
     private static class PlayerFactory extends EntityFactory {

@@ -37,11 +37,6 @@ public final class World {
         World.config = settings;
     }
 
-    public static int getBlock(int x, int z) {
-        if (x > -1 && z > -1 && x < block.length && z < block.length)
-            return block[x][z];
-        return 0;
-    }
 
     public static int getLandBlock(int x, int z) {
         if (x > -1 && z > -1 && x < block.length && z < block.length)
@@ -53,22 +48,6 @@ public final class World {
         setBlockToChunk(x,z,new Tile(id));
     }
 
-    public static void setLandBlock(int x, int z, int id) {
-        if (x > -1 && z > -1 && x < block.length && z < block.length)
-            landBlock[x][z] = (short) id;
-    }
-
-    public static BlockExtraData getBlockData(int x, int z) {
-        Block.CustomBlock customBlock = Block.getBlocks()[getBlock(x, z)];
-        if (customBlock == null) return BlockExtraData.NOT_DATA;
-        return customBlock.blockData.get(x * 1000 + z);
-    }
-
-    public static void setBlockData(int x, int z, BlockExtraData data) {
-        Block.CustomBlock customBlock = Block.getBlocks()[getBlock(x, z)];
-        if (customBlock == null) return;
-        customBlock.blockData.put(x * 1000 + z, data);
-    }
 
 
     public static void update() {

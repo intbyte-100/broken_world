@@ -10,7 +10,7 @@ import static com.intbyte.bw.core.game.GameThread.xDraw;
 import static com.intbyte.bw.core.game.GameThread.zDraw;
 import static com.intbyte.bw.gameAPI.graphic.Graphic.*;
 
-public class FrustumCullingRender {
+public abstract class FrustumCullingRender {
     protected final Block.CustomBlock[] blocks = Block.getBlocks();
     protected final Block.CustomBlock[] landBlocks = Block.getLandBlocks();
     protected final Player player;
@@ -24,18 +24,7 @@ public class FrustumCullingRender {
         player = Player.getPlayer();
     }
 
-    protected void draw(int x, int z) {
-        int id = World.getBlock(x + ((int) player.getX()), z + ((int) player.getZ()));
-        if (!camera3d.frustum.boundsInFrustum(x * 10f, 0, z * 10f - 5, 5, 0, 5)) return;
-        GameThread.visible++;
-        if (id > 0) {
-            blocks[id].render(x * 10, 5, z * 10 - 5);
-            GameThread.visible++;
-        } //else {
-        id = World.getLandBlock(x + ((int) player.getX()), z + ((int) player.getZ()));
-        landBlocks[id].render(x * 10f, 0, z * 10f - 5);
-        // }
-    }
+    protected abstract void draw(int x, int z);
 
     protected void draw(int x, int xTo, int z, int zTo) {
         for (; x < xTo; x++)
