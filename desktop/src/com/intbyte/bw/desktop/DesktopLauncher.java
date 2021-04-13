@@ -3,8 +3,10 @@ package com.intbyte.bw.desktop;
 
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
+import com.badlogic.gdx.utils.IntMap;
 import com.intbyte.bw.GameBoot;
 import com.intbyte.bw.core.ShadowMappingTest;
+import com.intbyte.bw.ui.View;
 
 
 public class DesktopLauncher {
@@ -14,7 +16,7 @@ public class DesktopLauncher {
         config.setWindowedMode(1280, 720);
         config.setBackBufferConfig(8,8,8,8,16,16,4);
 
-
-        new Lwjgl3Application(new GameBoot(), config);
+        GameBoot gameBoot = new GameBoot();
+        new Lwjgl3Application(gameBoot, config);
     }
 }

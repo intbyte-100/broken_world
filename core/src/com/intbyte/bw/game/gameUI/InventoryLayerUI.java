@@ -27,7 +27,7 @@ public class InventoryLayerUI extends Layer {
         float width = (Gdx.graphics.getWidth() - padding * 2 - padding) / 2;
         float height = Gdx.graphics.getHeight() - padding * 2;
 
-        Sprite sprite = Panel.getDrawRoundedPanel((int) (width), (int) (height), (int) (TypedValue.APIXEL * 4), 0.1f, 0.1f, 0.1f, 0.7f);
+        Sprite sprite = Panel.getDrawRoundedPanel((int) (width), (int) (height), (int) (TypedValue.APIXEL * 4), 0.1f, 0.1f, 0.1f, 0.6f-0.1f);
         Resource.addSprite(sprite, "inventory");
 
         Actor actor = new Actor();

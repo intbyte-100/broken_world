@@ -29,7 +29,7 @@ public class Game {
                 ID.registeredId("block:void", 0);
                 GeneratedJsonData.init();
 
-                Sprite sprite = Panel.drawPanel(400,400,8,0.1f,0.1f,0.1f,0.5f);
+                Sprite sprite = Panel.drawPanel(400,400,6,0.1f,0.1f,0.1f,0.6f-0.1f);
                 Resource.addSprite(sprite,"slot");
 
                 Block.defineLandBlock("grass", "grass.jpg");
@@ -61,8 +61,6 @@ public class Game {
                         container.clear();
                         player.takeDrop(container.addItems(Item.newItems(factory.getId(),factory.getStacksize())));
                     }
-
-
             }
         });
     }
