@@ -6,27 +6,26 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.intbyte.bw.core.game.GameThread;
-import com.intbyte.bw.core.game.InteractionOfItems;
-import com.intbyte.bw.core.game.Player;
-import com.intbyte.bw.gameAPI.callbacks.CallBack;
-import com.intbyte.bw.gameAPI.callbacks.Render;
-import com.intbyte.bw.gameAPI.environment.Item;
-import com.intbyte.bw.gameAPI.environment.World;
-import com.intbyte.bw.gameAPI.graphic.Graphic;
-import com.intbyte.bw.gameAPI.graphic.GravityAdapter;
-import com.intbyte.bw.gameAPI.graphic.GravityAttribute;
-import com.intbyte.bw.gameAPI.ui.GUI;
-import com.intbyte.bw.gameAPI.ui.Joystick;
-import com.intbyte.bw.gameAPI.ui.Layer;
-import com.intbyte.bw.gameAPI.ui.ProgressBar;
-import com.intbyte.bw.gameAPI.environment.Container;
-import com.intbyte.bw.gameAPI.ui.container.Slot;
-import com.intbyte.bw.gameAPI.ui.container.TakenItemsRender;
-import com.intbyte.bw.gameAPI.utils.ExtraData;
-import com.intbyte.bw.gameAPI.utils.Resource;
+import com.intbyte.bw.engine.GameThread;
+import com.intbyte.bw.engine.callbacks.CallBack;
+import com.intbyte.bw.engine.callbacks.Render;
+import com.intbyte.bw.engine.entity.Player;
+import com.intbyte.bw.engine.graphic.GravityAdapter;
+import com.intbyte.bw.engine.graphic.GravityAttribute;
+import com.intbyte.bw.engine.input.InteractionOfItems;
+import com.intbyte.bw.engine.item.Container;
+import com.intbyte.bw.engine.item.Item;
+import com.intbyte.bw.engine.ui.GUI;
+import com.intbyte.bw.engine.ui.Joystick;
+import com.intbyte.bw.engine.ui.Layer;
+import com.intbyte.bw.engine.ui.ProgressBar;
+import com.intbyte.bw.engine.ui.container.Slot;
+import com.intbyte.bw.engine.ui.container.TakenItemsRender;
+import com.intbyte.bw.engine.utils.ExtraData;
+import com.intbyte.bw.engine.utils.Resource;
+import com.intbyte.bw.engine.world.World;
 
-import static com.intbyte.bw.gameAPI.graphic.TypedValue.APIXEL;
+import static com.intbyte.bw.engine.graphic.TypedValue.APIXEL;
 
 public class MainLayerUI extends Layer {
 
@@ -40,17 +39,14 @@ public class MainLayerUI extends Layer {
         CallBack.addCallBack(new Render() {
             @Override
             public void main() {
-            label.setText("fps: " + Gdx.graphics.getFramesPerSecond() + "; \nplayer position: x = " + (int) player.getX() + ", z = " + (int) player.getZ() + "; \nvisible models = " + GameThread.visible+"; \nplayer weight = "+player.getItemsWeight()+"; \nplayer speed = "+player.getSpeed()+";");
-            adapter.addActor(label);
-            adapter.setHeight(label.getPrefHeight());
-            adapter.setGravity(GravityAttribute.TOP, GravityAttribute.LEFT);
-            adapter.margin(10*APIXEL,0);
-            adapter.apply();
+                label.setText("fps: " + Gdx.graphics.getFramesPerSecond() + "; \nplayer position: x = " + (int) player.getX() + ", z = " + (int) player.getZ() + "; \nvisible models = " + GameThread.visible + "; \nplayer weight = " + player.getItemsWeight() + "; \nplayer speed = " + player.getSpeed() + ";");
+                adapter.addActor(label);
+                adapter.setHeight(label.getPrefHeight());
+                adapter.setGravity(GravityAttribute.TOP, GravityAttribute.LEFT);
+                adapter.margin(10 * APIXEL, 0);
+                adapter.apply();
             }
         });
-
-
-
 
 
         Slot slot = new Slot(Slot.SlotSkin.DEFAULT, Player.getPlayer().getCarriedItem());
@@ -88,7 +84,7 @@ public class MainLayerUI extends Layer {
 
 
         final ProgressBar bar = new ProgressBar(new TestProgressBarSkin());
-        bar.addListener(new InputListener(){
+        bar.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 return true;
@@ -96,12 +92,12 @@ public class MainLayerUI extends Layer {
 
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                GUI.setLayer("inventory",null);
+                GUI.setLayer("inventory", null);
             }
         });
-        bar.setSize(100*APIXEL,20*APIXEL);
+        bar.setSize(100 * APIXEL, 20 * APIXEL);
         adapter.addActor(bar);
-        adapter.setGravity(GravityAttribute.TOP,GravityAttribute.RIGHT);
+        adapter.setGravity(GravityAttribute.TOP, GravityAttribute.RIGHT);
         addActor(bar);
 
         CallBack.addCallBack(new Render() {
@@ -119,7 +115,7 @@ public class MainLayerUI extends Layer {
     @Override
     public Layer onCreate(ExtraData data) {
         InteractionOfItems.setInteraction(true);
-        if(!World.getConfig().isDebug())
+        if (!World.getConfig().isDebug())
             removeActor(label);
         else
             addActor(label);

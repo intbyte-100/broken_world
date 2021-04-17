@@ -5,19 +5,20 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.intbyte.bw.core.game.Player;
-import com.intbyte.bw.gameAPI.graphic.GravityAdapter;
-import com.intbyte.bw.gameAPI.graphic.GravityAttribute;
-import com.intbyte.bw.gameAPI.graphic.TypedValue;
-import com.intbyte.bw.gameAPI.ui.GUI;
-import com.intbyte.bw.gameAPI.ui.Inventory;
-import com.intbyte.bw.gameAPI.ui.Layer;
-import com.intbyte.bw.gameAPI.ui.Panel;
-import com.intbyte.bw.gameAPI.ui.container.Slot;
-import com.intbyte.bw.gameAPI.utils.ExtraData;
-import com.intbyte.bw.gameAPI.utils.Resource;
+import com.intbyte.bw.engine.entity.Player;
+import com.intbyte.bw.engine.graphic.GravityAdapter;
+import com.intbyte.bw.engine.graphic.GravityAttribute;
+import com.intbyte.bw.engine.graphic.TypedValue;
+import com.intbyte.bw.engine.ui.GUI;
+import com.intbyte.bw.engine.ui.Inventory;
+import com.intbyte.bw.engine.ui.Layer;
+import com.intbyte.bw.engine.ui.Panel;
+import com.intbyte.bw.engine.ui.container.Slot;
+import com.intbyte.bw.engine.utils.ExtraData;
+import com.intbyte.bw.engine.utils.Resource;
 
-import static com.intbyte.bw.gameAPI.environment.Item.*;
+import static com.intbyte.bw.engine.item.Item.*;
+
 public class InventoryLayerUI extends Layer {
 
     private Inventory inventory = new Inventory();
@@ -27,12 +28,12 @@ public class InventoryLayerUI extends Layer {
         float width = (Gdx.graphics.getWidth() - padding * 2 - padding) / 2;
         float height = Gdx.graphics.getHeight() - padding * 2;
 
-        Sprite sprite = Panel.getDrawRoundedPanel((int) (width), (int) (height), (int) (TypedValue.APIXEL * 4), 0.1f, 0.1f, 0.1f, 0.6f-0.1f);
+        Sprite sprite = Panel.getDrawRoundedPanel((int) (width), (int) (height), (int) (TypedValue.APIXEL * 4), 0.1f, 0.1f, 0.1f, 0.6f - 0.1f);
         Resource.addSprite(sprite, "inventory");
 
         Actor actor = new Actor();
-        actor.setSize(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
-        actor.addListener(new InputListener(){
+        actor.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        actor.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 return true;
@@ -40,7 +41,7 @@ public class InventoryLayerUI extends Layer {
 
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                GUI.setLayer("main",null);
+                GUI.setLayer("main", null);
             }
         });
         addActor(actor);
@@ -69,7 +70,6 @@ public class InventoryLayerUI extends Layer {
                 helmet = new Slot(1), armor = new Slot(1), leggings = new Slot(1);
 
 
-
         final float slotSize = (panel2.getWidth() - padding * 4) / 3f * 0.85f;
         firstItem.setSize(slotSize);
         secondItem.setSize(slotSize);
@@ -96,36 +96,35 @@ public class InventoryLayerUI extends Layer {
         adapter.tiedTo(GravityAttribute.BOTTOM, secondItem);
         adapter.margin(padding, 0);
 
-        Panel playerPanel = new Panel(Panel.drawPanel(10,10,0,0.1f,0.1f,0.1f,0.5f));
-        playerPanel.setSize(panel2.getWidth()-(firstItem.getWidth()+padding*2)*2,firstItem.getHeight()*3);
+        Panel playerPanel = new Panel(Panel.drawPanel(10, 10, 0, 0.1f, 0.1f, 0.1f, 0.5f));
+        playerPanel.setSize(panel2.getWidth() - (firstItem.getWidth() + padding * 2) * 2, firstItem.getHeight() * 3);
 
         adapter.addActor(playerPanel);
-        adapter.tiedTo(GravityAttribute.BOTTOM,secondItem);
-        adapter.tiedTo(GravityAttribute.LEFT,secondItem);
-        adapter.margin(padding,0);
+        adapter.tiedTo(GravityAttribute.BOTTOM, secondItem);
+        adapter.tiedTo(GravityAttribute.LEFT, secondItem);
+        adapter.margin(padding, 0);
         panel2.addActor(playerPanel);
 
-        helmet.setPosition(0,panel2.getHeight() - padding - firstItem.getHeight());
+        helmet.setPosition(0, panel2.getHeight() - padding - firstItem.getHeight());
         adapter.addActor(helmet);
-        adapter.tiedTo(GravityAttribute.LEFT,playerPanel);
-        adapter.margin(padding,0);
+        adapter.tiedTo(GravityAttribute.LEFT, playerPanel);
+        adapter.margin(padding, 0);
         panel2.addActor(helmet);
 
         adapter.addActor(armor);
-        adapter.tiedTo(GravityAttribute.LEFT,playerPanel);
-        adapter.tiedTo(GravityAttribute.BOTTOM,helmet);
-        adapter.margin(padding,0);
+        adapter.tiedTo(GravityAttribute.LEFT, playerPanel);
+        adapter.tiedTo(GravityAttribute.BOTTOM, helmet);
+        adapter.margin(padding, 0);
         panel2.addActor(armor);
 
         adapter.addActor(leggings);
 
-        adapter.tiedTo(GravityAttribute.LEFT,playerPanel);
-        adapter.tiedTo(GravityAttribute.BOTTOM,armor);
-        adapter.margin(padding,0);
+        adapter.tiedTo(GravityAttribute.LEFT, playerPanel);
+        adapter.tiedTo(GravityAttribute.BOTTOM, armor);
+        adapter.margin(padding, 0);
         panel2.addActor(leggings);
 
         adapter.apply();
-
 
 
     }

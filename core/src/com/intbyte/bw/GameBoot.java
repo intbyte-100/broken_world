@@ -1,9 +1,8 @@
 package com.intbyte.bw;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.intbyte.bw.core.Initialization;
-import com.intbyte.bw.gameAPI.utils.Resource;
+import com.intbyte.bw.engine.Initialization;
+import com.intbyte.bw.engine.utils.Resource;
 
 
 public class GameBoot extends Game{
