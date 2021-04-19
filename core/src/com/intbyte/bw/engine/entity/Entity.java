@@ -127,7 +127,7 @@ public abstract class Entity {
     protected void spawn(){
         PhysicData data = (PhysicData) getBody().getUserData();
         data.setObject(this);
-        data.setType(data.ENTITY);
+        data.setType(PhysicData.ENTITY);
     }
 
     abstract public void render();

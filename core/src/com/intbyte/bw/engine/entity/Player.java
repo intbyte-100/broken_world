@@ -12,7 +12,7 @@ import com.intbyte.bw.engine.utils.Resource;
 
 
 public class Player extends Entity {
-    static Player player;
+    private static Player player;
     float coolDown;
 
     private ModelInstance modelInstance;

@@ -65,7 +65,11 @@ public final class World {
 
 
     public static int fixedIndex(int index) {
-        return index >= 0 && index < 16 ? index : index >= 16 ? index - (index / 16) * 16 : index + (-index / 16 + 1) * 16;
+        if (index >= 0 && index < 16)
+            return index;
+        else if (index >= 16)
+            return index - (index / 16) * 16;
+        return index + (-index / 16 + 1) * 16;
     }
 
 

@@ -106,7 +106,6 @@ public class MainLayerUI extends Layer {
                 bar.setState(player.getEndurance());
             }
         });
-        TakenItemsRender.initInstance();
         TakenItemsRender.setRendering(true);
         adapter.apply();
 

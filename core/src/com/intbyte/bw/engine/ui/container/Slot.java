@@ -13,8 +13,10 @@ import com.intbyte.bw.engine.item.Container;
 import com.intbyte.bw.engine.item.Item;
 import com.intbyte.bw.engine.graphic.Graphic;
 import com.intbyte.bw.engine.utils.Resource;
+import com.intbyte.bw.ui.PrimaryView;
+import com.intbyte.bw.ui.View;
 
-public class Slot extends Actor {
+public class Slot extends PrimaryView<Slot> {
     private final static BitmapFont font = new BitmapFont();
     private boolean touchedDown;
     private final static Vector2 touchPosition = new Vector2(), oldPosition = new Vector2();

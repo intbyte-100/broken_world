@@ -101,7 +101,7 @@ public class InteractionOfItems {
                     Integer id = interaction.settableItemsHashMap.get(interaction.container.getId());
                     if (id == null) {
                         isDragged = false;
-                        rectangle.setCenter(-1000, -1000);
+                        rectangle.setCenter(Integer.MIN_VALUE, Integer.MIN_VALUE);
                         return;
                     }
 
@@ -147,7 +147,6 @@ public class InteractionOfItems {
                     return;
                 }
                 if (World.isCollision(x, z - 1) && Item.getItemFactories()[interaction.container.getId()] != null && player.getCoolDown() == 0 && Item.getItemFactories()[interaction.container.getId()].getType() != Item.BLOCK) {
-                    System.out.println(Item.getItemFactories()[interaction.id].getType());
                     interaction.hit(x, z);
                     return;
                 }

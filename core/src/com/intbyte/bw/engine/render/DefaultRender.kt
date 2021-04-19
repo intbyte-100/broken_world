@@ -1,5 +1,7 @@
 package com.intbyte.bw.engine.render
 
-class DefaultRender : FastRender() {
+import com.badlogic.gdx.graphics.g3d.ModelBatch
+
+class DefaultRender(batch: ModelBatch) : FastRender(batch) {
 
 }

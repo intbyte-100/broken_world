@@ -29,8 +29,7 @@ public class GameInputProcessor implements InputProcessor {
         Ray ray = camera.getPickRay(screenX, screenY);
         return position.set(ray.direction).
                 scl(-ray.origin.y / ray.direction.y).
-                add(ray.origin).
-                add(0, 0, 0.1f);
+                add(ray.origin);
     }
 
     @Override

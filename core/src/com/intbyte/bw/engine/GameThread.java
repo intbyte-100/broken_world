@@ -91,7 +91,7 @@ public class GameThread implements Screen {
         STAGE.act();
         STAGE.draw();
         BATCH.begin();
-        Render.callBacks.get(0).main();
+        TakenItemsRender.renderItem();
         BATCH.end();
         isReadyCallBack = false;
         visible = 0;

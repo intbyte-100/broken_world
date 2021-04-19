@@ -6,7 +6,7 @@ import com.intbyte.bw.engine.world.Tile;
 
 public class Chunck {
     public int x, z;
-    private Array<Tile> tileArray = new Array<>();
+    private final Array<Tile> tileArray = new Array<>();
 
     public void setTile(Tile tile) {
         tileArray.add(tile);
@@ -25,4 +25,10 @@ public class Chunck {
         return true;
     }
 
+    public void render(float x, float y, float z){
+        for (int i = 0; i < tileArray.size; i++) {
+            Tile tile = tileArray.get(i);
+            tile.render(tile.getPosition().x,0,tile.getPosition().z);
+        }
+    }
 }
