@@ -12,8 +12,8 @@ public class Physic {
     private static final BodyFactory[] bodyFactories = new BodyFactory[1200];
 
     public static void init(){
-        defineStaticRectangleBody("default", 0.5f, 0.5f);
-        defineDynamicRectangleBody("defaultEntity", 0.5f, 0.5f);
+        defineStaticRectangleBody("default", 5f, 5f);
+        defineDynamicRectangleBody("defaultEntity", 5f, 5f);
         world.setContactListener(new ContactListener() {
             @Override
             public void beginContact(Contact contact) {

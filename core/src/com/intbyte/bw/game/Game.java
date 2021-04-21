@@ -51,7 +51,7 @@ public class Game {
                 GUI.setLayer("main", null);
 
 
-                player.setPosition(100, 100);
+                player.setPosition(10000, 100);
                 Container container = new Container(64);
                 if (World.getConfig().isCreative())
                     for (int i = 1; i < Item.getItemFactories().length; i++) {

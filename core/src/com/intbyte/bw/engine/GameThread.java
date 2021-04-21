@@ -6,11 +6,14 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 
+import com.badlogic.gdx.graphics.g3d.ModelBatch;
 import com.intbyte.bw.engine.entity.EntityManager;
+import com.intbyte.bw.engine.graphic.Graphic;
 import com.intbyte.bw.engine.input.GameInputProcessor;
 import com.intbyte.bw.engine.callbacks.CallBack;
 import com.intbyte.bw.engine.callbacks.Render;
 import com.intbyte.bw.engine.entity.Entity;
+import com.intbyte.bw.engine.render.FastRender;
 import com.intbyte.bw.engine.world.World;
 import com.intbyte.bw.engine.world.WorldConfig;
 import com.intbyte.bw.engine.render.GlobalEnvironment;
@@ -30,6 +33,7 @@ public class GameThread implements Screen {
     private static EntityManager entityManager;
     private final FrustumCullingRender render;
     private final Engine engine;
+    FastRender fastRender = new FastRender(Graphic.getModelBatch());
 
 
     public GameThread() {
@@ -60,41 +64,24 @@ public class GameThread implements Screen {
         new Thread() {
             @Override
             public void run() {
-
-
                 World.update();
-
                 power+=delta/40;
                 if(power>1)power=0.0f;
             }
         }.start();
 
-
-                for (int i = 0; i < entityManager.getActive().size; i++)
-                    entityManager.getActive().get(i).renderTick();
+        for (int i = 0; i < entityManager.getActive().size; i++)
+            entityManager.getActive().get(i).renderTick();
 
         isReadyCallBack = true;
-
-
-
-
-        render.render();
-        for (Entity i : entityManager.getActive()) {
-            i.render();
-        }
-        engine.update(delta);
-
-        BATCH.begin();
-        CallBack.executeRenderCallBacks();
-        BATCH.end();
-        getModelBatch().end();
+        fastRender.render();
         STAGE.act();
         STAGE.draw();
         BATCH.begin();
         TakenItemsRender.renderItem();
         BATCH.end();
         isReadyCallBack = false;
-        visible = 0;
+
 
         if(Gdx.input.isKeyPressed(Input.Keys.SPACE)){
             GUI.setLayer(GUI.isOpen("main")?"inventory":"main",null);
@@ -109,6 +96,7 @@ public class GameThread implements Screen {
             Gdx.app.log("APPLICATION","application finished");
             System.exit(0);
         }
+
     }
 
 
@@ -119,6 +107,7 @@ public class GameThread implements Screen {
 
     @Override
     public void resize(int p1, int p2) {
+        fastRender.resize(p1, p2);
         render.getCamera().viewportHeight = p2;
         render.getCamera().viewportWidth = p1;
         render.resize();

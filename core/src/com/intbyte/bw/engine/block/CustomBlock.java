@@ -101,7 +101,7 @@ public class CustomBlock {
         float scaleX = modelInstance.transform.getScaleX(),
                 scaleY = modelInstance.transform.getScaleY(),
                 scaleZ = modelInstance.transform.getScaleZ();
-        modelInstance.transform.scale(getScale(), getScale(), getScale());
+        modelInstance.transform.scale(getScale()/10, getScale()/10, getScale()/10);
 
         Graphic.getModelBatch().render(modelInstance, Graphic.getEnvironment(isLand()));
         modelInstance.transform.scale(scaleX,scaleY,scaleZ);

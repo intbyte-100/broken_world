@@ -103,7 +103,7 @@ public final class World {
     }
     public static void setBlockToChunk(float x, float z, Tile tile) {
         Chunck chunck = getChunck(x, z);
-        tile.setPosition(x * 10, 0, z * 10);
+        tile.setPosition(x, 0, z);
         chunck.setTile(tile);
     }
 } 
