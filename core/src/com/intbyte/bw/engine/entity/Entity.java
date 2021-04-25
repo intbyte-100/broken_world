@@ -43,7 +43,7 @@ public abstract class Entity {
 
     public static Entity spawn(int id,float x, float z){
         Entity entity = spawn(factories[id].create());
-        entity.setPosition(x,z-0.5f);
+        entity.setPosition(x,z);
         Gdx.app.log("ENTITY","spawned entity with id "+id+"; x = "+entity.getX()+"; z = "+entity.getZ());
         return entity;
     }
@@ -51,9 +51,11 @@ public abstract class Entity {
     public static Entity spawn(String id, float x, float z){
         return spawn(ID.get("entity:"+id),x,z);
     }
-    public void calculateModelPositionAndRotation(float x, float y, float z) {
-        getEntityModel().transform.setToTranslation((float) (getPixelX() - player.getPixelX() + GameThread.xDraw) + x, y, (float) (getPixelZ() - player.getPixelZ() + GameThread.zDraw) + z);
+
+    public void calculateModelTransform(float x, float y, float z) {
+        getEntityModel().transform.setToTranslation((float) (getX()) + x, y, (float) (getZ()) + z);
         getEntityModel().transform.rotateRad(Vector3.Y, rotate);
+
     }
 
     @Override
@@ -117,6 +119,7 @@ public abstract class Entity {
 
     public void setPosition(float x, float z){
         body.setTransform(x,z,rotate);
+        position.set(x,z);
     }
 
     public Container getCarriedItem() {

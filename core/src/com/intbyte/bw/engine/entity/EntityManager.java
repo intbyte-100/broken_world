@@ -45,7 +45,7 @@ public class EntityManager extends EntitySystem {
 
 
     public void add(Entity entity){
-        active.add(entity);
+        nonActive.add(entity);
     }
 
     class EntityGarbageCollector extends Thread {

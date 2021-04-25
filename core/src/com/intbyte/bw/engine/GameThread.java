@@ -33,7 +33,7 @@ public class GameThread implements Screen {
     private static EntityManager entityManager;
     private final FrustumCullingRender render;
     private final Engine engine;
-    FastRender fastRender = new FastRender(Graphic.getModelBatch());
+    private final FastRender fastRender;
 
 
     public GameThread() {
@@ -46,6 +46,7 @@ public class GameThread implements Screen {
 
         entityManager = new EntityManager();
         engine = new Engine();
+        fastRender = new FastRender(Graphic.getModelBatch(),getEntityManager());
     }
 
     public static EntityManager getEntityManager() {

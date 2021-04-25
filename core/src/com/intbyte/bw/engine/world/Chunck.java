@@ -35,8 +35,11 @@ public class Chunck {
         GameThread.visible+=4;
         for (int i = 0; i < tileArray.size; i++) {
             Tile tile = tileArray.get(i);
+            if (tile.getID() == 0) {
+                tileArray.removeValue(tile,true);
+                continue;
+            }
             tile.render(tile.getPosition().x,0,tile.getPosition().z);
-
         }
     }
 }

@@ -27,8 +27,8 @@ class JavaBuilder : AbstractBuilder {
                 BlockWrapper blockWrapper = new BlockWrapper();
                 CustomBlock block;
                 PhysicBlockObject object = new PhysicBlockObject();
-                object.setShape(new Rectangle(0,0,20,20));
-                object.setOffset(10, 10);
+                object.setShape(new Rectangle(0,0,2,2));
+                object.setOffset(1, 1);
                 Resource.putBlockObject("10x10",object);
     """.trimIndent()
 

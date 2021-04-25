@@ -2,9 +2,7 @@ package com.intbyte.bw.engine.entity;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
-import com.intbyte.bw.engine.GameThread;
 import com.intbyte.bw.engine.render.GlobalEnvironment;
 import com.intbyte.bw.engine.graphic.Graphic;
 import com.intbyte.bw.engine.item.Container;
@@ -53,8 +51,9 @@ public class Player extends Entity {
 
     @Override
     public void render() {
-        modelInstance.transform.setToTranslation(0 + GameThread.xDraw, 0, 0 + GameThread.zDraw);
-        modelInstance.transform.rotateRad(Vector3.Y, rotate);
+        calculateModelTransform(0,0,0);
+        modelInstance.transform.scale(0.1f,0.1f,0.1f);
+        //modelInstance.transform.rotateRad(Vector3.Y, rotate);
         Graphic.getModelBatch().render(modelInstance, GlobalEnvironment.getEnvironment(false));
     }
 

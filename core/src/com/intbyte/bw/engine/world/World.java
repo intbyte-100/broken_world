@@ -95,7 +95,7 @@ public final class World {
                     }
                     PhysicBlockObject physicEntity = Block.getBlocks()[tile.getID()].getPhysicEntity();
                     physicEntity.setPosition(tile.getPosition());
-                    if (physicEntity.containsXZ(x * 10, z * 10))
+                    if (physicEntity.containsXZ(x, z))
                         return tile;
                 }
             }
