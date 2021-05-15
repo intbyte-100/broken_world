@@ -5,9 +5,9 @@ import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.intbyte.bw.engine.input.InteractionOfItems;
+import com.intbyte.bw.engine.render.GlobalEnvironment;
+import com.intbyte.bw.engine.render.Graphic;
 import com.intbyte.bw.engine.utils.ID;
-
-import static com.intbyte.bw.engine.graphic.Graphic.*;
 
 public abstract class Item {
     public static final int PICKAXE = 0, AXE = 1, SWARD = 2, RESOURCE = 3, BLOCK = 4, HELMET = 5, ARMOR = 6, LEGGINGS = 6;
@@ -90,11 +90,11 @@ public abstract class Item {
     public void render(Vector3 vector, Vector3 axis, float radiant) {
         modelInstance.transform.setToTranslation(vector);
         modelInstance.transform.setToRotationRad(axis, radiant);
-        getModelBatch().render(modelInstance, ENVIRONMENT);
+        Graphic.getModelBatch().render(modelInstance, GlobalEnvironment.getEnvironment(false));
     }
 
     public void drawIcon(float x, float y, float width, float height) {
-        BATCH.draw(getIcon(), x, y, width, height);
+        Graphic.batch.draw(getIcon(), x, y, width, height);
     }
 
     public abstract byte[] getBytes();

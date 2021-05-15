@@ -55,22 +55,8 @@ public class Block {
         Gdx.app.log("BLOCK", "defined block " + id);
     }
 
-    public static void defineBlock(String id, String model, String texture, int type, int level, int maxHealth, PhysicBlockObject physicEntity) {
-        int integerId = ID.registeredId("block:" + id);
-        CustomBlock block = new CustomBlock(maxHealth, type,integerId);
-        block.setPhysicEntity(physicEntity);
-        block.setModelInstance(getModelInstance("block/"+model, texture));
-        block.setLevel(level);
-        blocks[integerId] = block;
-        block.setId(id);
-        block.updateIcon();
-        Gdx.app.log("BLOCK", "defined block " + id);
-    }
-
-
     public static CustomBlock defineBlock(BlockWrapper wrapper){
         int id = ID.registeredId("block:"+wrapper.getId());
-        System.out.println(wrapper);
         CustomBlock block = new CustomBlock(wrapper.getHealth(),wrapper.getType(),id);
         block.setId(wrapper.getId());
         block.setLevel(wrapper.getLevel());
@@ -83,33 +69,6 @@ public class Block {
         block.setPosition(wrapper.getRender());
         blocks[id] = block;
         return block;
-    }
-    public static void defineBlock(String id, int integerId, String texture, int type, int level, int maxHealth) {
-        ID.registeredId("block:" + id, integerId);
-        CustomBlock block = new CustomBlock(maxHealth, type,integerId);
-        block.setLevel(level);
-        block.setId(id);
-        block.setModelInstance(getModelInstance("block/block.obj", texture));
-        block.setLevel(level);
-        blocks[integerId] = block;
-        block.updateIcon();
-        Gdx.app.log("BLOCK", "defined block " + id);
-    }
-
-    public static void defineBlock(String id, Model model, String texture, int type, int level, int maxHealth) {
-        int integerId = ID.registeredId("block:" + id);
-        CustomBlock block = new CustomBlock(maxHealth, type,integerId);
-        block.setId(id);
-        TextureAttribute textureAttribute1 = new TextureAttribute(TextureAttribute.Diffuse, new Texture(Gdx.files.internal("textures/" + texture)));
-        Material material = model.materials.get(0);
-        material.set(textureAttribute1);
-        ModelInstance instance = new ModelInstance(model);
-        instance.transform.setToTranslation(0, 0, 0);
-
-        block.setModelInstance(instance);
-        blocks[integerId] = block;
-        block.updateIcon();
-        Gdx.app.log("BLOCK", "defined block " + id);
     }
 
     public static void setDropID(int blockID, int dropID) {

@@ -2,7 +2,7 @@ package com.intbyte.bw.engine.ui;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.intbyte.bw.engine.graphic.Graphic;
+import com.intbyte.bw.engine.render.Graphic;
 import com.intbyte.bw.engine.utils.ExtraData;
 
 import java.util.HashMap;
@@ -20,24 +20,24 @@ public class GUI {
     }
 
     public static void openLayer(String key, ExtraData extraData) {
-        Graphic.STAGE.addActor(layers.get(key).onCreate(extraData));
+        com.intbyte.bw.engine.render.Graphic.stage.addActor(layers.get(key).onCreate(extraData));
         Gdx.app.log("GUI","opened layer \""+key+"\"");
     }
 
     public static void closeLayer(String key) {
         Layer layer = layers.get(key);
-        Graphic.STAGE.getActors().removeValue(layers.get(key), true);
+        com.intbyte.bw.engine.render.Graphic.stage.getActors().removeValue(layers.get(key), true);
         layer.destroy();
         Gdx.app.log("GUI","closed layer \""+key+"\"");
     }
 
     public static void setLayer(String key, ExtraData extraData) {
 
-        for (Actor i: Graphic.STAGE.getActors()){
+        for (Actor i: com.intbyte.bw.engine.render.Graphic.stage.getActors()){
             if(i instanceof Layer)
                 ((Layer) i).destroy();
         }
-        Graphic.STAGE.clear();
+        Graphic.stage.clear();
         Gdx.app.log("GUI","call \"STAGE.clear()\"");
         openLayer(key, extraData);
         layerName = key;

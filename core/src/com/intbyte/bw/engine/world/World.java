@@ -4,10 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.intbyte.bw.engine.entity.Player;
 import com.intbyte.bw.engine.physic.PhysicBlockObject;
 import com.intbyte.bw.engine.block.Block;
+import com.intbyte.bw.engine.utils.Debug;
 
 public final class World {
 
-    public static Chunck[][] world = new Chunck[16][16];
+    public static Chunk[][] world = new Chunk[16][16];
+    public static ChunkHandler handler;
     public static int playerX, playerZ;
     static short[][] landBlock;
     static short[][] block;
@@ -17,12 +19,12 @@ public final class World {
     static WorldConfig config;
     static {
         int j = 0;
-        for (Chunck[] chuncks : world) {
+        for (Chunk[] chunks : world) {
             j++;
-            for (int i = 0; i < chuncks.length; i++) {
-                chuncks[i] = new Chunck();
-                chuncks[i].x = i;
-                chuncks[i].z = j;
+            for (int i = 0; i < chunks.length; i++) {
+                chunks[i] = new Chunk();
+                chunks[i].x = i;
+                chunks[i].z = j;
             }
         }
     }
@@ -46,12 +48,13 @@ public final class World {
     }
 
     public static void setBlock(float x, float z, int id) {
-        setBlockToChunk(x,z,new Tile(id));
+        handler.setTile(id, x, z);
     }
 
 
 
     public static void update() {
+        Debug.valueInfo("tiles in pool", TilePool.INSTANCE.getFree());
         int chunckX = ((int) (player.getX() / 2) - (int) (player.getX() / 32) * 16);
         int chunckZ = ((int) (player.getZ() / 2) - (int) (player.getZ() / 32) * 16);
         isChangePosition = chunckX != playerX || chunckZ != playerZ;
@@ -61,22 +64,18 @@ public final class World {
         } else return;
         playerX = chunckX;
         playerZ = chunckZ;
+
+
     }
 
 
     public static int fixedIndex(int index) {
-        if (index >= 0 && index < 16)
-            return index;
-        else if (index >= 16)
-            return index - (index / 16) * 16;
-        return index + (-index / 16 + 1) * 16;
+        return index >= 0 && index < 16 ? index : index >= 16 ? index - (index / 16) * 16 : index + (-index / 16 + 1) * 16;
     }
 
 
-    public static Chunck getChunck(float x, float z) {
-        x = (x / 2 - (int) (player.getX() / 2));
-        z = (z / 2 - (int) (player.getZ() / 2));
-        return world[fixedIndex((int) (x + playerX))][fixedIndex((int) (z + playerZ))];
+    public static Chunk getChunk(float x, float z) {
+        return handler.getChunk(x, z);
     }
 
     public static boolean isCollision(float x, float z) {
@@ -87,23 +86,18 @@ public final class World {
     public static Tile getIntersectedTile(float x, float z){
         for (int x1 = -2; x1 < 5; x1++)
             for (int z1 = -2; z1 < 5; z1++) {
-                Chunck chunck = getChunck(x+x1, z+z1);
+                Chunk chunk = getChunk(x+x1, z+z1);
                 for (Tile tile :
-                        chunck.getTiles()) {
+                        chunk.getTiles()) {
                     if(tile.getID() == 0){
                         Gdx.app.log("ERROR","can't check is intersected tile, because blockID = 0");
                     }
                     PhysicBlockObject physicEntity = Block.getBlocks()[tile.getID()].getPhysicEntity();
                     physicEntity.setPosition(tile.getPosition());
-                    if (physicEntity.containsXZ(x, z))
+                    if (physicEntity.containsXZ(x * 10, z * 10))
                         return tile;
                 }
             }
         return null;
-    }
-    public static void setBlockToChunk(float x, float z, Tile tile) {
-        Chunck chunck = getChunck(x, z);
-        tile.setPosition(x, 0, z);
-        chunck.setTile(tile);
     }
 } 

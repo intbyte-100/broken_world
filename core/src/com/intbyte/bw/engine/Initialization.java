@@ -5,14 +5,13 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.intbyte.bw.GameBoot;
-import com.intbyte.bw.engine.GameThread;
 import com.intbyte.bw.engine.entity.Player;
 import com.intbyte.bw.engine.input.InteractionOfItems;
 import com.intbyte.bw.game.Game;
 import com.intbyte.bw.engine.callbacks.CallBack;
 import com.intbyte.bw.engine.physic.Physic;
 
-import static com.intbyte.bw.engine.graphic.Graphic.BATCH;
+import static com.intbyte.bw.engine.render.Graphic.batch;
 
 public class Initialization implements Screen {
 
@@ -34,9 +33,9 @@ public class Initialization implements Screen {
     public void render(float p1) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        BATCH.begin();
-        BATCH.draw(texture, Gdx.graphics.getWidth() / 4 + (Gdx.graphics.getHeight() / 4), Gdx.graphics.getWidth() / 4 - (Gdx.graphics.getHeight() / 4), Gdx.graphics.getHeight() / 2, Gdx.graphics.getHeight() / 2);
-        BATCH.end();
+        batch.begin();
+        batch.draw(texture, Gdx.graphics.getWidth() / 4 + (Gdx.graphics.getHeight() / 4), Gdx.graphics.getWidth() / 4 - (Gdx.graphics.getHeight() / 4), Gdx.graphics.getHeight() / 2, Gdx.graphics.getHeight() / 2);
+        batch.end();
 
         Gdx.app.postRunnable(new Runnable() {
             @Override

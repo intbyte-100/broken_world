@@ -100,7 +100,6 @@ public class Resource {
     }
 
     public static Sprite getIconFromModel(ModelInstance modelInstance, float x, float y, float z, float scale){
-        scale*=10f;
         FrameBuffer frameBuffer = new FrameBuffer(Pixmap.Format.RGBA8888, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight(), true);
         frameBuffer.begin(); //Capture rendering to frame buffer.
         camera.position.set(10-x,10-y,10-z);

@@ -43,7 +43,7 @@ public abstract class Entity {
 
     public static Entity spawn(int id,float x, float z){
         Entity entity = spawn(factories[id].create());
-        entity.setPosition(x,z);
+        entity.setPosition(x,z-0.5f);
         Gdx.app.log("ENTITY","spawned entity with id "+id+"; x = "+entity.getX()+"; z = "+entity.getZ());
         return entity;
     }
@@ -51,11 +51,9 @@ public abstract class Entity {
     public static Entity spawn(String id, float x, float z){
         return spawn(ID.get("entity:"+id),x,z);
     }
-
-    public void calculateModelTransform(float x, float y, float z) {
-        getEntityModel().transform.setToTranslation((float) (getX()) + x, y, (float) (getZ()) + z);
+    public void calculateModelPositionAndRotation(float x, float y, float z) {
+        getEntityModel().transform.setToTranslation((float) (getPixelX() - player.getPixelX() + GameThread.xDraw) + x, y, (float) (getPixelZ() - player.getPixelZ() + GameThread.zDraw) + z);
         getEntityModel().transform.rotateRad(Vector3.Y, rotate);
-
     }
 
     @Override
@@ -64,7 +62,7 @@ public abstract class Entity {
     }
 
     public void renderTick() {
-        increaseEndurance((100/6*Gdx.graphics.getRawDeltaTime()));
+        increaseEndurance((100/6f*Gdx.graphics.getDeltaTime()));
         position = body.getTransform().getPosition();
         rotate = -body.getTransform().getRotation();
     }
@@ -119,7 +117,6 @@ public abstract class Entity {
 
     public void setPosition(float x, float z){
         body.setTransform(x,z,rotate);
-        position.set(x,z);
     }
 
     public Container getCarriedItem() {
@@ -130,7 +127,7 @@ public abstract class Entity {
     protected void spawn(){
         PhysicData data = (PhysicData) getBody().getUserData();
         data.setObject(this);
-        data.setType(PhysicData.ENTITY);
+        data.setType(data.ENTITY);
     }
 
     abstract public void render();
@@ -189,9 +186,11 @@ public abstract class Entity {
 
     public double getSummaryWeight(){
         double weight = 0;
-        for(Container i: inventory)
-            if(i.getItems().notEmpty())
-                weight+=i.getCountItems()*i.getItems().get(0).getWeight();
+        for (int j = 0; j < inventory.size; j++) {
+            Container i = inventory.get(j);
+            if (i.getItems().notEmpty())
+                weight += i.getCountItems() * i.getItems().get(0).getWeight();
+        }
         return weight;
     }
     public double getCarrying() {

@@ -3,10 +3,10 @@ package com.intbyte.bw.game.gameUI;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.intbyte.bw.engine.GameThread;
 import com.intbyte.bw.engine.callbacks.CallBack;
 import com.intbyte.bw.engine.callbacks.Render;
 import com.intbyte.bw.engine.entity.Player;
@@ -21,11 +21,13 @@ import com.intbyte.bw.engine.ui.Layer;
 import com.intbyte.bw.engine.ui.ProgressBar;
 import com.intbyte.bw.engine.ui.container.Slot;
 import com.intbyte.bw.engine.ui.container.TakenItemsRender;
+import com.intbyte.bw.engine.utils.Debug;
 import com.intbyte.bw.engine.utils.ExtraData;
 import com.intbyte.bw.engine.utils.Resource;
 import com.intbyte.bw.engine.world.World;
 
 import static com.intbyte.bw.engine.graphic.TypedValue.APIXEL;
+import static com.intbyte.bw.engine.graphic.TypedValue.HHPIXEL;
 
 public class MainLayerUI extends Layer {
 
@@ -36,10 +38,18 @@ public class MainLayerUI extends Layer {
 
     public MainLayerUI() {
         final GravityAdapter adapter = new GravityAdapter();
+        final StringBuilder builder = new StringBuilder();
+
         CallBack.addCallBack(new Render() {
             @Override
             public void main() {
-                label.setText("fps: " + Gdx.graphics.getFramesPerSecond() + "; \nplayer position: x = " + (int) player.getX() + ", z = " + (int) player.getZ() + "; \nvisible models = " + GameThread.visible + "; \nplayer weight = " + player.getItemsWeight() + "; \nplayer speed = " + player.getSpeed() + ";");
+
+                for (int i = 0; i < Debug.getDebugMessages().size(); i++) {
+                    builder.append(Debug.getDebugMessages().get(i));
+                    builder.append("\n");
+                }
+                label.setText(builder);
+                builder.setLength(0);
                 adapter.addActor(label);
                 adapter.setHeight(label.getPrefHeight());
                 adapter.setGravity(GravityAttribute.TOP, GravityAttribute.LEFT);
@@ -71,8 +81,14 @@ public class MainLayerUI extends Layer {
         adapter.setGravity(GravityAttribute.BOTTOM, GravityAttribute.RIGHT);
         //addActor(slot3);
 
-        label = new Label(" ", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        label.setFontScale(APIXEL);
+
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/jb_mono.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = 20;
+        BitmapFont font12 = generator.generateFont(parameter); // font size 12 pixels
+        generator.dispose(); // don't forget to dispose to avoid memory leaks!
+        label = new Label(" ", new Label.LabelStyle(font12, Color.WHITE));
+        label.setFontScale(HHPIXEL / 50 * 10 * 0.8f);
         adapter.addActor(label);
         adapter.setHeight(label.getPrefHeight());
         adapter.setGravity(GravityAttribute.TOP, GravityAttribute.LEFT);
@@ -106,6 +122,7 @@ public class MainLayerUI extends Layer {
                 bar.setState(player.getEndurance());
             }
         });
+        TakenItemsRender.initInstance();
         TakenItemsRender.setRendering(true);
         adapter.apply();
 

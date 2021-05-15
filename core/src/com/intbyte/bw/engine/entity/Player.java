@@ -2,15 +2,18 @@ package com.intbyte.bw.engine.entity;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
+import com.intbyte.bw.engine.GameThread;
 import com.intbyte.bw.engine.render.GlobalEnvironment;
-import com.intbyte.bw.engine.graphic.Graphic;
 import com.intbyte.bw.engine.item.Container;
+import com.intbyte.bw.engine.render.Graphic;
+import com.intbyte.bw.engine.utils.Debug;
 import com.intbyte.bw.engine.utils.Resource;
 
 
 public class Player extends Entity {
-    private static Player player;
+    static Player player;
     float coolDown;
 
     private ModelInstance modelInstance;
@@ -47,13 +50,16 @@ public class Player extends Entity {
             coolDown -= (float) 100 / 6 * Gdx.graphics.getDeltaTime();
         } else
             coolDown = 0;
+        Debug.valueInfo("player x", (int) (getX()*100)/100f);
+        Debug.valueInfo("player z", (int) (getZ()*100)/100f);
+        Debug.valueInfo("player speed", speed);
+        Debug.valueInfo("player inventory weight", getSummaryWeight());
     }
 
     @Override
     public void render() {
-        calculateModelTransform(0,0,0);
-        modelInstance.transform.scale(0.1f,0.1f,0.1f);
-        //modelInstance.transform.rotateRad(Vector3.Y, rotate);
+        modelInstance.transform.setToTranslation(0 + GameThread.xDraw, 0, 0 + GameThread.zDraw);
+        modelInstance.transform.rotateRad(Vector3.Y, rotate);
         Graphic.getModelBatch().render(modelInstance, GlobalEnvironment.getEnvironment(false));
     }
 

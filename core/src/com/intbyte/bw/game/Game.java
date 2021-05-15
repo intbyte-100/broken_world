@@ -1,7 +1,9 @@
 package com.intbyte.bw.game;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.intbyte.bw.engine.block.Block;
+import com.intbyte.bw.engine.block.CustomBlock;
 import com.intbyte.bw.engine.callbacks.CallBack;
 import com.intbyte.bw.engine.callbacks.Initialization;
 import com.intbyte.bw.engine.entity.DropData;
@@ -11,6 +13,7 @@ import com.intbyte.bw.engine.entity.Player;
 import com.intbyte.bw.engine.item.Container;
 import com.intbyte.bw.engine.item.Item;
 import com.intbyte.bw.engine.item.ItemFactory;
+import com.intbyte.bw.engine.render.PointLight;
 import com.intbyte.bw.engine.ui.GUI;
 import com.intbyte.bw.engine.ui.Panel;
 import com.intbyte.bw.engine.utils.ID;
@@ -50,6 +53,12 @@ public class Game {
                 GUI.putLayer("inventory", new InventoryLayerUI());
                 GUI.setLayer("main", null);
 
+                CustomBlock block = Block.getBlock(ID.get("block:light"));
+                block.setGlowing(true);
+                PointLight pointLight = new PointLight();
+                pointLight.getLandPointLight().set(Color.YELLOW,0, 30, 0, 1000);
+                pointLight.getPointLight().set(Color.YELLOW,0, 20, 0, 500);
+                block.setPointLight(pointLight);
 
                 player.setPosition(10000, 100);
                 Container container = new Container(64);

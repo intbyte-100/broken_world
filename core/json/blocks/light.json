@@ -1,0 +1,10 @@
+{
+  "type": "block:light",
+  "model": "Old Lantern Model.obj",
+  "texture": "null",
+  "blockType": "wood",
+  "level": 20,
+  "health": 10,
+  "scale": 3,
+  "renderCoord": [0,-5,0]
+}

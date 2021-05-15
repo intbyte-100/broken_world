@@ -1,10 +1,12 @@
 package com.intbyte.bw.engine.graphic;
 
+import com.badlogic.gdx.Gdx;
+
 public interface TypedValue{
-	float PIXEL = 1,
-	HHPIXEL = Graphic.getScreenHeight() / 100f,
-	HWPIXEL = Graphic.getScreenWidth() / 100f,
-	APIXEL = Graphic.getScreenHeight() / 480f;
+	float PIXEL = 1;
+    float HHPIXEL = Gdx.graphics.getHeight() / 100f;
+    float HWPIXEL = Gdx.graphics.getWidth() / 100f;
+    float APIXEL = Gdx.graphics.getHeight() / 480f;
 }
 
 

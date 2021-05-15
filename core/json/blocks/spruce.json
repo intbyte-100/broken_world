@@ -1,13 +1,30 @@
 {
-  "type": "block:spruce",
-  "model": "spruce_1.obj",
-  "texture": "Lp_trees_texture_atlas.png",
-  "iconScale": 1,
-  "scale": 4,
-  "weight": 0,
-  "blockType": "wood",
-  "level": 2,
-  "renderCoord": [0,-5,0],
-  "iconRenderCoord": [0,0,0],
-  "health": 20
+  "group": [
+    {
+      "type": "block:spruce",
+      "model": "spruce_1.obj",
+      "texture": "Lp_trees_texture_atlas.png",
+      "iconScale": 1,
+      "scale": 4,
+      "weight": 0,
+      "blockType": "wood",
+      "level": 2,
+      "renderCoord": [0,-5,0],
+      "iconRenderCoord": [0,0,0],
+      "health": 20
+    },
+    {
+      "type": "block:little_spruce",
+      "model": "spruce_1.obj",
+      "texture": "Lp_trees_texture_atlas.png",
+      "iconScale": 1,
+      "scale": 1.5,
+      "weight": 0,
+      "blockType": "wood",
+      "level": 2,
+      "renderCoord": [0,-5,0],
+      "iconRenderCoord": [0,0,0],
+      "health": 5
+    }
+  ]
 }

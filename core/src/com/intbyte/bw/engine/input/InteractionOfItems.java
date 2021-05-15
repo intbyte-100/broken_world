@@ -101,7 +101,7 @@ public class InteractionOfItems {
                     Integer id = interaction.settableItemsHashMap.get(interaction.container.getId());
                     if (id == null) {
                         isDragged = false;
-                        rectangle.setCenter(Integer.MIN_VALUE, Integer.MIN_VALUE);
+                        rectangle.setCenter(-1000, -1000);
                         return;
                     }
 
@@ -116,7 +116,7 @@ public class InteractionOfItems {
                     if (modelInstance == null) return;
                     Color.GREEN.a = 0.5f;
                     modelInstance.materials.peek().set(ColorAttribute.createDiffuse(Color.GREEN), new BlendingAttribute(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA));
-                    Block.getBlocks()[id].render(modelInstance, (float) (vector3.x/10), 5, (float) (vector3.z/10));
+                    Block.getBlocks()[id].render(modelInstance, (float) (vector3.x - player.getPixelX()) + GameThread.xDraw, 5, (float) (vector3.z - player.getPixelZ()) + GameThread.zDraw);
                     return;
                 }
                 isDragged = false;
@@ -224,7 +224,7 @@ public class InteractionOfItems {
                     append("; z = ").
                     append(z);
             if (customBlock.getDropID() != 0) {
-                Entity.spawn(customBlock.getDropID(), x, z);
+                Entity.spawn(customBlock.getDropID(), x, z - 0.5f);
                 builder.append("; drop = ").append(customBlock.getDropID());
             }
             tile.setBlockID(0);

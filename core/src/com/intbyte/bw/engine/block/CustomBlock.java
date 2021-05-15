@@ -2,7 +2,9 @@ package com.intbyte.bw.engine.block;
 
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.math.Vector3;
-import com.intbyte.bw.engine.graphic.Graphic;
+import com.intbyte.bw.engine.render.GlobalEnvironment;
+import com.intbyte.bw.engine.render.Graphic;
+import com.intbyte.bw.engine.render.PointLight;
 import com.intbyte.bw.engine.physic.PhysicBlockObject;
 import com.intbyte.bw.engine.utils.Resource;
 
@@ -19,6 +21,9 @@ public class CustomBlock {
     private PhysicBlockObject physicEntity;
     private float scale = 1;
     private boolean isLand = false;
+    private PointLight pointLight;
+    private boolean isGlowing;
+
     Vector3 position = new Vector3(0,0,0);
     public ModelInstance getModelInstance() {
         return modelInstance;
@@ -102,8 +107,7 @@ public class CustomBlock {
                 scaleY = modelInstance.transform.getScaleY(),
                 scaleZ = modelInstance.transform.getScaleZ();
         modelInstance.transform.scale(getScale(), getScale(), getScale());
-
-        Graphic.getModelBatch().render(modelInstance, Graphic.getEnvironment(isLand()));
+        Graphic.getModelBatch().render(modelInstance, GlobalEnvironment.getEnvironment(isLand()));
         modelInstance.transform.scale(scaleX,scaleY,scaleZ);
     }
 
@@ -124,7 +128,7 @@ public class CustomBlock {
     }
 
     public float getScale() {
-        return scale/10;
+        return scale;
     }
 
     public void setLevel(int level) {
@@ -161,5 +165,21 @@ public class CustomBlock {
 
     public void setBlockData(HashMap<Integer, BlockExtraData> blockData) {
         this.blockData = blockData;
+    }
+
+    public PointLight getPointLight() {
+        return pointLight;
+    }
+
+    public void setPointLight(PointLight pointLight) {
+        this.pointLight = pointLight;
+    }
+
+    public boolean isGlowing() {
+        return isGlowing;
+    }
+
+    public void setGlowing(boolean glowing) {
+        isGlowing = glowing;
     }
 }

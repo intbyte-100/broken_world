@@ -11,12 +11,10 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.utils.Array;
 import com.intbyte.bw.engine.item.Container;
 import com.intbyte.bw.engine.item.Item;
-import com.intbyte.bw.engine.graphic.Graphic;
+import com.intbyte.bw.engine.render.Graphic;
 import com.intbyte.bw.engine.utils.Resource;
-import com.intbyte.bw.ui.PrimaryView;
-import com.intbyte.bw.ui.View;
 
-public class Slot extends PrimaryView<Slot> {
+public class Slot extends Actor {
     private final static BitmapFont font = new BitmapFont();
     private boolean touchedDown;
     private final static Vector2 touchPosition = new Vector2(), oldPosition = new Vector2();
@@ -145,7 +143,7 @@ public class Slot extends PrimaryView<Slot> {
             font.getData().setScale((18 / (18 / (getHeight() * 0.2f))) / 10);
             font.setColor(slotSkin.getCountTextColor());
             String value = String.valueOf(container.getCountItems());
-            font.draw(Graphic.BATCH, value, getX() + getWidth() * 0.8f - (font.getXHeight() * value.length() - font.getXHeight()), getY() + font.getLineHeight() * 0.9f);
+            font.draw(Graphic.batch, value, getX() + getWidth() * 0.8f - (font.getXHeight() * value.length() - font.getXHeight()), getY() + font.getLineHeight() * 0.9f);
         }
     }
 

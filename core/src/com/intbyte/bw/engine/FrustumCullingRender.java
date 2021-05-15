@@ -1,16 +1,16 @@
 package com.intbyte.bw.engine;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.math.Vector3;
 import com.intbyte.bw.engine.entity.Player;
 import com.intbyte.bw.engine.block.CustomBlock;
 import com.intbyte.bw.engine.input.GameInputProcessor;
 import com.intbyte.bw.engine.block.Block;
-import com.intbyte.bw.engine.graphic.Graphic;
+import com.intbyte.bw.engine.render.Graphic;
 
 import static com.intbyte.bw.engine.GameThread.xDraw;
 import static com.intbyte.bw.engine.GameThread.zDraw;
-import static com.intbyte.bw.engine.graphic.Graphic.*;
 
 public abstract class FrustumCullingRender {
     protected final CustomBlock[] blocks = Block.getBlocks();
@@ -20,7 +20,7 @@ public abstract class FrustumCullingRender {
     protected int xEdge, zEdge, xEdge2, zEdge2;
 
     public FrustumCullingRender() {
-        camera3d = new PerspectiveCamera(67, getScreenWidth(), getScreenHeight());
+        camera3d = new PerspectiveCamera(67, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         camera3d.far = 150;
         camera3d.near = 1f;
         player = Player.getPlayer();
@@ -46,17 +46,16 @@ public abstract class FrustumCullingRender {
 
     public void resize() {
         Vector3 position = new Vector3();
-        Graphic.resize();
         camera3d.position.set(0, 49.6f, -18);
         camera3d.lookAt(-0.008f, 10, -0.6f * 10.3f);;
         camera3d.update();
-        xEdge = Math.round(GameInputProcessor.getFastBlock(camera3d, position, getScreenWidth(), 0).x)/10-1;
-        zEdge = (int) GameInputProcessor.getFastBlock(camera3d, position, 0, getScreenHeight()).z/10;
+        xEdge = Math.round(GameInputProcessor.getFastBlock(camera3d, position, Gdx.graphics.getWidth(), 0).x)/10-1;
+        zEdge = (int) GameInputProcessor.getFastBlock(camera3d, position, 0, Gdx.graphics.getHeight()).z/10;
         xEdge2 = Math.round(GameInputProcessor.getFastBlock(camera3d, position, 0, 0).x)/10+1;
         zEdge2 = (int) GameInputProcessor.getFastBlock(camera3d, position, 0, 0).z/10+1;
-        STAGE.getCamera().viewportHeight = getScreenHeight();
-        STAGE.getCamera().viewportWidth = getScreenWidth();
-        STAGE.getViewport().setScreenSize(getScreenWidth(),getScreenHeight());
+        Graphic.stage.getCamera().viewportHeight = Gdx.graphics.getHeight();
+        Graphic.stage.getCamera().viewportWidth = Gdx.graphics.getWidth();
+        Graphic.stage.getViewport().setScreenSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 
     public PerspectiveCamera getCamera() {

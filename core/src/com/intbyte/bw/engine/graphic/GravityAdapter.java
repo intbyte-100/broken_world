@@ -1,13 +1,12 @@
 package com.intbyte.bw.engine.graphic;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Array;
 
 import java.util.Arrays;
 import java.util.HashSet;
 
-import static com.intbyte.bw.engine.graphic.Graphic.screenHeight;
-import static com.intbyte.bw.engine.graphic.Graphic.screenWidth;
 import static com.intbyte.bw.engine.graphic.GravityAttribute.*;
 
 
@@ -56,17 +55,17 @@ public class GravityAdapter {
 
     private void setGravity(ActorAdapter adapter) {
         if (adapter.gravity.contains(CENTER)) {
-            adapter.actor.setX(screenWidth / 2 - adapter.actor.getWidth() / 2);
-            adapter.actor.setY(screenHeight / 2 - adapter.actor.getHeight() / 2);
+            adapter.actor.setX(Gdx.graphics.getWidth() / 2 - adapter.actor.getWidth() / 2);
+            adapter.actor.setY(Gdx.graphics.getHeight() / 2 - adapter.actor.getHeight() / 2);
         }
         if (adapter.gravity.contains(BOTTOM))
             adapter.actor.setY(0);
         if (adapter.gravity.contains(TOP))
-            adapter.actor.setY(screenHeight - adapter.actor.getHeight());
+            adapter.actor.setY(Gdx.graphics.getHeight() - adapter.actor.getHeight());
         if (adapter.gravity.contains(LEFT))
             adapter.actor.setX(0);
         if (adapter.gravity.contains(RIGHT))
-            adapter.actor.setX(screenWidth - adapter.actor.getWidth());
+            adapter.actor.setX(Gdx.graphics.getWidth() - adapter.actor.getWidth());
     }
 
     private void tiedToActor(ActorAdapter adapter) {

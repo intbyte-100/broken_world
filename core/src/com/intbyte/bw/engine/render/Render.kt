@@ -4,7 +4,9 @@ import com.badlogic.gdx.graphics.PerspectiveCamera
 
 
 interface Render {
+    val camera: PerspectiveCamera
     fun render()
-    fun renderEntity()
+    fun sceneRender()
+    fun landRender()
     fun resize(width: Int, height: Int)
 }
