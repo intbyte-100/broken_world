@@ -43,7 +43,7 @@ public class Tile implements Pool.Poolable {
         if (blockID != 0) {
             body = Block.getBlocks()[blockID].getPhysicEntity().getBody();
             PhysicData data = (PhysicData) body.getUserData();
-            data.setType(data.BLOCK);
+            data.setType(PhysicData.BLOCK);
             data.setObject(this);
         }
     }

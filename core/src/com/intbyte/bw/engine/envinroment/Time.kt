@@ -41,7 +41,7 @@ object Time {
         Debug.valueInfo("time", "$hours:$minutes")
         Debug.valueInfo("total minutes", totalMinutes.toInt())
 
-        totalMinutes += Gdx.graphics.deltaTime*30
+        totalMinutes += Gdx.graphics.deltaTime*60
 
         if(totalMinutes in 187f..1037f){
             GlobalEnvironment.intensity = MathUtils.lerp(0f, 1f, (totalMinutes-187)/850)

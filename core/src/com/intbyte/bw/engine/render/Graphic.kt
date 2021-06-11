@@ -28,6 +28,7 @@ object Graphic {
         val shader = ShaderContainer("default")
         modelBatch = ModelBatch(DefaultShaderProvider(shader.vert, shader.frag))
         (modelBatch.shaderProvider as DefaultShaderProvider).config.numPointLights = 20
+        (modelBatch.shaderProvider as DefaultShaderProvider).config.defaultCullFace = 1;
     }
 
 }

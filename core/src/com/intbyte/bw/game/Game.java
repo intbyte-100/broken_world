@@ -44,8 +44,8 @@ public class Game {
                 player = Player.getPlayer();
 
 
-                Entity.addFactory(new DropFactory("grass", "test_drop", new DropData("block_grass", 1, 1)));
-                Block.setDropID("grass", "test_drop");
+                Entity.addFactory(new DropFactory("stone", "test_drop", new DropData("block_stone", 1, 1)));
+                Block.setDropID("stone", "test_drop");
                 Entity.addFactory(new DropFactory("grass2", "test_drop2", new DropData("block_grass2", 1, 1)));
                 Block.setDropID("grass2", "test_drop2");
 

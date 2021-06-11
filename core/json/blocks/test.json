@@ -1,7 +1,7 @@
 {
   "group":[
     {
-      "type": "block:grass",
+      "type": "block:stone",
       "model": "_stone_3.g3db",
       "texture": "Ekfs_bush_map.png",
       "level": 20,

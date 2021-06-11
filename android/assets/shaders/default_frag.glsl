@@ -74,7 +74,7 @@ uniform sampler2D u_emissiveTexture;
 
 #ifdef lightingFlag
 varying vec3 v_lightDiffuse;
-
+varying vec3 pointLightColor;
 #if	defined(ambientLightFlag) || defined(ambientCubemapFlag) || defined(sphericalHarmonicsFlag)
 #define ambientFlag
 #endif //ambientFlag
@@ -85,7 +85,7 @@ varying vec3 v_lightSpecular;
 
 #ifdef shadowMapFlag
 uniform sampler2D u_shadowTexture;
-uniform float u_shadowPCFOffset;
+float u_shadowPCFOffset = 0.001;
 varying vec3 v_shadowMapUv;
 #define separateAmbientFlag
 
@@ -155,11 +155,9 @@ void main() {
     #if defined(ambientFlag) && defined(separateAmbientFlag)
     #ifdef shadowMapFlag
     float shadow = getShadow();
-    if(shadow<0.2)
-        shadow = (v_lightDiffuse.r+v_lightDiffuse.g+v_lightDiffuse.b)/3.0;
-    else
-        shadow = 1.0;
-    gl_FragColor.rgb = (diffuse.rgb * (v_ambientLight + (shadow) * v_lightDiffuse)) + emissive.rgb;
+
+
+    gl_FragColor.rgb = (diffuse.rgb * (v_ambientLight + (shadow) * v_lightDiffuse + pointLightColor)) + emissive.rgb;
     //gl_FragColor.rgb = texture2D(u_shadowTexture, v_shadowMapUv.xy);
     #else
     gl_FragColor.rgb = (diffuse.rgb * (v_ambientLight + v_lightDiffuse)) + emissive.rgb;

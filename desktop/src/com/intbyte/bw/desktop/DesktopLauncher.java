@@ -10,10 +10,11 @@ public class DesktopLauncher {
     public static void main(String[] arg) {
 
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
-        config.setWindowedMode(800, 480);
+        config.setWindowedMode(1300, 720);
         config.setBackBufferConfig(8,8,8,8,16,16,4);
-
+        config.setResizable(false);
         GameBoot gameBoot = new GameBoot();
+
         new Lwjgl3Application(gameBoot, config);
     }
 }

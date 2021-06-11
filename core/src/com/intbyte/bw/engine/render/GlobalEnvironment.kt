@@ -20,11 +20,11 @@ object GlobalEnvironment {
     private val environmentAmbientLight = ColorAttribute(ColorAttribute.AmbientLight, 0.1f, 0.1f, 0.1f, 1f)
     private val landEnvironmentAmbientLight = ColorAttribute(ColorAttribute.AmbientLight, 0.2f, 0.2f, 0.2f, 1f)
     @JvmStatic
-    val shadowLight = DirectionalShadowLight(2000, 2000, 150f, 100f, 1f, 200f)
+    val shadowLight = DirectionalShadowLight(3000, 2300, 240f, 150f, 1f, 400f)
     @JvmStatic
     var intensity = 0.999999f
         set(value) {
-            field = if (value >= 1f) 0.99f else value
+            field = if (value >= 1f) 0.99f else if (value < 0.14f) 0.14f else value;
         }
     var pointLightIntensity = 1f; private set
 
@@ -59,8 +59,10 @@ object GlobalEnvironment {
         var ambient = (intensity - 0.5f) / (0.5f / 4) / 10
         if (ambient <= 0.1f) ambient = 0.1f
         environmentAmbientLight.color.set(ambient, ambient, ambient, 1f)
+        if (ambient <= 0.2) ambient = 0.2f
+        landEnvironmentAmbientLight.color.set(ambient,ambient,ambient, 1f)
         environment.set(environmentAmbientLight)
-        intensity *=0.6f;
+        intensity *= 0.6f;
         shadowLight.set(intensity, intensity, intensity, -1f, -1.1f, 1f)
         landLight.set(landIntensity, landIntensity, landIntensity, -1f, -1f, 1f)
 
